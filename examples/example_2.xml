@@ -1,0 +1,666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<IA xy:type="IA/Definitions/IADef.xml" xy:guid="6bcab63c-43f7-49a1-bc2b-e7570bca2c9d" xmlns:xy="http://xyleme.com/xylink">
+  <CoverPage>
+    <Title>HDP Cluster Planning Guide</Title>
+    <SubTitle>HDP 2.2</SubTitle>
+    <Notice>
+      <Title/>
+      <ParaBlock xy:guid="d19cc5bc-0e50-4dbe-8a8a-7a13553dc0c1">
+        <RichText>This work by  <Href UrlTarget="http://hortonworks.com">Hortonworks, Inc.</Href>  is licensed under a  <Href UrlTarget="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</Href> .
+        </RichText>
+        <RichText>
+          Pubdate: December 2, 2014
+        </RichText>
+      </ParaBlock>
+      <FilterMetadata xy:guid="8e33a8d6-f286-4b84-82b2-abfa48fe5424"/>
+    </Notice>
+  </CoverPage>
+  <Credits>
+    <CopyrightBlock xy:guid="72ce60e2-cc28-4c5a-bd37-09cd93bf0619">
+      <RichText>The Hortonworks Data Platform, powered by Apache Hadoop, is a massively scalable and 100% open source platform for storing, processing and analyzing large volumes of data. It is designed to deal with data from many sources and formats in a very quick, easy and cost-effective manner. The Hortonworks Data Platform consists of the essential set of Apache Hadoop projects including MapReduce, Hadoop Distributed File System (HDFS), HCatalog, Pig, Hive, HBase, Zookeeper and Ambari. Hortonworks is the major contributor of code and patches to many of these projects. These projects have been integrated and tested as part of the Hortonworks Data Platform release process and installation and configuration tools have also been included.
+      </RichText>
+      <RichText>Unlike other providers of platforms built using Apache Hadoop, Hortonworks contributes 100% of our code back to the Apache Software Foundation. The Hortonworks Data Platform is Apache-licensed and completely open source. We sell only expert technical support, <Href UrlTarget="http://hortonworks.com/hadoop-training/">training</Href> and partner-enablement services. All of our technology is, and will remain free and open source.
+      </RichText>
+      <RichText>Please visit the
+        <Href UrlTarget="http://hortonworks.com/technology/hortonworksdataplatform">Hortonworks Data Platform</Href> page for more information on Hortonworks technology. For more information on Hortonworks services, please visit either the <Href UrlTarget="http://hortonworks.com/support">Support</Href> or <Href UrlTarget="http://hortonworks.com/hadoop-training">Training</Href> page. Feel free to <Href UrlTarget="http://hortonworks.com/about-us/contact-us/">Contact Us</Href> directly to discuss your specific needs.
+      </RichText>
+    </CopyrightBlock>
+    <CopyrightDate>2012-2014</CopyrightDate>
+  </Credits>
+  <Lessons>
+    <Lesson xy:guid="c3182b23-4ac2-4905-8641-8517c321c3bb">
+      <Title>Hardware Recommendations For Apache Hadoop</Title>
+      <Topic xy:guid="57cff955-33e8-42b3-a485-268e7eb603fb">
+        <Title>Overview</Title>
+        <ParaBlock xy:guid="3c2589d7-22e8-4716-89d8-69b4074bf214">
+          <RichText>Hadoop and HBase workloads tend to vary a lot and it takes experience to correctly anticipate the amounts of storage, processing power, and inter-node communication that will be required for different kinds of jobs.</RichText>
+          <RichText>
+This document provides insights on choosing the appropriate hardware components for an optimal balance between performance and both initial as well as the recurring costs. (For a brief summary of the hardware sizing recommendations, see <Xref InsideTargetRef="63da0add-37c7-4c4f-b453-8c00d8cffc45">Conclusion</Xref>.)
+          </RichText>
+          <RichText>
+Hadoop is a software framework that supports large-scale distributed data analysis on commodity servers. Hortonworks is a major contributor to open source initiatives (Apache Hadoop, HDFS, Pig, Hive, HBase, Zookeeper) and has extensive experience managing production level Hadoop clusters. Hortonworks recommends following the design principles that drive large, hyper-scale deployments. For a Hadoop or HBase cluster, it is critical to accurately predict the size, type, frequency, and latency of analysis jobs to be run. When starting with Hadoop or HBase, begin small and gain experience by measuring actual workloads during a pilot project. This way you can easily scale the pilot environment without making any significant changes to the existing servers, software, deployment strategies, and network connectivity.
+          </RichText>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="81b6900b-6f49-4fc8-ae55-4b92ce83c29e">
+        <Title>Typical Hadoop Cluster</Title>
+        <ParaBlock xy:guid="9765ce69-96b3-42fd-b633-7675cead6302">
+          <RichText>Hadoop and HBase clusters have two types of machines:</RichText>
+          <List ListMarker="Bullet" xy:guid="40f1d32b-00ef-48b9-979a-a9c74fa49165">
+            <ItemBlock>
+              <Item>
+                <ItemPara>
+                  <Emph>Masters</Emph> -- HDFS NameNode, YARN ResourceManager, and HBase Master.</ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>
+                  <Emph>Slaves</Emph> -- HDFS DataNodes, YARN NodeManagers, and HBase RegionServers.
+                </ItemPara>
+                <RichText>The DataNodes, NodeManagers, and HBase RegionServers are co-located or co-deployed for optimal data locality.
+                </RichText>
+                <RichText>In addition, HBase requires the use of a separate component (ZooKeeper) to manage the HBase cluster.
+                </RichText>
+              </Item>
+            </ItemBlock>
+          </List>
+          <RichText>
+Hortonworks recommends separating master and slave nodes because:
+          </RichText>
+          <List ListMarker="Bullet" xy:guid="0d8d2a55-e8bb-475c-9748-98837089a72d">
+            <ItemBlock>
+              <Item>
+                <ItemPara>Task/application workloads on the slave nodes should be isolated from the masters.</ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>Slaves nodes are frequently decommissioned for maintenance.</ItemPara>
+              </Item>
+            </ItemBlock>
+          </List>
+          <RichText>For evaluation purposes, it is possible to deploy Hadoop using a single-node installation (all the masters and slave processes reside on the same machine).
+          </RichText>
+          <RichText>For a small two-node cluster, the NameNode and the ResourceManager are both on the master node, with the DataNode and NodeManager on the slave node.
+          </RichText>
+          <RichText>Clusters of three or more machines typically use a single NameNode and ResourceManager with all the other nodes as slave nodes. A High-Availability (HA) cluster would use a primary and secondary NameNode , and might also use a primary and secondary ResourceManager .
+          </RichText>
+          <RichText>Typically, a medium-to -large Hadoop cluster consists of a two-level or three-level architecture built with rack-mounted servers. Each rack of servers is interconnected using a 1 Gigabyte Ethernet (GbE) switch. Each rack-level switch is connected to a cluster-level switch (which is typically a larger port-density 10GbE switch). These cluster-level switches may also interconnect with other cluster-level switches or even uplink to another level of switching infrastructure.
+          </RichText>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="bc291344-c8e7-467d-bdfa-c53f8164146b">
+        <Title>Typical Workload Patterns For Hadoop</Title>
+        <ParaBlock xy:guid="20077f2d-cf55-443e-a334-8d83d44629b4">
+          <RichText>Disk space, I/O Bandwidth (required by Hadoop), and computational power (required for the MapReduce processes) are the most important parameters for accurate hardware sizing. Additionally, if you are installing HBase, you also need to analyze your application and its memory requirements, because HBase is a memory intensive component. Based on the typical use cases for Hadoop, the following workload patterns are commonly observed in production environments:
+          </RichText>
+          <TitledBlock xy:schema-version="Core/Definitions/TitledBlock.xsd#core-3.9-0" xy:guid="187e03bd-9e14-4ead-b489-cc4bf104f9cd">
+            <Title>Balanced Workload</Title>
+            <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0" xy:guid="be75ee5a-d2a8-4fb6-8882-52acaf4aed0d">
+              <RichText>If your workloads are distributed equally across the various job types (CPU bound, Disk I/O bound, or Network I/O bound), your cluster has a balanced workload pattern. This is a good default configuration for unknown or evolving workloads.
+              </RichText>
+            </ParaBlock>
+          </TitledBlock>
+          <TitledBlock xy:schema-version="Core/Definitions/TitledBlock.xsd#core-3.9-0" xy:guid="cc6455e6-6d7b-4cb5-9879-e7504b8aae85">
+            <Title>Compute Intensive</Title>
+            <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0" xy:guid="04151ffd-2d4c-4298-9d35-3c1bb3aeb6a3">
+              <RichText>These workloads are CPU bound and are characterized by the need of a large number of CPUs and large amounts of memory to store in-process data. (This usage pattern is typical for natural language processing or HPCC workloads.)</RichText>
+            </ParaBlock>
+          </TitledBlock>
+          <TitledBlock xy:schema-version="Core/Definitions/TitledBlock.xsd#core-3.9-0" xy:guid="1bf1ae58-72a5-4849-8aac-029b4beadb7d">
+            <Title>I/O Intensive</Title>
+            <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0" xy:guid="7e3fd39a-f975-4388-a36e-704e690250c6">
+              <RichText>A typical MapReduce job (like sorting) requires very little compute power. Instead it relies more on the I/O bound capacity of the cluster (for example, if you have lot of cold data). For this type of workload, we recommend investing in more disks per box.
+              </RichText>
+            </ParaBlock>
+          </TitledBlock>
+          <TitledBlock xy:schema-version="Core/Definitions/TitledBlock.xsd#core-3.9-0" xy:guid="a3382897-0952-4c88-8630-23de9b4b6d8a"><Title>Unknown or evolving workload patterns</Title>
+            <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0" xy:guid="79120f18-f7ed-4736-9fb5-b8599393da9a">
+              <RichText>You may not know your eventual workload patterns from the first. And typically the first jobs submitted to Hadoop in the early days are usually very different than the actual jobs you will run in your production environment. For these reasons, Hortonworks recommends that you either use the Balanced workload configuration or invest in a pilot Hadoop cluster and plan to evolve its structure as you analyze the workload patterns in your environment.
+              </RichText>
+            </ParaBlock>
+          </TitledBlock>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="a74ed098-f54d-4ac8-bcac-cb763eb4f0d1">
+        <Title>Early Deployments</Title>
+        <ParaBlock xy:guid="ddff30df-6633-47a6-af3e-17ff914b5e01">
+          <RichText>When a team is just starting with Hadoop or HBase, it is usually good to begin small and gain experience by measuring actual workloads during a pilot project. We recommend starting with a relatively small pilot cluster, provisioned for a “ <Emph>balanced</Emph> ” workload.
+          </RichText>
+          <RichText>
+For pilot deployments, you can start with 1U/machine and use the following recommendations:
+          </RichText>
+          <RichText>
+Two quad core CPUs | 12 GB to 24 GB memory | Four to six disk drives of 2 terabyte (TB) capacity.
+          </RichText>
+          <RichText>
+The minimum requirement for network is 1GigE all-to-all and can be easily achieved by connecting all of your nodes to a Gigabyte Ethernet switch. In order to use the spare socket for adding more CPUs in future, you can also consider using either a six or an eight core CPU.
+          </RichText>
+          <RichText>
+For small to medium HBase clusters, provide each Zookeeper server with around 1GB of RAM and, if possible, its own disk.
+          </RichText>
+          <RichText>
+            <Emph>Jump-start - Hadoop Cluster</Emph>
+          </RichText>
+          <RichText>
+One way to quickly deploy Hadoop cluster, is to opt for “cloud trials” or use virtual infrastructure. Horton­works makes the distribution available through Hortonworks Data Platform (HDP). HDP can be easily installed in public and private clouds using Whirr, Microsoft Azure, and Amazon Web Services.
+          </RichText>
+          <RichText>
+To contact Hortonworks Technical Support, please log a case at: <Href UrlTarget="https://support.hortonworks.com/">https://support.hortonworks.com/</Href> . If you are currently not an official Hortonworks Customer or Partner, then please seek assistance on our Hortonworks Forums at: <Href UrlTarget="http://hortonworks.com/community/forums/">http://hortonworks.com/community/forums/</Href>
+          </RichText>
+          <RichText>
+However, note that cloud services and virtual infrastructures are not architected for Hadoop. Hadoop and HBase deployments in this case, might experience poor performance due to virtualization and suboptimal I/O architecture.</RichText>
+          <RichText>
+            <Emph>Tracking resource usage for pilot deployments</Emph>
+          </RichText>
+          <RichText>
+Hortonworks recommends that you monitor your pilot cluster using Ganglia, Nagios, or other performance monitoring frameworks that may be in use in your data center. Use the following guidelines to decide what to monitor in your Hadoop and HBase clusters:</RichText>
+          <List ListMarker="Bullet" xy:guid="8d0f46fa-6cd4-4812-8f52-a46d121bd118">
+            <ItemBlock>
+              <Item>
+                <ItemPara>Measure resource usage for CPU, RAM, Disk I/O operation per second (IOPS), and network packets sent and received. Run the actual kinds of query or analysis jobs that are of interest to your team.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>Ensure that your data sub-set is scaled to the size of your pilot cluster.</ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>Analyze the monitoring data for resource saturation. Based on this analysis, you can categorize your jobs as CPU bound, Disk I/O bound, or Network I/O bound.</ItemPara>
+                <CustomNote xy:guid="327e76d7-0a4e-4c2f-9fb0-63882e687cb1">
+                  <Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="cba5435a-819a-42e1-ac00-881acdfd3fc0"/>
+                  <SimpleBlock>
+                    <RichText>Most Java applications expand RAM usage to the maximum allowed. However, such jobs should not be analyzed as memory bound unless swapping happens or the JVM experiences full-memory garbage collection events. (Full-memory garbage collection events are typically occur when the node appears to cease all useful work for several minutes at a time.)
+                    </RichText>
+                  </SimpleBlock>
+                </CustomNote>
+              </Item>
+              <Item>
+                <ItemPara>Optionally, customize your job parameters or hardware or network configurations to balance resource usage. If your jobs fall in the various workload patterns equally, you may also choose to manipulate only the job parameters and keep the hardware choices “balanced”.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>For your HBase cluster, also analyze Zookeeper, because network and memory problems for HBase are often detected first in Zookeeper.
+                </ItemPara>
+              </Item>
+            </ItemBlock>
+          </List>
+          <RichText>
+            <Emph>Challenges - Tuning job characteristics to resource usage</Emph>
+          </RichText>
+          <RichText>
+Relating job characteristics to resource requirements can be complex. How the job is coded or the job data is represented can have a large impact on resource balance.  For example, resource cost can be shifted between disk IOPS and CPU based on your choice of compression scheme or parsing format. Per-node CPU and disk activity can be traded for inter-node bandwidth depending on the implementation of the Map/Reduce strategy.
+          </RichText>
+          <RichText>
+Furthermore, Amdahl’s Law shows how resource requirements can change in grossly non-linear ways with changing demands: a change that might be expected to reduce computation cost by 50% may instead cause a 10% change or a 90% change in net performance.
+          </RichText>
+          <RichText>
+            <Emph>Reusing pilot machines</Emph>
+          </RichText>
+          <RichText>
+With a pilot cluster in place, you can start analyzing workloads patterns to identify CPU and I/O bottlenecks. Later these machines can be reused in production clusters, even if your base specs change. It is common to have heterogeneous Hadoop clusters, especially as they evolve in size.
+          </RichText>
+          <CustomNote xy:guid="7fc46a8d-69cd-4e19-ba31-1fc284a1ca1b">
+            <Icon name="tip" thumbWidth="50" uri="Icons/Tip.png" xy:guid="4fad1bd0-665d-4b12-848c-c860dff71916"/>
+            <SimpleBlock>
+              <RichText>To achieve a positive return on investment (ROI), ensure that the machines in your pilot clusters are less than 10% of your eventual production cluster.
+              </RichText>
+            </SimpleBlock>
+          </CustomNote>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="40c5024f-9442-48fc-b84b-96e3c6e81d79">
+        <Title>Server Node Hardware Recommendations</Title>
+        <ParaBlock xy:guid="81e20e89-8349-4f61-9d4f-ea585f12511d">
+          <RichText>Use the following recommendations as best practices for selecting the number of nodes, storage options per node (number of disks, size of disks, MTBF, and the replication cost of disk failures), compute power per node (sockets, cores, clock speed), RAM per node, and network capability (number, speed of ports).
+          </RichText>
+          <CustomNote xy:guid="c0af69d9-3229-4a88-a9a3-a068e081373c">
+            <Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="290fefbd-f83b-411d-a185-d6523341353a"/>
+            <SimpleBlock>
+              <RichText>Hadoop cluster nodes do not require many features typically found in an enterprise data center server.
+              </RichText>
+            </SimpleBlock>
+          </CustomNote>
+        </ParaBlock>
+        <Topic xy:guid="248138e4-de49-4203-91e1-2a130f4d5cca">
+          <Title>Hardware for Slave Nodes </Title>
+          <ParaBlock xy:guid="9ee9573b-2798-4bb1-9d11-780944549f89">
+            <RichText>The following recommendations are based on Hortonworks’ experience in production data centers:</RichText>
+            <RichText>
+              <Emph>Server platform</Emph>
+            </RichText>
+            <RichText>
+Typically, dual-socket servers are optimal for Hadoop deployments. For medium to large clusters, using these servers is a best choice over entry-level servers, because of their load-balancing and parallelization capabilities. In terms of density, select server hardware that fits into a low number of rack units. Typically, 1U or 2U servers are used in 19” racks or cabinets.
+            </RichText>
+            <RichText>
+              <Emph>Storage options</Emph>
+            </RichText>
+            <RichText>
+For general-purpose Hadoop applications, we recommend using a relatively large number of hard drives (typically eight to twelve SATA LFF drives) per server. Currently typical capacity in production environments is around 2 TB per drive. Highly I/O intensive environments may require using 12 x 2 TB SATA drives. The optimal balance between cost and performance is generally achieved with 7,200 RPM SATA drives. If your current or predicted storage is experiencing a significant growth rate you should also consider using 3 TB disks.  
+            </RichText>
+            <RichText>
+SFF disks are being adopted in some configurations for better disk bandwidth. We recommend that you monitor your cluster for any potential disk failures because more disks will increase the rate of disk failures. If you do have large number of disks per server, we recommend that you use two disk controllers, so that the I/O load can be shared across multiple cores. Hortonworks strongly recommends only using either SATA or SAS interconnects.
+            </RichText>
+            <RichText>
+On an HDFS cluster using a low-cost reliable storage option, you will observe that the old data stays on the cluster indefinitely and your storage demands grow quickly. With 12-drive systems, you typically get 24 TB or 36 TB per node. Using this storage capacity in a node is only practical with Hadoop release 1.0.0 or later (because the failures are handled gracefully allowing machines to continue serving from their remaining disks).   
+            </RichText>
+            <RichText>
+Hadoop is storage intensive and seek efficient, but does not require fast and expensive hard drives. If your workload pattern is not I/O intensive, it is safe to add only four or six disks per node. Note that power costs are proportional to the number of disks and not storage capacity per disk. We therefore recommend that you add disks to increase storage only and not simply for seeks.
+            </RichText>
+            <CustomNote xy:guid="f648beb8-9c65-4193-a182-ecb0a9994186"><Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="5971304e-6e05-4280-83c0-32b4a92fda77"/>
+              <SimpleBlock>
+                <RichText>
+                  <Emph> RAID vs. JBOD: </Emph>
+                </RichText>
+                <RichText>We do not recommend using RAID on Hadoop slave machines. Hadoop assumes probabilistic disk failure and orchestrates data redundancy across all the slave nodes.
+                </RichText>
+              </SimpleBlock>
+            </CustomNote>
+            <RichText>Your disk drives should have good MTBF numbers, as slave nodes in Hadoop suffer routine probabilistic failures.
+            </RichText>
+            <RichText>
+Your slave nodes do not need expensive support contracts that offer services like replacement of disks within two hours or less. Hadoop is designed to adapt to slave node disk failure. Treat maintenance activity for the slave nodes as an ongoing task rather than an emergency.
+            </RichText>
+            <RichText>
+It is good to be able to swap out disks without taking the server out of the rack, though switching them off (briefly) is an inexpensive operation in a Hadoop cluster.
+            </RichText>
+            <RichText>
+              <Emph>Memory sizing</Emph>
+            </RichText>
+            <RichText>
+              It is critical to provide sufficient memory to keep the processors busy without swapping and without incurring excessive costs for non-standard motherboards. Depending on the number of cores, your slave nodes typically require 24 GB to 48 GB of RAM for Hadoop applications. For large clusters, this amount of memory provides sufficient extra RAM (approximately 4 GB) for the Hadoop framework and for your query and analysis processes (HBase and/or Map/Reduce).
+            </RichText>
+            <RichText>
+To detect and correct random transient errors introduced due to thermodynamic effects and cosmic rays, we strongly recommend using error correcting code (ECC) memory.  Error-correcting RAM allows you to trust the quality of your computations. Some parts (chip-kill/chip spare) have been shown to offer better protection than traditional designs, as they show less recurrence of bit errors. (See, <Href UrlTarget="http://www.cs.utoronto.ca/~bianca/papers/sigmetrics09.pdf">DRAM Errors in the Wild: A Large-Scale Field Study, Schroeder et al, 2009</Href> .)
+            </RichText>
+            <RichText>
+If you want to retain the option of adding more memory to your servers in future, ensure there is space to do this alongside the initial memory modules.
+            </RichText>
+            <RichText>
+              <Emph>Memory provisioning</Emph>
+            </RichText>
+            <RichText>
+Memory can also be provisioned at commodity prices on low-end server motherboards. It is typical to over-provision memory. The unused RAM will be consumed either by your Hadoop applications (typically when you run more processes in parallel) or by the infrastructure (used for caching disk data to improve performance).
+            </RichText>
+            <RichText>
+              <Emph>Processors</Emph>
+            </RichText>
+            <RichText>
+Although it is important to understand your workload pattern, for most systems we recommend using medium clock speed processors with less than two sockets. For most workloads, the extra performance per node is not cost-effective. For large clusters, use at least two quad core CPU for the slave machines.
+            </RichText>
+            <RichText>
+              <Emph>Power considerations</Emph>
+            </RichText>
+            <RichText>
+Power is a major concern when designing Hadoop clusters. Instead of automatically purchasing the biggest and fastest nodes, analyze the power utilization for your existing hardware. We have observed huge savings in pricing and power by avoiding fastest CPUs, redundant power supplies, etc.
+            </RichText>
+            <RichText>
+Vendors today are building machines for cloud data centers that are designed to reduce cost, power, and are light-weight. Supermicro, Dell, and HP all have such product lines for cloud providers. So if you are buying in large volume, we recommend evaluating these stripped-down “cloud servers”.
+            </RichText>
+            <RichText>
+For slave nodes, a single power supply unit (PSU) is sufficient, but for master servers use redundant PSUs. Server designs that share PSUs across adjacent servers can offer increased reliability without increased cost.
+            </RichText>
+            <RichText>
+Some co-location sites bill based on the maximum-possible power budget and not the actual budget. In such a location the benefits of the power saving features of the latest CPUs are not realized completely. We therefore recommend checking the power billing options of the site in advance.
+            </RichText>
+            <CustomNote xy:guid="ec2c372b-c7c4-49f9-b058-851e4217c8f1">
+              <Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="b4f3898c-9d68-4081-b86c-1cce7b7e1e78"/>
+              <SimpleBlock>
+                <RichText>
+                  <Emph>Power consumption of the cluster:</Emph>
+                </RichText>
+                <RichText>
+Electricity and cooling account for 33.33% to 50% of the equipment total life cycle cost in the modern data centers.
+                </RichText>
+              </SimpleBlock>
+            </CustomNote>
+            <RichText>
+              <Emph>Network</Emph>
+            </RichText>
+            <RichText>
+This is the most challenging parameter to estimate because Hadoop workloads vary a lot. The key is buying enough network capacity at reasonable cost so that all nodes in the cluster can communicate with each other at reasonable speeds. Large clusters typically use dual 1 GB links for all nodes in each 20-node rack and 2*10 GB interconnect links per rack going up to a pair of central switches.
+            </RichText>
+            <RichText>
+A good network design considers the possibility of unacceptable congestion at critical points in the network under realistic loads. Generally accepted oversubscription ratios are around 4:1 at the server access layer and 2:1 between the access layer and the aggregation layer or core. Lower oversubscription ratios can be considered if higher performance is required. Additionally, we also recommend having 1 GE oversubscription between racks.
+            </RichText>
+            <RichText>
+It is critical to have dedicated switches for the cluster instead of trying to allocate a VC in existing switches - the load of a Hadoop cluster would impact the rest of the users of the switch. It is also equally critical to work with the networking team to ensure that the switches suit both Hadoop and their monitoring tools.
+            </RichText>
+            <RichText>
+Design the networking so as to retain the option of adding more racks of Hadoop/HBase servers. Getting the networking wrong can be expensive to fix. The quoted bandwidth of a switch is analogous to the miles per gallon ratings of an automobile - you are unlikely to replicate it.  ‘’Deep buffering’’ is preferable to low-latency in switches. Enabling Jumbo Frames across the cluster improves bandwidth through better checksums and possibly may also provide packet integrity.
+            </RichText>
+            <CustomNote xy:guid="083f1737-28ab-4c9b-8f55-af5c3b732659">
+              <Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="b76c8b6b-9793-4ac7-995e-8f01891730a1"/>
+              <SimpleBlock>
+                <RichText>
+                  <Emph>Network strategy for your Hadoop clusters</Emph>
+                </RichText>
+                <RichText>
+Analyze the ratio of network-to-computer cost. Ensure that the network cost is always around 20% of your total cost. Network costs should include your complete network, core switches, rack switches, any network cards needed, and so forth. Hadoop was designed with commodity hardware in mind.
+                </RichText>
+              </SimpleBlock>
+            </CustomNote>
+          </ParaBlock>
+        </Topic>
+        <Topic xy:guid="be9fe748-01ff-4e9f-8ecc-95f251966d75">
+          <Title>Hardware for Master Nodes</Title>
+          <ParaBlock xy:guid="0a89db2c-369f-4fe3-91c6-dd32f72d87fa">
+            <RichText>The master nodes, being unique, have significantly different storage and memory requirements than the slave nodes.  The following paragraphs discuss some of the memory/storage trade-offs in some detail.
+            </RichText>
+            <RichText>
+For hard sizing guidelines for small (5-50 nodes) and medium-to-large (100s to 1000s of nodes) clusters, see the <Xref InsideTargetRef="63da0add-37c7-4c4f-b453-8c00d8cffc45">Conclusion</Xref> .
+            </RichText>
+            <RichText>
+We recommend using dual NameNode servers - one primary and one secondary. Both NameNode servers should have highly reliable storage for their namespace storage and edit-log journaling. Typically, hardware RAID and/or reliable network storage are justifiable options.
+            </RichText>
+            <RichText>
+The master servers should have at least four redundant storage volumes, some local and some networked, but each can be relatively small (typically 1TB).
+            </RichText>
+            <CustomNote xy:guid="178e3e22-1915-47f3-8b4d-22381a498c3c">
+              <Icon thumbWidth="50" uri="Icons/Note.png" xy:guid="ea677e41-5646-49e6-aa30-ab4170011cfb"/>
+              <SimpleBlock>
+                <RichText>The RAID disks on the master nodes are a good place to consider support contracts. We recommend including an on-site disk replacement option in your support contract so that a failed RAID disk can be replaced quickly.
+                </RichText>
+              </SimpleBlock>
+            </CustomNote>
+            <RichText>Multiple vendors sell NAS software. It is important to check their specifications before you invest in any NAS software.
+            </RichText>
+            <RichText>
+              <Emph>
+Storage options for ResourceManager servers</Emph>
+            </RichText>
+            <RichText>
+In actuality ResourceManager servers do not need RAID storage because they save their persistent state to HDFS. The ResourceManager server can actually be run on a slave node with a bit of extra RAM. However, using the same hardware specifications for the ResourceManager servers as for the NameNode server provides the possibility of migrating the NameNode to the same server as the ResourceManager in the case of NameNode failure and a copy of the NameNode’s state can be saved to the network storage.
+            </RichText>
+            <RichText>
+              <Emph>Memory sizing</Emph>
+            </RichText>
+            <RichText>
+The amount of memory required for the master nodes depends on the number of file system objects (files and block replicas) to be created and tracked by the NameNode.  64 GB of RAM supports approximately 100 million files. Some sites are now experimenting with 128GB of RAM, for even larger namespaces.   
+            </RichText>
+            <RichText>
+              <Emph>Processors</Emph>
+            </RichText>
+            <RichText>
+NameNodes and their clients are very “chatty”. We therefore recommend providing 16 or even 24 CPU cores to handle messaging traffic for the master nodes.   
+            </RichText>
+            <RichText>
+              <Emph>Network</Emph>
+            </RichText>
+            <RichText>
+Providing multiple network ports and 10 GB bandwidth to the switch is also acceptable (if the switch can handle it).
+            </RichText>
+          </ParaBlock>
+        </Topic>
+      </Topic>
+      <Topic xy:guid="49be6f7a-0075-4b68-9993-1fe62591ca46">
+        <Title>Hardware for HBase</Title>
+        <ParaBlock xy:guid="823afef1-2b4b-4f1b-b5df-8ee908e418d1">
+          <RichText>HBase uses different types of caches to fill up memory, and as a general rule the more memory HBase has, the better it can cache read requests. Each slave node in an HBase cluster (RegionServer) maintains a number of regions (regions are the chunks of the data in memory). For large clusters, it is important to ensure that the HBase Master and the NameNode run on separate server machines. Note that in large scale deployments, Zookeeper nodes are not co-deployed with the Hadoop/HBase slave nodes.
+          </RichText>
+          <RichText>
+            <Emph>Choosing storage options</Emph>
+          </RichText>
+          <RichText>
+In a distributed setup HBase stores its data in Hadoop DataNodes. To get maximum read/write locality, HBase RegionServers and DataNodes should be co-deployed on the same machines. Therefore all the recommendations for the DataNode and NodeManager hardware setup are also applicable to the RegionServers. Depending on whether your HBase applications are read/write or processing oriented, you must balance the number of disks with the number of CPU cores available. Typically, you should have at least one core per disk.
+          </RichText>
+          <RichText>
+            <Emph>Memory sizing</Emph>
+          </RichText>
+          <RichText>
+HBase Master nodes(s) are not as compute intensive as a typical RegionServer or the NameNode server. Therefore a more modest memory setting can be chosen for the HBase master. RegionServer memory requirements depend heavily on the workload characteristics of your HBase cluster. Although over provisioning for memory benefits all the workload patterns, with very large heap sizes Java’s stop-the-world GC pauses may cause problems.
+          </RichText>
+          <RichText>
+In addition, when running HBase cluster with Hadoop core, you must ensure that you over-provision the memory for Hadoop MapReduce by at least 1 GB to 2 GB per task on top of the HBase memory.
+          </RichText>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="53aae9b2-b6a0-46b6-873b-6fa7729832dc">
+        <Title>Other Issues</Title>
+        <ParaBlock xy:guid="d731153e-e2a0-4ac2-bf3b-7ff4956459eb">
+          <RichText>
+            <Emph>Weight</Emph>
+          </RichText>
+          <RichText>
+The storage density of the latest generation of servers means that the weight of the racks needs to be taken into account. You should verify that the weight of a rack is not more than the capacity of the data ­center’s floor.
+          </RichText>
+          <RichText>
+            <Emph>Scalability</Emph>
+          </RichText>
+          <RichText>
+It is easy to scale a Hadoop cluster by adding new servers or whole server racks to the cluster and increasing the memory in the master nodes to deal with the increased load. This will generate a lot of “rebalancing traffic” at first, but will deliver extra storage and computation. Because the master nodes do matter, we recommend that you pay the premiums for those machines.
+          </RichText>
+          <RichText>
+Use the following guidelines to scale your existing Hadoop cluster:
+          </RichText>
+          <List ListMarker="Bullet" xy:guid="f6714313-a13b-4c69-8096-9ff86ef13993">
+            <ItemBlock>
+              <Item>
+                <ItemPara>Ensure there is potential free space in the data center near the Hadoop cluster. This space should be able to accommodate the power budget for more racks.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>Plan the network to cope with more servers</ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>
+                  It might be possible to add more disks and RAM to the existing servers - and extra CPUs if the servers have spare sockets. This can expand an existing cluster without adding more racks or network changes.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>
+                  To perform a hardware upgrade in a live cluster can take considerable time and effort. We recommend that  you plan the expansion one server at a time.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>CPU parts do not remain on the vendors price list forever. If you do plan to add a second CPU, consult with your reseller on when they will cut the price of CPUs that your existing parts and buy these parts when available. This typically takes at least 18 months time period.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>
+                  You are likely to need more memory in the master servers.
+                </ItemPara>
+              </Item>
+            </ItemBlock>
+          </List>
+          <RichText>
+            <Emph>Support contracts</Emph>
+          </RichText>
+          <RichText>
+The concept to consider here is “care for the master nodes, keep an eye on the slave nodes”. You do not need traditional enterprise-class support contracts for the majority of the nodes in the cluster, as their failures are more of a statistics issue than a crisis. The money saved in support can go into more slave nodes.
+          </RichText>
+          <RichText>
+            <Emph>Commissioning</Emph>
+          </RichText>
+          <RichText>
+Hortonworks plans to cover the best practices commissioning a Hadoop cluster in a future document. For now, note that the “smoke tests” that come with the Hadoop cluster are a good initial test, followed by Terasort. Some of the major server vendors offer in factory commissioning of Hadoop clusters for an extra fee. This can have a direct benefit in ensuring that the cluster is working before you receive and pay for it. There is an indirect benefit in that if the Terasort performance is lower on-site than in-factory, the network is the likely culprit which makes it is possible to track down the problem faster.
+          </RichText>
+        </ParaBlock>
+      </Topic>
+      <Topic xy:guid="63da0add-37c7-4c4f-b453-8c00d8cffc45">
+        <Title>Conclusion</Title>
+        <ParaBlock xy:guid="7ab7e9c1-a6f0-48c9-8dd8-77421317e221">
+          <RichText>Achieving optimal results from a Hadoop implementation begins with choosing the correct hardware and software stacks. The effort involved in the planning stages can pay off dramatically in terms of the performance and the total cost of ownership (TCO) associated with the environment.
+
+The following composite system stack recommendations can help benefit organizations in the planning stages:
+          </RichText>
+          <Table align="center" border="true" width="" xy:schema-version="Core/Definitions/Table.xsd#core-3.9-0" xy:guid="22c6c1fb-0d8b-48f6-ad1c-1ece7d9e398b">
+            <TblTitle>Table 1.1 Sizing Recommendations</TblTitle>
+            <TblGroup>
+              <TblCol width=""/>
+              <TblCol width=""/>
+              <TblCol width=""/>
+              <TblCol width=""/>
+              <TblCol width=""/>
+              <TblCol width=""/>
+              <TblHeader/>
+              <TblBody>
+                <TableRow>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Machine Type</Emph>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Workload Pattern/ Cluster Type</Emph>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Storage</Emph>
+                      <Footnote>
+                        <RichText>Reserve at least 2.5 Gb of hard drive space for each version of HDP to be installed.</RichText>
+                      </Footnote>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Processor (# of Cores)</Emph>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Memory (GB)</Emph>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>
+                      <Emph>Network</Emph>
+                    </RichText>
+                  </Cell>
+                </TableRow>
+                <TableRow>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="3">
+                    <RichText>
+                      <Emph>Slaves</Emph>
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Balanced workload</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Twelve 2-3 TB disks
+                    </RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>8</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>128-256</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>1 GB onboard, 2x10 GBE mezzanine/external</RichText>
+                  </Cell>
+                </TableRow>
+                <TableRow>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Compute-intensive workload</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Twelve 1-2 TB disks</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>10</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>128-256</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>1 GB onboard, 2x10 GBE mezzanine/external</RichText>
+                  </Cell>
+                </TableRow>
+                <TableRow>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Storage-heavy workload</RichText>
+                  </Cell>
+                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
+                    <RichText>Twelve 4+ TB disks</RichText>
+                  </Cell>
+                </TableRow>
+              </TblBody>
+              <TblFooter/>
+
+            </TblGroup>
+
+          </Table>
+
+
+          <TitledBlock xy:schema-version="Core/Definitions/TitledBlock.xsd#core-3.9-0" xy:guid="42a3f371-a05b-4e3d-a81e-2a6fd649017a">
+            <Title>For Further Reading</Title>
+            <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0" xy:guid="fa220219-a7a0-49a7-b2e1-223c882e3af5">
+              <List ListMarker="Bullet" xy:guid="f04183a7-f447-4d2e-8e43-c56dfbec871a">
+                <ItemBlock>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://hortonworks.com/blog/best-practices-for-selecting-apache-hadoop-hardware/">Best Practices for Selecting Apache Hadoop Hardware
+                      </Href> (Hortonworks blog)
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://en.wikipedia.org/wiki/Amdahl%27s_law">Amdahl’s Law (Wikipedia)</Href>
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>“Installation Requirements, Hardware”, <Href UrlTarget="http://shop.oreilly.com/product/0636920014348.do">HBase, The Definitive Guide</Href> by Lars George, O’Reilly 2011, Chapter 2 (page 34 ff.)
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://wiki.apache.org/hadoop/">Hadoop Network and Compute Architecture Considerations</Href> by Jacob Rapp, Cisco (Hadoop World 2011 presentation)
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://bradhedlund.com/2011/11/05/hadoop-network-design-challenge/">Hadoop network design challenge</Href> (Brad Hedlund.com)
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://mail-archives.apache.org/mod_mbox/hadoop-general/201108.mbox/&lt;CA6804E5.48778%25scott%40richrelevance.com&gt;">Scott Carey’s email</Href> on smaller hardware for smaller clusters (email to general@hadoop.apache.org, Wed, 10 Aug 2011 17:24:25 GMT)
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Href UrlTarget="http://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=0CDMQFjAA&amp;url=http://research.google.com/archive/disk_failures.pdf&amp;ei=Mm5kT7bRDOaeiAK51O2iDw&amp;usg=AFQjCNGdAu5mMDlzXvPg0CSZPH6HavPX3g&amp;sig2=lCqrYPRBUg8MtimD_0XuPg">Failure Trends in a Large Disk Drive Population</Href> – Google Research Paper
+                    </ItemPara>
+                  </Item>
+                  <Item>
+                    <ItemPara>
+                      <Emph>HBase production deployments:</Emph>
+                    </ItemPara>
+                    <SubList ListMarker="NoBullet">
+                      <ItemBlock>
+                        <Item>
+                          <ItemPara>
+                            <Href UrlTarget="http://files.meetup.com/1350427/ebay_pres.zip">StumbleUpon’s HBase cluster</Href>
+                          </ItemPara>
+                        </Item>
+                        <Item>
+                          <ItemPara>
+                            <Href UrlTarget="http://files.meetup.com/1350427/EBAY-HBase-Ops.pptx">EBay’s HBase cluster</Href>
+                          </ItemPara>
+                        </Item>
+                      </ItemBlock>
+                    </SubList>
+                  </Item>
+                </ItemBlock>
+              </List>
+            </ParaBlock>
+          </TitledBlock>
+        </ParaBlock>
+      </Topic>
+    </Lesson>
+    </Lessons>
+  <DesignData xy:schema-version="Core/Definitions/Metadata/DesignData.xsd#core-3.9-0" xy:guid="2825002e-d29b-42f6-9ed2-6fba31e60437">
+    <LOM xy:schema-version="Core/Definitions/Metadata/LOM.xsd#core-3.9-0" xy:guid="68ac5dee-05c1-4453-b880-daa35d72a192">
+      <LifeCycle xy:guid="da31fe6d-6496-4abf-86b4-bf501024af20"><Version xy:schema-version="Core/Definitions/Metadata/LOM.xsd#core-3.9-0" xy:guid="7a9c9793-1fbf-42b1-974a-3186aec12d78">HDP 2.2
+      </Version>
+        <Status xy:schema-version="Core/Definitions/Metadata/LOM.xsd#core-3.9-0" xy:guid="72405049-a1fb-49c9-9b4b-3be8c224deb3">final
+        </Status>
+      </LifeCycle>
+      <AttributeGroup xy:guid="bb712461-a556-4392-af03-2509e2c960c4"><Attribute xy:schema-version="Core/Definitions/Metadata/LOM.xsd#core-3.9-0" xy:guid="56d5ea7e-b716-402b-80ca-86dd809e186f">
+        <Name>Publication Date</Name>
+        <Date>2014-12-02</Date>
+      </Attribute>
+      </AttributeGroup>
+    </LOM>
+  </DesignData>
+</IA>

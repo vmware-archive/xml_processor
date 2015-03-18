@@ -34,6 +34,9 @@
             <div class="container">
               <footer>
                 <xsl:apply-templates select="/IA/CoverPage/Notice"/>
+                <div class="copyright">
+                  <xsl:apply-templates select="/IA/Credits"/>
+                </div>
               </footer>
             </div>
           </div>
@@ -48,8 +51,40 @@
     </title>
   </xsl:template>
 
-  <xsl:template match="/IA/CoverPage/Notice/ParaBlock/RichText">
+  <xsl:template match="/IA/CoverPage/Notice//ParaBlock/RichText">
     <p><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="/IA/CoverPage/Notice//ParaBlock//Href">
+    <xsl:element name="a">
+      <xsl:attribute name="href"><xsl:value-of select="@UrlTarget"/></xsl:attribute>
+      <xsl:value-of select="text()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="/IA/Credits">
+    <p>
+      <xsl:apply-templates/>
+    </p>
+  </xsl:template>
+
+  <xsl:template match="/IA/Credits/CopyrightBlock">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="/IA/Credits/CopyrightBlock//RichText">
+    <xsl:apply-templates/>
+  </xsl:template>
+
+  <xsl:template match="/IA/Credits/CopyrightBlock/RichText//Href">
+    <xsl:element name="a">
+      <xsl:attribute name="href"><xsl:value-of select="@UrlTarget"/></xsl:attribute>
+      <xsl:value-of select="text()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="/IA/Credits/CopyrightDate">
+    <span><xsl:text>&#169;</xsl:text><xsl:value-of select="text()"/></span>
   </xsl:template>
 
   <xsl:template match="/IA/Lessons/Lesson/Topic/ParaBlock//Href">
@@ -99,4 +134,16 @@
       <xsl:value-of select="text()"/>
     </xsl:element>
   </xsl:template>
+
+  <xsl:template match="//Emph">
+    <strong><xsl:apply-templates/></strong>
+  </xsl:template>
+
+  <xsl:template match="//Icon">
+    <xsl:element name="img">
+      <xsl:attribute name="src"><xsl:value-of select="@UrlTarget"/><xsl:value-of select="text()"/>
+      </xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
 </xsl:stylesheet>
