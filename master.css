@@ -4605,3 +4605,7 @@ category: basics
 .index .to-top {
   display: none;
 }
+
+.custom-note {
+  display: block;
+}
