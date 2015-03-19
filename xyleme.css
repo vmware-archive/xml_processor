@@ -1,0 +1,70 @@
+/* Xyleme-specific temporary styles */
+
+.custom-note {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+}
+
+.simple-block {
+    float: right;
+    width: 85%;
+    background-color: rgb(229, 239, 212);
+}
+
+.simple-block p {
+    padding: 10px;
+}
+
+.icon {
+    float: left;
+    width: 15%;
+}
+
+.icon img {
+    margin: 10px auto;
+}
+
+.xyleme-table {
+    margin-bottom: 20px;
+}
+
+.footnotes {
+    font-size: 0.8em;
+}
+
+.NoBullet {
+    list-style: none;
+}
+
+.border-none {
+    border: none;
+}
+
+.horton-green {
+    color: rgb(74, 173, 0);
+}
+
+.horton-blue {
+    color: rgb(61, 105, 178);
+}
+
+.small-title {
+    font-size: 0.9em;
+}
+
+.small {
+    font-size: 0.8em;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.thin {
+    font-weight: 200;
+}
+
+.italic {
+    font-style: italic;
+}
