@@ -70,6 +70,18 @@
     <strong><xsl:apply-templates/></strong>
   </xsl:template>
 
+  <xsl:template match="//Italic">
+    <i><xsl:apply-templates/></i>
+  </xsl:template>
+
+  <xsl:template match="//Code">
+    <pre><code><xsl:apply-templates/></code></pre>
+  </xsl:template>
+
+  <xsl:template match="//InLineCode">
+    <code><xsl:apply-templates/></code>
+  </xsl:template>
+
   <xsl:template match="//List">
     <ul><xsl:apply-templates/></ul>
   </xsl:template>
@@ -200,6 +212,5 @@
   <xsl:template match="//TitledBlock/Title">
     <span class="title"><strong><xsl:apply-templates/></strong></span>
   </xsl:template>
-
 
 </xsl:stylesheet>

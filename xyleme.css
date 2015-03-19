@@ -16,6 +16,13 @@
     padding: 10px;
 }
 
+.simple-block code {
+    background: inherit;
+    border: none;
+    margin-bottom: -0.3em;
+    line-height: 1.3;
+}
+
 .icon {
     float: left;
     width: 15%;
