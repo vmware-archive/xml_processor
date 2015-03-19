@@ -566,14 +566,6 @@ The following composite system stack recommendations can help benefit organizati
                     <RichText>1 GB onboard, 2x10 GBE mezzanine/external</RichText>
                   </Cell>
                 </TableRow>
-                <TableRow>
-                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
-                    <RichText>Storage-heavy workload</RichText>
-                  </Cell>
-                  <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
-                    <RichText>Twelve 4+ TB disks</RichText>
-                  </Cell>
-                </TableRow>
               </TblBody>
               <TblFooter/>
 
