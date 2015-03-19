@@ -523,6 +523,9 @@ The following composite system stack recommendations can help benefit organizati
                   <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
                     <RichText>
                       <Emph>Network</Emph>
+                      <Footnote>
+                        <RichText>Footnote 2</RichText>
+                      </Footnote>
                     </RichText>
                   </Cell>
                 </TableRow>
@@ -530,6 +533,9 @@ The following composite system stack recommendations can help benefit organizati
                   <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="3">
                     <RichText>
                       <Emph>Slaves</Emph>
+                      <Footnote>
+                        <RichText>Footnote 3</RichText>
+                      </Footnote>
                     </RichText>
                   </Cell>
                   <Cell align="left" cell-bg="none" colspan="1" isInHeaderColumn="0" rowspan="1">
@@ -568,7 +574,6 @@ The following composite system stack recommendations can help benefit organizati
                 </TableRow>
               </TblBody>
               <TblFooter/>
-
             </TblGroup>
 
           </Table>

@@ -37,7 +37,13 @@
 }
 
 .footnotes {
+    font-size: 0.9em;
+    margin-bottom: 4%;
+}
+
+.footnote-anchor {
     font-size: 0.8em;
+    vertical-align: super;
 }
 
 .NoBullet {
@@ -46,6 +52,10 @@
 
 .border-none {
     border: none;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #9b9b9b;
 }
 
 .horton-green {

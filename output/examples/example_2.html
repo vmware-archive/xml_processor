@@ -466,75 +466,77 @@ The following composite system stack recommendations can help benefit organizati
 <p class="italic">Table 1.1 Sizing Recommendations</p>
 <tbody>
                 <tr>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Machine Type</strong>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Workload Pattern/ Cluster Type</strong>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Storage</strong>
-                      <a href="#footnote-1">[1]</a>
+                      <a href="#footnote-1" class="footnote-anchor">[1]</a>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Processor (# of Cores)</strong>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Memory (GB)</strong>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>
                       <strong>Network</strong>
+                      <a href="#footnote-2" class="footnote-anchor">[2]</a>
                     </p>
                   </td>
                 </tr>
                 <tr>
-                  <td>
+                  <td rowspan="3">
                     <p>
                       <strong>Slaves</strong>
+                      <a href="#footnote-3" class="footnote-anchor">[3]</a>
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>Balanced workload</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>Twelve 2-3 TB disks
                     </p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>8</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>128-256</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>1 GB onboard, 2x10 GBE mezzanine/external</p>
                   </td>
                 </tr>
                 <tr>
-                  <td>
+                  <td rowspan="1">
                     <p>Compute-intensive workload</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>Twelve 1-2 TB disks</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>10</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>128-256</p>
                   </td>
-                  <td>
+                  <td rowspan="1">
                     <p>1 GB onboard, 2x10 GBE mezzanine/external</p>
                   </td>
                 </tr>
@@ -610,9 +612,21 @@ The following composite system stack recommendations can help benefit organizati
     
     </div></main>
 </div>
-<div class="container"><footer><div id="footnote-1">
+<div class="container"><div class="footnotes">
+<h2 class="horton-blue border-bottom">Footnotes</h2>
+<ol>
+<li id="footnote-1">
                         <p>Reserve at least 2.5 Gb of hard drive space for each version of HDP to be installed.</p>
-                      </div>
+                      </li>
+<li id="footnote-2">
+                        <p>Footnote 2</p>
+                      </li>
+<li id="footnote-3">
+                        <p>Footnote 3</p>
+                      </li>
+</ol>
+</div></div>
+<div class="container"><footer><h3 class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
       
       
         <p>This work by  <a href="http://hortonworks.com">Hortonworks, Inc.</a>  is licensed under a  <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a> .

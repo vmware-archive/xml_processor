@@ -32,13 +32,22 @@
             </div>
 
             <div class="container">
-              <footer>
-                <xsl:for-each select="//Footnote">
-                    <xsl:element name="div">
-                        <xsl:attribute name="id">footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
-                        <xsl:apply-templates/>
+              <div class="footnotes">
+                <h2 class="horton-blue border-bottom">Footnotes</h2>
+                <ol>
+                  <xsl:for-each select="//Footnote">
+                    <xsl:element name="li">
+                      <xsl:attribute name="id">footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
+                      <xsl:apply-templates/>
                     </xsl:element>
-                </xsl:for-each>
+                  </xsl:for-each>
+                </ol>
+              </div>
+            </div>
+
+            <div class="container">
+              <footer>
+                <h3 class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
                 <xsl:apply-templates select="/IA/CoverPage/Notice"/>
                 <div class="copyright">
                   <xsl:apply-templates select="/IA/Credits"/>
@@ -88,6 +97,28 @@
     <code><xsl:apply-templates/></code>
   </xsl:template>
 
+  <xsl:template match="//Footnote">
+    <xsl:element name="a">
+      <xsl:attribute name="href">#footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
+      <xsl:attribute name="class">footnote-anchor</xsl:attribute>
+      <xsl:number level="any" count="Footnote" format="[1]"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="//Href">
+    <xsl:element name="a">
+      <xsl:attribute name="href"><xsl:value-of select="@UrlTarget"/></xsl:attribute>
+      <xsl:value-of select="text()"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="//Xref">
+    <xsl:element name="a">
+      <xsl:attribute name="href">#ref-<xsl:value-of select="@InsideTargetRef"/></xsl:attribute>
+      <xsl:value-of select="text()"/>
+    </xsl:element>
+  </xsl:template>
+
   <xsl:template match="//List">
     <ul><xsl:apply-templates/></ul>
   </xsl:template>
@@ -104,20 +135,6 @@
     <xsl:element name="ul">
       <xsl:attribute name="class"><xsl:value-of select="@ListMarker"/></xsl:attribute>
       <xsl:apply-templates/>
-    </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="//Href">
-    <xsl:element name="a">
-      <xsl:attribute name="href"><xsl:value-of select="@UrlTarget"/></xsl:attribute>
-      <xsl:value-of select="text()"/>
-    </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="//Xref">
-    <xsl:element name="a">
-      <xsl:attribute name="href">#ref-<xsl:value-of select="@InsideTargetRef"/></xsl:attribute>
-      <xsl:value-of select="text()"/>
     </xsl:element>
   </xsl:template>
 
@@ -138,13 +155,6 @@
   <!-- Specific Matchers -->
 
 
-  <xsl:template match="//Table//Footnote">
-      <xsl:element name="a">
-          <xsl:attribute name="href">#footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
-          <xsl:number level="any" count="Footnote" format="[1]"/>
-      </xsl:element>
-  </xsl:template>
-
   <xsl:template match="//Table//TblTitle">
     <p class="italic"><xsl:apply-templates/></p>
   </xsl:template>
@@ -158,7 +168,16 @@
   </xsl:template>
 
   <xsl:template match="//Table//TableRow/Cell">
-    <td><xsl:apply-templates/></td>
+    <xsl:variable name="rowspan" select="@rowspan"/>
+
+    <td>
+      <xsl:attribute name="rowspan">
+        <xsl:value-of select="$rowspan">
+        </xsl:value-of>
+      </xsl:attribute>
+
+      <xsl:apply-templates/>
+    </td>
   </xsl:template>
 
   <xsl:template match="/IA/CoverPage/Title">
@@ -169,10 +188,10 @@
       <p><xsl:apply-templates/></p>
   </xsl:template>
 
+
   <xsl:template match="/IA/Credits">
       <p><xsl:apply-templates/></p>
   </xsl:template>
-
 
   <xsl:template match="/IA/Credits/CopyrightBlock">
       <xsl:apply-templates/>
@@ -184,7 +203,9 @@
 
 
   <xsl:template match="/IA/Lessons/Lesson/Title">
-      <h2 class="horton-green bold"><xsl:apply-templates/></h2>
+      <h2 class="horton-green bold">
+        <xsl:apply-templates/>
+      </h2>
   </xsl:template>
 
   <xsl:template match="/IA/Lessons/Lesson/Topic/Title">
@@ -196,7 +217,9 @@
   </xsl:template>
 
   <xsl:template match="//Topic//Topic/Title">
-      <h4 class="bold"><xsl:apply-templates/></h4>
+      <h4 class="bold">
+        <xsl:apply-templates/>
+      </h4>
   </xsl:template>
 
 
