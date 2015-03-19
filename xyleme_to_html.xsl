@@ -33,6 +33,12 @@
 
             <div class="container">
               <footer>
+                <xsl:for-each select="//Footnote">
+                    <xsl:element name="div">
+                        <xsl:attribute name="id">footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
+                        <xsl:apply-templates/>
+                    </xsl:element>
+                </xsl:for-each>
                 <xsl:apply-templates select="/IA/CoverPage/Notice"/>
                 <div class="copyright">
                   <xsl:apply-templates select="/IA/Credits"/>
@@ -125,9 +131,6 @@
         <xsl:apply-templates select="//Table//TblTitle"/>
         <xsl:apply-templates select="//Table//TblBody"/>
       </table>
-      <ol class="footnotes">
-        <xsl:apply-templates select="//Table//Footnote"/>
-      </ol>
     </div>
   </xsl:template>
 
@@ -136,9 +139,10 @@
 
 
   <xsl:template match="//Table//Footnote">
-    <li>
-      <xsl:apply-templates/>
-    </li>
+      <xsl:element name="a">
+          <xsl:attribute name="href">#footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
+          <xsl:number level="any" count="Footnote" format="[1]"/>
+      </xsl:element>
   </xsl:template>
 
   <xsl:template match="//Table//TblTitle">
@@ -156,11 +160,6 @@
   <xsl:template match="//Table//TableRow/Cell">
     <td><xsl:apply-templates/></td>
   </xsl:template>
-
-  <xsl:template match="//Table//TableRow/Cell/Footnote">
-    <div class="hidden"></div>
-  </xsl:template>
-
 
   <xsl:template match="/IA/CoverPage/Title">
       <title><xsl:apply-templates/></title>
