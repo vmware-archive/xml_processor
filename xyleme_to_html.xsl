@@ -145,8 +145,8 @@
   <xsl:template match="//Table">
     <div class="xyleme-table">
       <table class="border-none">
-        <xsl:apply-templates select="//Table/TblTitle"/>
-        <xsl:apply-templates select="//Table/TblBody"/>
+        <xsl:apply-templates select="/TblTitle"/>
+        <xsl:apply-templates select="/TblBody"/>
         <xsl:apply-templates/>
       </table>
     </div>
