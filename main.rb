@@ -1,5 +1,6 @@
 require_relative 'xslt_processor'
 require 'fileutils'
+require 'pathname'
 
 ARGV.each do |a|
   FileUtils.rm_rf('output') if Dir.exist?('output')
