@@ -63,7 +63,6 @@
 
   <!-- Universal Matchers -->
 
-
   <xsl:template match="//Icon">
     <div class="icon">
       <xsl:element name="img">
@@ -120,7 +119,15 @@
   </xsl:template>
 
   <xsl:template match="//List">
-    <ul><xsl:apply-templates/></ul>
+    <xsl:variable name="list_marker" select="@ListMarker"/>
+    <xsl:choose>
+      <xsl:when test="$list_marker = 'Numeric'">
+        <ul class="number-list"><xsl:apply-templates/></ul>
+      </xsl:when>
+      <xsl:otherwise>
+        <ul class="bullet-list"><xsl:apply-templates/></ul>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="//List//Item">
@@ -144,7 +151,7 @@
 
   <xsl:template match="//Table">
     <div class="xyleme-table">
-      <table class="border-none">
+      <table border="1">
         <xsl:apply-templates select="/TblTitle"/>
         <xsl:apply-templates select="/TblBody"/>
         <xsl:apply-templates/>
@@ -157,7 +164,7 @@
 
 
   <xsl:template match="//Table//TblTitle">
-    <p class="italic"><xsl:apply-templates/></p>
+    <p class="italic bold"><xsl:apply-templates/></p>
   </xsl:template>
 
   <xsl:template match="//Table//TblBody">
@@ -234,6 +241,18 @@
 
   <xsl:template match="//TitledBlock/Title">
     <span class="title"><strong><xsl:apply-templates/></strong></span>
+  </xsl:template>
+
+  <xsl:template match="//InLineTypeThis">
+    <p class="inLine-type-this bold italic"><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="//InLineApplicationPrompt">
+    <p class="italic"><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="//InLineMenuSelection">
+    <p class="bold"><xsl:apply-templates/></p>
   </xsl:template>
 
 </xsl:stylesheet>

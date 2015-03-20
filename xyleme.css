@@ -50,6 +50,14 @@
     list-style: none;
 }
 
+.number-list {
+    list-style-type: decimal;
+}
+
+.bullet-list {
+    list-style-type: default;
+}
+
 .border-none {
     border: none;
 }
@@ -84,4 +92,8 @@
 
 .italic {
     font-style: italic;
+}
+
+.inLine-type-this {
+    font-family: monospace;
 }
