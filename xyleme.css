@@ -32,9 +32,22 @@
     margin: 10px auto;
 }
 
+.figure {
+    text-align: center
+    box-sizing: border-box;
+}
+
 .xyleme-table {
     margin-bottom: 20px;
 }
+
+.tabs {}
+
+.tab {}
+
+.tab-label {}
+
+.tab-content {}
 
 .footnotes {
     font-size: 0.9em;

@@ -96,6 +96,18 @@
     <code><xsl:apply-templates/></code>
   </xsl:template>
 
+  <xsl:template match="//InLineTypeThis">
+    <code><xsl:apply-templates/></code>
+  </xsl:template>
+
+  <xsl:template match="//InLineApplicationPrompt">
+    <code><xsl:apply-templates/></code>
+  </xsl:template>
+
+  <xsl:template match="//InLineMenuSelection">
+    <code><xsl:apply-templates/></code>
+  </xsl:template>
+
   <xsl:template match="//Footnote">
     <xsl:element name="a">
       <xsl:attribute name="href">#footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
@@ -116,6 +128,33 @@
       <xsl:attribute name="href">#ref-<xsl:value-of select="@InsideTargetRef"/></xsl:attribute>
       <xsl:value-of select="text()"/>
     </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="//FilterMetadata">
+  </xsl:template>
+
+
+  <xsl:template match="//Tabs">
+    <div class="tabs">
+      <xsl:apply-templates/>
+    </div>
+  </xsl:template>
+
+  <xsl:template match="//Tab">
+    <div class="tab"><xsl:apply-templates/></div>
+  </xsl:template>
+
+  <xsl:template match="//Tab/Label">
+    <p class="bold"><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="//Tab/Content">
+    <div class="tab-content"><xsl:apply-templates/></div>
+  </xsl:template>
+
+
+  <xsl:template match="//InLineMenuSelection">
+    <code><xsl:apply-templates/></code>
   </xsl:template>
 
   <xsl:template match="//List">
@@ -153,7 +192,7 @@
     <div class="xyleme-table">
       <table border="1">
         <xsl:apply-templates select="/TblTitle"/>
-        <xsl:apply-templates select="/TblBody"/>
+        <xsl:apply-templates select="/TblGroup"/>
         <xsl:apply-templates/>
       </table>
     </div>
@@ -163,37 +202,71 @@
   <!-- Specific Matchers -->
 
 
-  <xsl:template match="//Table//TblTitle">
+  <xsl:template match="//Table/TblTitle">
     <p class="italic bold"><xsl:apply-templates/></p>
   </xsl:template>
 
-  <xsl:template match="//Table//TblBody">
+  <xsl:template match="//Table/TblGroup/TblBody">
     <tbody><xsl:apply-templates/></tbody>
+  </xsl:template>
+
+  <xsl:template match="//Table/TblGroup/TblHeader">
+    <thead><xsl:apply-templates/></thead>
   </xsl:template>
 
   <xsl:template match="//Table//TableRow">
     <tr><xsl:apply-templates/></tr>
   </xsl:template>
 
-  <xsl:template match="//Table//TableRow/Cell">
+  <xsl:template match="//Table//TblHeader/TableRow/Cell">
     <xsl:variable name="rowspan" select="@rowspan"/>
-
-    <td>
+    <xsl:element name="th">
       <xsl:attribute name="rowspan">
         <xsl:value-of select="$rowspan">
         </xsl:value-of>
       </xsl:attribute>
-
       <xsl:apply-templates/>
-    </td>
+    </xsl:element>
   </xsl:template>
+
+  <xsl:template match="//Table/TblGroup[TblHeader[string-length() = 0]]/TblBody//TableRow[position() = 1]/Cell">
+    <xsl:variable name="rowspan" select="@rowspan"/>
+
+    <xsl:element name="th">
+      <xsl:attribute name="rowspan">
+        <xsl:value-of select="$rowspan">
+        </xsl:value-of>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="//Table/TblGroup[TblHeader[string-length() = 0]]/TblBody//TableRow[position() != 1]/Cell">
+    <xsl:variable name="rowspan" select="@rowspan"/>
+
+    <xsl:element name="td">
+      <xsl:attribute name="rowspan">
+        <xsl:value-of select="$rowspan">
+        </xsl:value-of>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="//Table/TblGroup[TblHeader[string-length() != 0]]/TblBody//TableRow/Cell">
+    <xsl:variable name="rowspan" select="@rowspan"/>
+    <xsl:element name="td">
+      <xsl:attribute name="rowspan">
+        <xsl:value-of select="$rowspan">
+        </xsl:value-of>
+      </xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
 
   <xsl:template match="/IA/CoverPage/Title">
       <title><xsl:apply-templates/></title>
-  </xsl:template>
-
-  <xsl:template match="/IA/CoverPage/Notice//ParaBlock/RichText">
-      <p><xsl:apply-templates/></p>
   </xsl:template>
 
 
@@ -239,20 +312,34 @@
     <div class="simple-block"><xsl:apply-templates/></div>
   </xsl:template>
 
+
   <xsl:template match="//TitledBlock/Title">
     <span class="title"><strong><xsl:apply-templates/></strong></span>
   </xsl:template>
 
-  <xsl:template match="//InLineTypeThis">
-    <p class="inLine-type-this bold italic"><xsl:apply-templates/></p>
+
+  <xsl:template match="//Figure">
+    <div class="figure">
+      <xsl:apply-templates/>
+    </div>
   </xsl:template>
 
-  <xsl:template match="//InLineApplicationPrompt">
-    <p class="italic"><xsl:apply-templates/></p>
+  <xsl:template match="//Figure/MediaObject">
+    <xsl:apply-templates/>
   </xsl:template>
 
-  <xsl:template match="//InLineMenuSelection">
-    <p class="bold"><xsl:apply-templates/></p>
+  <xsl:template match="//Figure/MediaObject/Title">
+    <p class="italic">Figure - <xsl:apply-templates/></p>
   </xsl:template>
+
+  <xsl:template match="//Figure/MediaObject/Renditions/Web">
+    <xsl:element name="img">
+      <xsl:attribute name="src"><xsl:value-of select="@uri"/></xsl:attribute>
+      <xsl:attribute name="width"><xsl:value-of select="@thumbWidth"/></xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+
+
 
 </xsl:stylesheet>
