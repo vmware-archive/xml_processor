@@ -10,5 +10,6 @@ describe "replacing words" do
         call(input)
 
     expect(output["directory/streetslangz"]).to eq("Pivotal Software rulez 4realz")
+    expect(output["somefilename"]).to eq("somecontent")
   end
 end
