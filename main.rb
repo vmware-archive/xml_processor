@@ -2,8 +2,9 @@ require_relative 'xslt_processor'
 require 'fileutils'
 require 'pathname'
 
+FileUtils.rm_rf('output') if Dir.exist?('output')
+
 ARGV.each do |a|
-  FileUtils.rm_rf('output') if Dir.exist?('output')
   FileUtils.mkdir_p("output/#{a}")
   files = Dir.glob("#{a}/**/*")
   xyleme_files = files.select {|f| File.file?(f) && f.split('.').last == 'xml'}

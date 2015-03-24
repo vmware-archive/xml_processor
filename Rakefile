@@ -1,7 +1,18 @@
 task default: %w[build]
 
-task :build, [:dirs] do |t, args|
-  ruby "main.rb real_files"
+task :build, [:dir] do |t, args|
 
-  `open "./output/real_files/ambari.html"`
+end
+
+task :convert, [:dir] do |t, args|
+  extra_dirs_str = args.extras.inject {|accum, arg| accum + "#{arg.to_s }"}
+  dirs = args[:dir] + ' ' + extra_dirs_str
+
+  ruby "main.rb #{dirs}"
+end
+
+task :show_output, [:file] do |t, args|
+  file = args[:file] || "real_files/ambari.html"
+
+  `open "./output/#{file}"`
 end
