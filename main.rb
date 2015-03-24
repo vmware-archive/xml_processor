@@ -1,4 +1,4 @@
-require_relative 'xslt_processor'
+require_relative 'lib/xslt_processor'
 require 'fileutils'
 require 'pathname'
 
@@ -11,8 +11,8 @@ ARGV.each do |a|
   xyleme_files = files.select {|f| File.file?(f) && f.split('.').last == 'xml'}
   other_files = files.select {|f| File.file?(f) && f.split('.').last != 'xml' }
 
-  files = xyleme_files.inject({}) do |files, filepath|
-    files.merge({filepath => File.read(filepath)})
+  files = xyleme_files.inject({}) do |accum, filepath|
+    accum.merge({filepath => File.read(filepath)})
   end
 
   xsl_stylesheet = File.read('xyleme_to_html.xsl')

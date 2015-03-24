@@ -1,5 +1,5 @@
 require 'tmpdir'
-require_relative '../xslt_processor'
+require_relative '../../lib/xslt_processor'
 
 describe XsltProcessor do
   context "when given the Xyleme template" do
@@ -173,6 +173,6 @@ describe XsltProcessor do
 </IA>
       XYLEME
     }
-    let(:xslt) { File.read(File.expand_path('../../xyleme_to_html.xsl', __FILE__)) }
+    let(:xslt) { File.read(File.expand_path('../../../xyleme_to_html.xsl', __FILE__)) }
   end
 end
