@@ -7,12 +7,12 @@ class XsltProcessor
 
   def call(files)
     files.map do |file|
-      key = file.keys.first
-      value = file[key]
-      document = Nokogiri::XML(value)
+      filename = file.keys.first
+      file_content = file[filename]
+      document = Nokogiri::XML(file_content)
       template = Nokogiri::XSLT(xslt)
 
-      html_filename = key.split('.').first + ".html"
+      html_filename = filename.split('.').first + ".html"
       transformed_data = template.transform(document).to_xml
 
 
