@@ -11,8 +11,6 @@ class WriteToFile
       FileUtils.mkdir_p("#{@output_dir}/#{base_path}")
       File.open("#{@output_dir}/#{filepath}", 'w+') { |file| file.write(file_content) }
     end
-
-    files
   end
 end
 
