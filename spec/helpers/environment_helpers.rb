@@ -1,0 +1,16 @@
+def around_in_xyleme_tmpdir(environment)
+  around do |spec|
+    old_env = environment.clone
+
+    begin
+      Dir.mktmpdir do |tmpdir|
+        environment.update(
+            'XYLEME_OUTPUT_DIR' => tmpdir
+        )
+        spec.run
+      end
+    ensure
+      environment = old_env
+    end
+  end
+end

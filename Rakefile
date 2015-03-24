@@ -6,7 +6,8 @@ end
 
 task :convert, [:dir] do |t, args|
   extra_dirs_str = args.extras.inject {|accum, arg| accum + "#{arg.to_s }"}
-  dirs = args[:dir] + ' ' + extra_dirs_str
+  dirs = args[:dir]
+  dirs += ' ' + extra_dirs_str unless extra_dirs_str.nil?
 
   ruby "main.rb #{dirs}"
 end
