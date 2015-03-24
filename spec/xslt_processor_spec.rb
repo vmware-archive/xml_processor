@@ -3,6 +3,11 @@ require_relative '../xslt_processor'
 
 describe XsltProcessor do
   context "when given the Xyleme template" do
+    it "returns a single hash of filenames to file contents" do
+      expect(output_hash.class).to eq Hash
+      expect(output_hash['some_file.html'].class).to_not eq Hash
+    end
+
     it "puts the title in both the <title> and <h1>" do
       expect(html.css('html>head>title').text).to eq('The Document Title')
       expect(html.css('html>body h1').text).to eq('The Document Title')
@@ -59,10 +64,13 @@ describe XsltProcessor do
       puts html
     end
 
-    let(:html) {
+    let(:output_hash) {
       processor = XsltProcessor.new(xslt)
-      output = processor.call([{'some_file.xml' => xyleme}])
-      Nokogiri::HTML(output.first.fetch('some_file.html'))
+      processor.call({'some_file.xml' => xyleme})
+    }
+
+    let(:html) {
+      Nokogiri::HTML(output_hash.fetch('some_file.html'))
     }
 
     let(:xyleme) {

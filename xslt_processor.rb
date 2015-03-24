@@ -6,17 +6,14 @@ class XsltProcessor
   end
 
   def call(files)
-    files.map do |file|
-      filename = file.keys.first
-      file_content = file[filename]
+    files.inject({}) do |hash, (filename, file_content)|
       document = Nokogiri::XML(file_content)
       template = Nokogiri::XSLT(xslt)
 
       html_filename = filename.split('.').first + ".html"
       transformed_data = template.transform(document).to_xml
 
-
-      {html_filename => transformed_data}
+      hash.merge({html_filename => transformed_data})
     end
   end
 
