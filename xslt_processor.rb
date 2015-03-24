@@ -5,11 +5,19 @@ class XsltProcessor
     @xslt = xslt
   end
 
-  def call(input)
-    document = Nokogiri::XML(input)
-    template = Nokogiri::XSLT(xslt)
+  def call(files)
+    files.map do |file|
+      key = file.keys.first
+      value = file[key]
+      document = Nokogiri::XML(value)
+      template = Nokogiri::XSLT(xslt)
 
-    template.transform(document).to_xml
+      html_filename = key.split('.').first + ".html"
+      transformed_data = template.transform(document).to_xml
+
+
+      {html_filename => transformed_data}
+    end
   end
 
   private

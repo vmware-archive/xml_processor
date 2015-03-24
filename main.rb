@@ -11,13 +11,19 @@ ARGV.each do |a|
   xyleme_files = files.select {|f| File.file?(f) && f.split('.').last == 'xml'}
   other_files = files.select {|f| File.file?(f) && f.split('.').last != 'xml' }
 
-  xyleme_files.each do |file|
-    contents = File.read(file)
-    xsl_stylesheet = File.read('xyleme_to_html.xsl')
-    processor = XsltProcessor.new(xsl_stylesheet)
-    output = processor.call(contents)
-    new_filename = file.split('.').first
-    File.open("#{output_dir}/#{new_filename}.html", 'w+') { |file| file.write(output) }
+  files = xyleme_files.map do |filepath|
+    {filepath => File.read(filepath)}
+  end
+
+  xsl_stylesheet = File.read('xyleme_to_html.xsl')
+  processor = XsltProcessor.new(xsl_stylesheet)
+  output = processor.call(files)
+
+  output.each do |file_hash|
+    html_filename = file_hash.keys.first
+    file_content = file_hash[html_filename]
+
+    File.open("#{output_dir}/#{html_filename}", 'w+') { |file| file.write(file_content) }
   end
 
   other_files.each do |file|

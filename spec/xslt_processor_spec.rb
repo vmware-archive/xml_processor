@@ -61,8 +61,8 @@ describe XsltProcessor do
 
     let(:html) {
       processor = XsltProcessor.new(xslt)
-      output = processor.call(xyleme)
-      Nokogiri::HTML(output)
+      output = processor.call([{'some_file.xml' => xyleme}])
+      Nokogiri::HTML(output.first.fetch('some_file.xml'))
     }
 
     let(:xyleme) {
