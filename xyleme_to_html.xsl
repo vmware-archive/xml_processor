@@ -289,18 +289,18 @@
       </h2>
   </xsl:template>
 
+  <xsl:template match="//Topic//Topic/Title">
+    <h4 class="bold">
+      <xsl:apply-templates/>
+    </h4>
+  </xsl:template>
+
   <xsl:template match="/IA/Lessons/Lesson/Topic/Title">
       <xsl:element name="h3">
           <xsl:attribute name="class">horton-blue bold</xsl:attribute>
           <xsl:attribute name="id">ref-<xsl:value-of select="../@xy:guid"/></xsl:attribute>
           <xsl:apply-templates/>
       </xsl:element>
-  </xsl:template>
-
-  <xsl:template match="//Topic//Topic/Title">
-      <h4 class="bold">
-        <xsl:apply-templates/>
-      </h4>
   </xsl:template>
 
 
