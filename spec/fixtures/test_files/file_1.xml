@@ -1,18 +1,28 @@
-<Topic xy:guid="63454c1d-0873-4d81-b26e-b0901fe1b9ae">
-	<Title>Name Your Cluster</Title>
-	<ParaBlock xy:guid="fc0637f2-0839-4923-b346-e2666629f89a">
-	  <List ListMarker="Numeric" xy:guid="c5f66d4c-fd55-4363-bfae-bbf2605a9bb1">
-	    <ItemBlock>
-	      <Item>
-		<ItemPara>In<InLineTypeThis>Name your cluster</InLineTypeThis>, type a name for the cluster you want to
-		  create. Use no white spaces or special characters in the name.
-		</ItemPara>
-	      </Item>
-	      <Item>
-		<ItemPara>Choose<InLineTypeThis>Next</InLineTypeThis>.
-		</ItemPara>
-	      </Item>
-	    </ItemBlock>
-	  </List>
-	</ParaBlock>
-</Topic>
+<IA>
+  <CoverPage>
+    <Title>The Document Title</Title>
+  </CoverPage>
+  <Lessons>
+    <Lesson xy:guid="c3182b23-4ac2-4905-8641-8517c321c3bb">
+      <Title>First Lesson</Title>
+      <Topic xy:guid="63454c1d-0873-4d81-b26e-b0901fe1b9ae">
+        <Title>Name Your Cluster</Title>
+        <ParaBlock xy:guid="fc0637f2-0839-4923-b346-e2666629f89a">
+          <List ListMarker="Numeric" xy:guid="c5f66d4c-fd55-4363-bfae-bbf2605a9bb1">
+            <ItemBlock>
+              <Item>
+                <ItemPara>In<InLineTypeThis>Name your cluster</InLineTypeThis>, type a name for the cluster you want to
+                  create. Use no white spaces or special characters in the name.
+                </ItemPara>
+              </Item>
+              <Item>
+                <ItemPara>Choose<InLineTypeThis>Next</InLineTypeThis>.
+                </ItemPara>
+              </Item>
+            </ItemBlock>
+          </List>
+        </ParaBlock>
+      </Topic>
+    </Lesson>
+  </Lessons>
+</IA>

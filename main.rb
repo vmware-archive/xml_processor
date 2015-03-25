@@ -8,6 +8,22 @@ require 'pathname'
 
 output_dir = ENV['XYLEME_OUTPUT_DIR'] || 'output'
 
+def add_frontmatter(files)
+
+  files.inject({}) do |output, (filename, contents)|
+    doc = Nokogiri::XML(contents)
+    title = doc.xpath('//title').inner_html
+    frontmatter = <<-FRONTMATTER
+---
+title: #{title}
+---
+    FRONTMATTER
+
+    transformed_data = frontmatter + contents
+    output.merge({filename => transformed_data})
+  end
+end
+
 ARGV.each do |a|
   files = Dir.glob("#{a}/**/*")
   xyleme_files = files.select {|f| File.file?(f) && f.split('.').last == 'xml'}.
@@ -17,6 +33,7 @@ ARGV.each do |a|
   process_chain = CallChain.new(XsltProcessor.new(File.read('xyleme_to_html.xsl')),
                                 ReplaceWords.new('Hortonworks' => 'Pivotal'),
                                 AddFileExtentions.new(%w[erb]),
+                                -> (result) { add_frontmatter(result) },
                                 WriteToFile.new(output_dir)
   )
 
