@@ -7,6 +7,7 @@ GEM
     diff-lcs (1.2.5)
     ffi (1.9.8)
     formatador (0.2.5)
+    git (1.2.9.1)
     guard (2.12.5)
       formatador (>= 0.2.4)
       listen (~> 2.7)
@@ -64,6 +65,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  git
   guard-rake
   nokogiri
   rake
