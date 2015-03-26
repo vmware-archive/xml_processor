@@ -6,6 +6,8 @@ ARGV.each do |arg|
   view_updater = ViewUpdater.new
   github_client = GithubClient.new
   github_client.add_listener(view_updater)
-  Pusher.new(github_client, Pathname.new(File.expand_path('../', __FILE__))).run(arg)
+  Dir.tmpdir do |tmpdir|
+    Pusher.new(github_client, Pathname.new(tmpdir)).run(arg)
+  end
 end
 

@@ -5,12 +5,12 @@ task :convert, [:dir] do |t, args|
   dirs = args[:dir]
   dirs += ' ' + extra_dirs_str unless extra_dirs_str.nil?
 
-  ruby "convert.rb #{dirs}"
+  `ruby convert.rb #{dirs}`
 end
 
 task :push, [:remote] do |t, args|
   remote = args[:remote]
-  ruby "push.rb #{remote}"
+  `ruby push.rb #{remote}`
 end
 
 task :show_output, [:file] do |t, args|
