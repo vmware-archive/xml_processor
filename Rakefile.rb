@@ -10,7 +10,7 @@ end
 
 task :push, [:remote] do |t, args|
   remote = args[:remote]
-  `ruby push.rb #{remote}`
+  system "ruby push.rb #{remote}"
 end
 
 task :show_output, [:file] do |t, args|
