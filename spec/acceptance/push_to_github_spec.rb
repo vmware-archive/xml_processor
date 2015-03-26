@@ -1,6 +1,5 @@
 require_relative '../helpers/Application'
 require_relative '../helpers/fake_github'
-require_relative '../../Rakefile'
 
 describe 'when the files have been converted' do
   example 'pushing puts the converted files on a Github repo' do
