@@ -12,7 +12,7 @@ class FakeGithub
     repo.update_files(new_files)
   end
 
-  def to_only_have_received_clone_repo(repo_name)
+  def has_only_received_clone_repo?(repo_name)
     @clone_repos.last == repo_name && @clone_repos.size == 1
   end
 

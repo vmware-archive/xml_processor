@@ -14,7 +14,7 @@ describe 'when the files have been converted' do
                                               spec/fixtures/more_test_files])
       application_runner.push_to_remote('git@github.com:org/repo.git')
 
-      expect(github.to_only_have_received_clone_repo('git@github.com:org/repo.git')).to eq true
+      expect(github).to have_only_received_clone_repo('git@github.com:org/repo.git')
       expect(github.repo.contents).
           to match_array %W(spec/fixtures/test_files/file_1.html.erb
                           spec/fixtures/test_files/file_2.html.erb
