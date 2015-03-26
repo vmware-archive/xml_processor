@@ -30,5 +30,22 @@ describe GithubClient do
         end
       end
     end
+
+    context 'when there is nothing to commit' do
+      xit 'report error to listeners' do
+        Dir.mktmpdir do |tmpdir|
+          Dir.chdir(tmpdir) do
+            github_client = GithubClient.new
+            listener = double('listener', report_error: nil)
+            github_client.add_listener(listener)
+
+            github_client.clone('git@github.com:cf-pub-tools/dummy.git')
+            github_client.push("#{tmpdir}/dummy")
+
+            expect(listener).to have_received(:report_error)
+          end
+        end
+      end
+    end
   end
 end

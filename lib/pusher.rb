@@ -13,7 +13,7 @@ class Pusher
     path_to_repo = @context.join(repo_name)
 
     FileUtils.chdir(path_to_repo) do
-      FileUtils.rm Dir.glob("#{path_to_repo}/**/*")
+      FileUtils.rm_f Dir.glob("#{path_to_repo}/**/*")
       contents = Dir.glob File.join("#{@context}/output", '**')
       contents.each do |dir|
         FileUtils.cp_r dir, path_to_repo

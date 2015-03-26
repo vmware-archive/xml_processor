@@ -8,6 +8,11 @@ task :convert, [:dir] do |t, args|
   ruby "convert.rb #{dirs}"
 end
 
+task :push, [:remote] do |t, args|
+  remote = args[:remote]
+  ruby "push.rb #{remote}"
+end
+
 task :show_output, [:file] do |t, args|
   file = args[:file] || "real_files/ambari.html"
 
