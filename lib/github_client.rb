@@ -13,15 +13,17 @@ class GithubClient
   end
 
   def push(directory)
-    g = Git.open(directory)
-    begin
-      g.add
-      g.commit('automated push')
-      g.push
-    rescue Git::GitExecuteError => e
-      error = GithubClientPushError.new(e.message)
+    FileUtils.chdir(directory) do
+        g = Git.open(directory)
+      begin
+        g.add
+        g.commit('automated push')
+        g.push
+      rescue Git::GitExecuteError => e
+        error = GithubClientPushError.new(e.message)
 
-      @listeners.map {|listener| listener.report_error(error)}
+        @listeners.map {|listener| listener.report_error(error)}
+      end
     end
   end
 

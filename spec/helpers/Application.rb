@@ -4,16 +4,18 @@ require_relative '../../lib/pusher'
 require_relative '../../lib/converter'
 
 class ApplicationRunner
-  def initialize(github_client, tmp_dir)
+  def initialize(github_client, transformed_data_dir, push_context)
     @github_client = github_client
-    @tmp_dir = tmp_dir
+    @transformed_data_dir = transformed_data_dir
+    @push_context = push_context
   end
 
   def convert_directories(directories)
-    Converter.new(Pathname.new(File.join(@tmp_dir, 'output'))).run(directories)
+    Converter.new(Pathname.new(@transformed_data_dir).join('output')).run(directories)
   end
 
   def push_to_remote(remote)
-    Pusher.new(@github_client, Pathname.new(@tmp_dir)).run(remote)
+    Pusher.new(@github_client, Pathname.new(@push_context)).
+      run(remote, Pathname(@transformed_data_dir).join('output'))
   end
 end
