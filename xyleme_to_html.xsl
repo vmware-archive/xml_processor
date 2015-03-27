@@ -335,7 +335,6 @@
   <xsl:template match="//Figure/MediaObject/Renditions/Web">
     <xsl:element name="img">
       <xsl:attribute name="src"><xsl:value-of select="@uri"/></xsl:attribute>
-      <xsl:attribute name="width"><xsl:value-of select="@thumbWidth"/></xsl:attribute>
     </xsl:element>
   </xsl:template>
 
