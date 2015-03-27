@@ -3,8 +3,9 @@ require 'fileutils'
 
 exts = %w[jpg jpeg png]
 
+FileUtils.mkdir_p("01-RawContent")
 artwork_dirs = Dir.glob('** artwork')
-artwork_dirs.map { |dir| FileUtils.mv(dir, dir.gsub('artwork', '').strip) }
+artwork_dirs.map { |dir| FileUtils.mv(dir, "01-RawContent/#{dir.gsub('artwork', '').strip}") }
 
 # find all desired images
 desired_images = exts.map do |ext|
@@ -15,8 +16,6 @@ desired_images = exts.map do |ext|
     file_content = File.read(xml)
     file_content.scan(regex_for_image_references)
   end.flatten.uniq.sort
-
-  referenced_images.map { |imgpath| imgpath.gsub('01-RawContent/', '') }
 end.flatten.sort
 
 
