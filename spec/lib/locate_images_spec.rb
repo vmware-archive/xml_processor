@@ -18,11 +18,12 @@ describe LocateImages do
     end
   end
 
-  it 'returns a list of the absent images' do
+  it 'returns a list of the absent .jpg, .jpeg, and .png images' do
     xmls_missing_images = 'spec/fixtures/locate_images_test_files'
     absent_images = image_locator.find_unrecoverable_images(xmls_missing_images)
     expect(absent_images).to match_array ['icons/note.png',
-                                          'image directory/image_2.png'
+                                          'image directory/image_2.png',
+                                          'images/img_6.jpeg'
                                          ]
   end
 

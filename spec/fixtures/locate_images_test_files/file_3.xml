@@ -19,13 +19,16 @@
         <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
                      xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
           <Renditions>
-            <Print thumbWidth="50" uri="images/img_1.png"/>
+            <Print thumbWidth="50" uri="images/img_5.jpg"/>
           </Renditions>
         </MediaObject>
       </Figure>
       <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
         <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
                      xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Print thumbWidth="50" uri="images/img_6.jpeg"/>
+          </Renditions>
         </MediaObject>
       </Figure>
     </ParaBlock>

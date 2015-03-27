@@ -64,12 +64,10 @@ class LocateImages
 
   def all_images(dir)
     dirpath = File.expand_path('.', dir)
-    Dir.glob("#{dirpath}/**/*.png")
+    all_images = SUPPORTED_EXTS.map do |ext|
+      Dir.glob("#{dirpath}/**/*.#{ext}")
+    end
+    all_images.flatten
   end
-
-  def image_path_regex
-    /uri="(.*.png)"/
-  end
-
 
 end
