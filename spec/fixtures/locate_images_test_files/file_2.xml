@@ -12,7 +12,7 @@
                      xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
           <Renditions>
             <Print thumbWidth="50" uri="images/img_1.png"/>
-            <Web thumbWidth="50" uri="image directory/image_2.png"/>
+            <Web thumbWidth="50" uri="image_directory/image_2.png"/>
           </Renditions>
         </MediaObject>
       </Figure>
@@ -21,7 +21,7 @@
                      xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
           <Renditions>
             <Print thumbWidth="50" uri="images/img_1.png"/>
-            <Web thumbWidth="50" uri="image directory/image_2.png"/>
+            <Web thumbWidth="50" uri="image_directory/image_2.png"/>
           </Renditions>
         </MediaObject>
       </Figure>
@@ -30,6 +30,30 @@
                      xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
           <Renditions>
             <Web thumbWidth="50" uri="a_misnamed_img_dir/image_3.png"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="icons/img_1.tif"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="image_directory/img_3.tiff"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="images/img_4.emf"/>
           </Renditions>
         </MediaObject>
       </Figure>

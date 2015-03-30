@@ -22,10 +22,10 @@ describe LocateImages do
     xmls_missing_images = 'spec/fixtures/locate_images_test_files'
     absent_images = image_locator.find_unrecoverable_images(xmls_missing_images)
     expect(absent_images).to match_array ['icons/note.png',
-                                          'image directory/image_2.png',
+                                          'image_directory/image_2.png',
                                           'images/img_6.jpeg',
                                           'icons/img_1.tif',
-                                          'image directory/img_3.tiff',
+                                          'image_directory/img_3.tiff',
                                           'images/img_4.emf'
                                          ]
   end
