@@ -1,4 +1,4 @@
-class WriteToFile
+class WriteInDirectory
   def initialize(output_dir)
     @output_dir = output_dir
   end
@@ -13,4 +13,3 @@ class WriteToFile
     end
   end
 end
-
