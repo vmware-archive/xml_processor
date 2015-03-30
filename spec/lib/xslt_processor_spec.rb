@@ -8,44 +8,58 @@ describe XsltProcessor do
       expect(output_hash['some_file.html'].class).to_not eq Hash
     end
 
-    it "puts the title in both the <title> and <h1>" do
+    it "puts the title in the <title> tag" do
       expect(html.css('html>head>title').text).to eq('The Document Title')
-      expect(html.css('html>body h1').text).to eq('The Document Title')
     end
 
     it "transforms subtitle into a h2" do
-      expect(html.css('html>body main h2').first.text).to eq('MyDoc 2.1.2')
+      expect(html.css('html>body h2').first.text).to eq('MyDoc 2.1.2')
     end
 
     it "transforms Lesson Titles into h2s" do
-      expect(html.css('html>body main .lessons h2').first.text).to eq('First Lesson')
+      expect(html.css('html>body .lessons h2').first.text).to eq('First Lesson')
+    end
+
+    it "correctly preserves ids for Lesson Title h2s" do
+      h2 = html.css('html>body .lessons h2').first
+      expect(h2.attr('id')).to eq('ref-c3182b23-4ac2-4905-8641-8517c321c3bb')
     end
 
     it "transforms Topic Titles into h3s with associated ids from Topic" do
-      h3 = html.css('html>body main h3').first
+      h3 = html.css('html>body h3').first
       expect(h3.text).to eq('Topic 1')
       expect(h3.attr('id')).to eq('ref-57cff955-33e8-42b3-a485-268e7eb603fb')
     end
 
+    it "transforms nested Topic Titles into h4s" do
+      h4 = html.css('html>body h4').first
+      expect(h4.text).to eq('Topic 4')
+    end
+
+    it "correctly preserves ids for h4s" do
+      h4 = html.css('html>body h4').first
+      expect(h4.attr('id')).to eq('ref-an-h4-guid')
+    end
+
     it "transforms RichTexts into ps" do
-      expect(html.css('html>body main p').first.text.strip).
+      expect(html.css('html>body p').first.text.strip).
         to eq('Blah blah this is the best lesson.')
     end
 
     it "transforms Hrefs into as" do
-      link = html.css('html>body main p a')[0]
+      link = html.css('html>body p a')[0]
       expect(link.text).to eq('google')
       expect(link.attr('href')).to eq('https://www.google.com/')
     end
 
     it "transforms Xrefs into as with internal anchors" do
-      link = html.css('html>body main p a')[1]
+      link = html.css('html>body p a')[1]
       expect(link.text).to eq('Oh yeah here it is')
       expect(link.attr('href')).to eq('#ref-63da0add-37c7-4c4f-b453-8c00d8cffc45')
     end
 
     it "transforms Lists into uls with nested ps" do
-      items = html.css('html>body main ul>li>p')
+      items = html.css('html>body ul>li>p')
       expect(items.first.text).to match(/Look.*-- Great stuff on this item/m)
     end
 
@@ -133,6 +147,37 @@ describe XsltProcessor do
         A topic with a list
       </RichText>
       <List ListMarker="Bullet" xy:guid="40f1d32b-00ef-48b9-979a-a9c74fa49165">
+        <ItemBlock>
+          <Item>
+            <ItemPara>
+              <Emph>Look</Emph>
+              -- Great stuff on this item
+            </ItemPara>
+          </Item>
+          <Item>
+            <ItemPara>
+              <Emph>Here</Emph>
+              -- More excellent content
+            </ItemPara>
+            <RichText>Text inside a list item</RichText>
+          </Item>
+        </ItemBlock>
+      </List>
+      <RichText>
+        Below a list
+      </RichText>
+    </ParaBlock>
+  </Topic>
+  <Topic xy:guid="63da0add-37c7-4c4f-b453-8c00d8cffc4h4no-1">
+    <Topic xy:guid="an-h4-guid">
+      <Title>Topic 4</Title>
+    </Topic>
+    <Title>Topic 2</Title>
+    <ParaBlock xy:guid="9765ce69-96b3-42fd-b633-7675cead6302h4no-1">
+      <RichText>
+        A topic with a list
+      </RichText>
+      <List ListMarker="Bullet" xy:guid="40f1d32b-00ef-48b9-979a-a9c74fa49165h4no-1">
         <ItemBlock>
           <Item>
             <ItemPara>

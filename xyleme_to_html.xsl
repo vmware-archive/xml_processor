@@ -271,23 +271,27 @@
 
 
   <xsl:template match="/IA/Lessons/Lesson/Title">
-      <h2 class="horton-green bold">
-        <xsl:apply-templates/>
-      </h2>
-  </xsl:template>
-
-  <xsl:template match="//Topic//Topic/Title">
-    <h4 class="bold">
+    <xsl:element name="h2">
+      <xsl:attribute name="class">horton-green bold</xsl:attribute>
+      <xsl:attribute name="id">ref-<xsl:value-of select="../@xy:guid"/></xsl:attribute>
       <xsl:apply-templates/>
-    </h4>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template match="/IA/Lessons/Lesson/Topic/Title">
-      <xsl:element name="h3">
-          <xsl:attribute name="class">horton-blue bold</xsl:attribute>
-          <xsl:attribute name="id">ref-<xsl:value-of select="../@xy:guid"/></xsl:attribute>
-          <xsl:apply-templates/>
-      </xsl:element>
+    <xsl:element name="h3">
+      <xsl:attribute name="class">horton-blue bold</xsl:attribute>
+      <xsl:attribute name="id">ref-<xsl:value-of select="../@xy:guid"/></xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template match="/IA/Lessons/Lesson/Topic//Topic/Title">
+    <xsl:element name="h4">
+      <xsl:attribute name="class">bold</xsl:attribute>
+      <xsl:attribute name="id">ref-<xsl:value-of select="../@xy:guid"/></xsl:attribute>
+      <xsl:apply-templates/>
+    </xsl:element>
   </xsl:template>
 
 

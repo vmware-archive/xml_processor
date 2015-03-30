@@ -21,9 +21,9 @@ describe 'converting any number of directories containing xml files to html' do
     convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
 
     expect(File.read "#{output_dir}/spec/fixtures/test_files/file_1.html.erb").to include('<ul class="number-list">')
-    expect(File.read "#{output_dir}/spec/fixtures/test_files/file_2.html.erb").to include('<h1 class="bold horton-blue">File 2 Document Title</h1>')
+    expect(File.read "#{output_dir}/spec/fixtures/test_files/file_2.html.erb").to include('<h3 class="horton-blue bold" id="ref-2f2795fb-36cd-45e0-8950-be9fac3a2a2f">Launching the Ambari Install Wizard</h3>')
     expect(File.read "#{output_dir}/spec/fixtures/more_test_files/file_3.html.erb").to include('<ul class="number-list">')
-    expect(File.read "#{output_dir}/spec/fixtures/more_test_files/file_4.html.erb").to include('<h1 class="bold horton-blue">File 4 Document Title</h1>')
+    expect(File.read "#{output_dir}/spec/fixtures/more_test_files/file_4.html.erb").to include('<h2 class="horton-green bold" id="ref-c3182b23-4ac2-4905-8641-8517c321c3bb">Fourth Lesson</h2>')
   end
 
   it 'copies over each non-xml file from the input directories into the appropriate output directory, preserving directory structure' do
