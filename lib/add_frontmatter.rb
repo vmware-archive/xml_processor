@@ -8,7 +8,8 @@ class AddFrontmatter
   def call(files)
     files.inject({}) do |output, (filename, contents)|
       doc = Nokogiri::XML(contents)
-      title_text = doc.xpath('//head/meta/title').inner_html
+      doc_titles = doc.xpath('//head/meta/title')
+      title_text = doc_titles.inner_html
       title = !title_text.empty? ? title_text : default_title
 
       frontmatter = <<-FRONTMATTER
