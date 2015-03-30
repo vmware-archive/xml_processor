@@ -1,7 +1,7 @@
 require_relative 'xslt_processor'
 require_relative 'replace_words'
 require_relative 'add_file_extentions'
-require_relative 'write_to_file'
+require_relative 'write_in_directory'
 require_relative 'add_frontmatter'
 require_relative 'helpers/filename_helpers'
 require 'fileutils'
@@ -25,11 +25,16 @@ class Converter
         hash.merge({filepath => file_contents})
       end
 
-      [XsltProcessor.new(File.read('xyleme_to_html.xsl')),
-        ReplaceWords.new('Hortonworks' => 'Pivotal'),
-        AddFileExtentions.new(%w[erb]),
-        AddFrontmatter.new('Pivotal Hadoop Documentation'),
-        WriteToFile.new(@output_dir)].inject(xyleme_files) { |arg, process| process.call(arg) }
+      processes = [
+          XsltProcessor.new(File.read('xyleme_to_html.xsl')),
+          ReplaceWords.new('Hortonworks' => 'Pivotal'),
+          AddFileExtentions.new(%w[erb]),
+          AddFrontmatter.new('Pivotal Hadoop Documentation')
+      ]
+
+      processed_output = processes.reduce(xyleme_files) { |arg, process| process.call(arg) }
+
+      WriteInDirectory.new(@output_dir).call(processed_output)
 
       other_files.each do |file|
         dest_path = Pathname("#{@output_dir}/#{file}")
