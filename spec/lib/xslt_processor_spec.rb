@@ -44,6 +44,15 @@ describe XsltProcessor do
       expect(h4.attr('id')).to eq('ref-an-h4-guid')
     end
 
+    it "assigns ids to all headings" do
+      expect(html.css('h1,h2,h3,h4')).to have_ids
+    end
+
+    it "has no duplicate ids" do
+      ids = html.xpath('//@id')
+      expect(ids.to_a.uniq.count).to eq(ids.count)
+    end
+
     it "transforms RichTexts into ps" do
       expect(html.css('html>body p').first.text.strip).
         to eq('Blah blah this is the best lesson.')
@@ -72,7 +81,19 @@ describe XsltProcessor do
       end
     end
 
-    matcher :be_html do |expected|
+    matcher :have_ids do
+      match do |elements|
+        elements.map {|h| h.attr('id') }.none?(&:nil?)
+      end
+
+      failure_message do |elements|
+        "The following elements have nil ids:\n" +
+          elements.select {|h| h.attr('id').nil?}.
+          map(&:to_xhtml).join("\n")
+      end
+    end
+
+    matcher :be_html
       match do |actual|
         actual.match(/\A<!DOCTYPE html/)
       end
