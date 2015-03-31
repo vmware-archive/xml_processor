@@ -41,9 +41,10 @@ describe XsltProcessor do
       expect(h4.attr('id')).to eq('ref-an-h4-guid')
     end
 
-    it "transforms RichTexts into ps" do
-      expect(html.css('html>body p').first.text.strip).
-        to eq('Blah blah this is the best lesson.')
+    it "transforms RichTexts double-linebreak into double-br" do
+      fake_paras = html.css('html>body p')[0].to_xhtml.split(%r(<br /><br />))
+      expect(fake_paras[0]).to match(%r(<p>.*Blah blah this is the best lesson\.)m)
+      expect(fake_paras[1]).to match(%r(Look! Two paragraphs\..*</p>)m)
     end
 
     it "transforms Hrefs into as" do
@@ -128,7 +129,9 @@ describe XsltProcessor do
     <Title>Topic 1</Title>
     <ParaBlock xy:guid="3c2589d7-22e8-4716-89d8-69b4074bf214">
       <RichText>
-        Blah blah this is the best lesson.
+        Blah blah this is the <InlineCode>best</InlineCode> lesson.
+
+        Look! Two paragraphs.
       </RichText>
       <RichText>
         I am about to link externally, look!

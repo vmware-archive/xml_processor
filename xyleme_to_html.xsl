@@ -66,6 +66,25 @@
     <p><xsl:apply-templates/></p>
   </xsl:template>
 
+  <xsl:template match="//RichText/text()" name="insertBreaks">
+    <xsl:param name="para-text" select="."/>
+
+    <xsl:choose>
+      <xsl:when test="not(contains($para-text, '&#xA;&#xA;'))">
+        <xsl:copy-of select="$para-text"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="substring-before($para-text, '&#xA;&#xA;')"/>
+        <br/>
+        <br/>
+        <xsl:call-template name="insertBreaks">
+          <xsl:with-param name="para-text" select=
+            "substring-after($para-text, '&#xA;&#xA;')"/>
+        </xsl:call-template>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
   <xsl:template match="//Emph">
     <strong><xsl:apply-templates/></strong>
   </xsl:template>
