@@ -4,8 +4,11 @@ require_relative '../../lib/xslt_processor'
 describe XsltProcessor do
   context "when given the Xyleme template" do
     it "returns a single hash of filenames to file contents" do
-      expect(output_hash.class).to eq Hash
-      expect(output_hash['some_file.html'].class).to_not eq Hash
+      processor = XsltProcessor.new(xslt)
+      results = processor.call('file1.xml' => '<IA/>',
+                               'file2.xml' => '<IA/>')
+      expect(results['file1.html']).to be_html
+      expect(results['file2.html']).to be_html
     end
 
     it "puts the title in the <title> tag" do
@@ -41,6 +44,15 @@ describe XsltProcessor do
       expect(h4.attr('id')).to eq('ref-an-h4-guid')
     end
 
+    it "assigns ids to all headings" do
+      expect(html.css('h1,h2,h3,h4')).to have_ids
+    end
+
+    it "has no duplicate ids" do
+      ids = html.xpath('//@id')
+      expect(ids.to_a.uniq.count).to eq(ids.count)
+    end
+
     it "transforms RichTexts into ps" do
       expect(html.css('html>body p').first.text.strip).
         to eq('Blah blah this is the best lesson.')
@@ -66,6 +78,24 @@ describe XsltProcessor do
     context "transforming Notices" do
       it "transforms RichText into ps" do
         expect(html.css('html>body footer p')[1].text).to eq('Pubdate: March 11, 2015')
+      end
+    end
+
+    matcher :have_ids do
+      match do |elements|
+        elements.map {|h| h.attr('id') }.none?(&:nil?)
+      end
+
+      failure_message do |elements|
+        "The following elements have nil ids:\n" +
+          elements.select {|h| h.attr('id').nil?}.
+          map(&:to_xhtml).join("\n")
+      end
+    end
+
+    matcher :be_html
+      match do |actual|
+        actual.match(/\A<!DOCTYPE html/)
       end
     end
 

@@ -14,7 +14,7 @@
       </head>
 
       <a id="top"></a>
-      <h2 class="small-title thin">
+      <h2 id="heading-cover-page-sub-title" class="small-title thin">
         <xsl:value-of select="/IA/CoverPage/SubTitle/text()"/>
       </h2>
       <div class="lessons">
@@ -23,7 +23,7 @@
 
       <div class="container">
         <div class="footnotes">
-          <h2 class="horton-blue border-bottom">Footnotes</h2>
+          <h2 id="heading-footnotes" class="horton-blue border-bottom">Footnotes</h2>
           <ol>
             <xsl:for-each select="//Footnote">
               <xsl:element name="li">
@@ -37,7 +37,7 @@
 
       <div class="container">
         <footer>
-          <h3 class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
+          <h3 id="heading-about" class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
           <xsl:apply-templates select="/IA/CoverPage/Notice"/>
           <div class="copyright">
             <xsl:apply-templates select="/IA/Credits"/>
