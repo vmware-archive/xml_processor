@@ -3,11 +3,7 @@ require 'rspec/core/rake_task'
 task default: %w[convert]
 
 task :convert, [:dir] do |t, args|
-  extra_dirs_str = args.extras.inject {|accum, arg| accum + "#{arg.to_s }"}
-  dirs = args[:dir]
-  dirs += ' ' + extra_dirs_str unless extra_dirs_str.nil?
-
-  `ruby convert.rb #{dirs}`
+  `ruby convert.rb #{args.to_a.join(' ')}`
 end
 
 task :push, [:remote] do |t, args|
