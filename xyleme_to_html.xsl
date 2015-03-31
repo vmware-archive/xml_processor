@@ -47,7 +47,6 @@
     </html>
   </xsl:template>
 
-
   <!-- Universal Matchers -->
 
   <xsl:template match="//Icon">
@@ -138,7 +137,6 @@
   <xsl:template match="//Tab/Content">
     <div class="tab-content"><xsl:apply-templates/></div>
   </xsl:template>
-
 
   <xsl:template match="//InLineMenuSelection">
     <code><xsl:apply-templates/></code>
@@ -294,7 +292,6 @@
     </xsl:element>
   </xsl:template>
 
-
   <xsl:template match="//CustomNote">
       <aside class="custom-note"><xsl:apply-templates/></aside>
   </xsl:template>
@@ -303,11 +300,9 @@
     <div class="simple-block"><xsl:apply-templates/></div>
   </xsl:template>
 
-
   <xsl:template match="//TitledBlock/Title">
     <span class="title"><strong><xsl:apply-templates/></strong></span>
   </xsl:template>
-
 
   <xsl:template match="//Figure">
     <div class="figure">
@@ -323,13 +318,19 @@
     <p class="italic">Figure - <xsl:apply-templates/></p>
   </xsl:template>
 
+  <xsl:template match="//Caption">
+    <p class="italic"><xsl:apply-templates/></p>
+  </xsl:template>
+
+  <xsl:template match="//Underline">
+    <p class="underline"><xsl:apply-templates/></p>
+  </xsl:template>
+
   <xsl:template match="//Figure/MediaObject/Renditions/Web">
     <xsl:element name="img">
       <xsl:attribute name="src"><xsl:value-of select="@uri"/></xsl:attribute>
     </xsl:element>
   </xsl:template>
 
-
-
-
 </xsl:stylesheet>
+
