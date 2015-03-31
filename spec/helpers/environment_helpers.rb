@@ -1,3 +1,5 @@
+require 'tmpdir'
+
 def around_in_xyleme_tmpdir(environment)
   around do |spec|
     begin

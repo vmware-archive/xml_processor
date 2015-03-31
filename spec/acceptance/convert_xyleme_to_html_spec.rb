@@ -2,7 +2,7 @@ require 'rake'
 require 'nokogiri'
 require_relative '../helpers/environment_helpers'
 require_relative '../helpers/output'
-require_relative '../../Rakefile'
+Rake.load_rakefile(File.expand_path('../../../Rakefile', __FILE__))
 
 describe 'converting any number of directories containing xml files to html' do
 
