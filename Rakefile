@@ -1,3 +1,5 @@
+require 'rspec/core/rake_task'
+
 task default: %w[convert]
 
 task :convert, [:dir] do |t, args|
@@ -18,3 +20,5 @@ task :show_output, [:file] do |t, args|
 
   `open "./output/#{file}"`
 end
+
+RSpec::Core::RakeTask.new(:spec)
