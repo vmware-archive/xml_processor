@@ -2,7 +2,8 @@ require_relative '../../lib/github_client'
 
 describe GithubClient do
   describe 'cloning and pushing a repo' do
-    xit 'pushes local changes to remote repository' do
+    it 'pushes local changes to remote repository' do
+      skip('skipping because hits Github. Remove skip to debug.')
       rambo_value = rand(1..100)
 
       Dir.mktmpdir do |tmpdir|
@@ -32,7 +33,8 @@ describe GithubClient do
     end
 
     context 'when there is nothing to commit' do
-      xit 'report error to listeners' do
+      it 'report error to listeners' do
+        skip('skipping because hits Github. Remove skip to debug.')
         Dir.mktmpdir do |tmpdir|
           Dir.chdir(tmpdir) do
             github_client = GithubClient.new
