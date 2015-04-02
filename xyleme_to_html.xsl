@@ -53,7 +53,7 @@
     <div class="icon">
       <xsl:element name="img">
         <xsl:attribute name="src">
-          <xsl:value-of select="@uri"/>
+          <xsl:value-of select="translate(@uri, ' ', '_')"/>
         </xsl:attribute>
         <xsl:attribute name="width">
           <xsl:value-of select="@thumbWidth"/>
@@ -347,7 +347,9 @@
 
   <xsl:template match="//Figure/MediaObject/Renditions/Web">
     <xsl:element name="img">
-      <xsl:attribute name="src"><xsl:value-of select="@uri"/></xsl:attribute>
+      <xsl:attribute name="src">
+        <xsl:value-of select="translate(@uri, ' ', '_')"/>
+      </xsl:attribute>
     </xsl:element>
   </xsl:template>
 

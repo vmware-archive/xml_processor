@@ -59,6 +59,11 @@ describe XsltProcessor do
       expect(fake_paras[1]).to match(%r(Look! Two paragraphs\..*</p>)m)
     end
 
+    it "transforms image src paths into src paths without spaces" do
+      imgs = html.css('img')
+      expect(imgs).to have_no_spaces
+    end
+
     it "transforms Hrefs into as" do
       link = html.css('html>body p a')[0]
       expect(link.text).to eq('google')
@@ -97,6 +102,20 @@ describe XsltProcessor do
     matcher :be_html do
       match do |actual|
         actual.match(/\A<!DOCTYPE html/)
+      end
+    end
+
+    matcher :have_no_spaces do
+      whitespace_matcher = /\s|%20/
+
+      match do |imgs|
+        imgs.map {|i| i.attr('src')}.none? {|src| src.match(whitespace_matcher)}
+      end
+
+      failure_message do |imgs|
+        "The following images have spaces in their src paths:\n" +
+            imgs.select {|i| i.attr('src').match(whitespace_matcher)}.
+            map(&:to_xhtml).join("\n")
       end
     end
 
@@ -228,8 +247,52 @@ describe XsltProcessor do
         </ItemBlock>
       </List>
       <RichText>
-        Below a list
+        Below a list, there are some images
       </RichText>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Print thumbWidth="50" uri="images/img_1.png"/>
+            <Web thumbWidth="50" uri="image_directory/image_2.png"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="a_misnamed_img_dir/image_3.png"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="icons/img_1.tif"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="kjsdhafk-jkshdf-abcde5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="an image dir with spaces/image.png"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Figure xy:guid="kjsdhafk-jkshdf-abcde5">
+        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+          <Renditions>
+            <Web thumbWidth="50" uri="an_img_dir_with_no_spaces/an image with spaces in the name for some reason.png"/>
+          </Renditions>
+        </MediaObject>
+      </Figure>
+      <Icon thumbWidth="50" uri="icons/note.png" width="18"/>
+      <Icon thumbWidth="50" uri="icons dir has spaces/note.png" width="18"/>
+      <Icon thumbWidth="50" uri="icons/note icon has spaces.png" width="18"/>
     </ParaBlock>
   </Topic>
 </Lesson>

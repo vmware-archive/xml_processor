@@ -33,6 +33,15 @@ describe 'converting any number of directories containing xml files to html' do
     expect(File.exist? "#{output_dir}/spec/fixtures/more_test_files/pdfs/doc_1.pdf").to eq true
   end
 
+  it 'alters all filenames with supported extensions and whitespace to contain an alternative character' do
+    convert('spec/fixtures/locate_images_test_files')
+
+    expect(File.exist? "#{output_dir}/spec/fixtures/locate_images_test_files/img_dir_with_spaces/an_image.png").to eq true
+    expect(File.exist? "#{output_dir}/spec/fixtures/locate_images_test_files/img_dir_with_spaces/another_image.jpg").to eq true
+
+    expect(File.exist? "#{output_dir}/spec/fixtures/locate_images_test_files/img dir with spaces/other file.txt").to eq true
+  end
+
   it 'adds a title frontmatter' do
     convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
 

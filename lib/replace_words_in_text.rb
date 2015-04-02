@@ -1,4 +1,4 @@
-class ReplaceWords
+class ReplaceWordsInText
   def initialize(replace_pairs)
     @replace_pairs = replace_pairs
   end
