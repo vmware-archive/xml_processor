@@ -21,29 +21,25 @@
         <xsl:apply-templates select="/IA/Lessons"/>
       </div>
 
-      <div class="container">
-        <div class="footnotes">
-          <h2 id="heading-footnotes" class="horton-blue border-bottom">Footnotes</h2>
-          <ol>
-            <xsl:for-each select="//Footnote">
-              <xsl:element name="li">
-                <xsl:attribute name="id">footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
-                <xsl:apply-templates/>
-              </xsl:element>
-            </xsl:for-each>
-          </ol>
-        </div>
+      <div class="footnotes">
+        <h2 id="heading-footnotes" class="horton-blue border-bottom">Footnotes</h2>
+        <ol>
+          <xsl:for-each select="//Footnote">
+            <xsl:element name="li">
+              <xsl:attribute name="id">footnote-<xsl:number level="any" count="Footnote" format="1"/></xsl:attribute>
+              <xsl:apply-templates/>
+            </xsl:element>
+          </xsl:for-each>
+        </ol>
       </div>
 
-      <div class="container">
-        <footer>
-          <h3 id="heading-about" class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
-          <xsl:apply-templates select="/IA/CoverPage/Notice"/>
-          <div class="copyright">
-            <xsl:apply-templates select="/IA/Credits"/>
-          </div>
-        </footer>
-      </div>
+      <footer>
+        <h3 id="heading-about" class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
+        <xsl:apply-templates select="/IA/CoverPage/Notice"/>
+        <div class="copyright">
+          <xsl:apply-templates select="/IA/Credits"/>
+        </div>
+      </footer>
     </html>
   </xsl:template>
 
