@@ -33,13 +33,13 @@
         </ol>
       </div>
 
-      <footer>
+      <div class="horton-footer">
         <h3 id="heading-about" class="horton-blue border-bottom">About Hortonworks Data Platform</h3>
         <xsl:apply-templates select="/IA/CoverPage/Notice"/>
         <div class="copyright">
           <xsl:apply-templates select="/IA/Credits"/>
         </div>
-      </footer>
+      </div>
     </html>
   </xsl:template>
 
