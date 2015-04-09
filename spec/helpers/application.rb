@@ -11,7 +11,7 @@ class ApplicationRunner
   end
 
   def convert_directories(directories)
-    Converter.new(Pathname.new(@transformed_data_dir).join('output')).run(directories)
+    XmlProcessor::Converter.new(Pathname.new(@transformed_data_dir).join('output')).run(directories)
   end
 
   def push_to_remote(remote)
