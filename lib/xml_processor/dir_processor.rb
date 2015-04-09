@@ -5,6 +5,7 @@ require_relative '../helpers/filename_helpers'
 require_relative '../replace_words_in_text'
 require_relative '../write_in_directory'
 require_relative '../xslt_processor'
+require_relative 'processes/xyleme_processes'
 
 module XmlProcessor
   class DirProcessor
@@ -26,13 +27,7 @@ module XmlProcessor
     attr_reader :dir, :files, :xml_files, :output_dir
 
     def processes(output_dir)
-      [
-        XsltProcessor.new(File.read('xyleme_to_html.xsl')),
-        ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
-        AddFileExtentions.new(%w[erb]),
-        AddFrontmatter.new('Pivotal Hadoop Documentation'),
-        WriteInDirectory.new(output_dir)
-      ]
+      Processes::XylemeProcesses.new(output_dir)
     end
 
     def copy_to_formatted_paths(src_paths)
