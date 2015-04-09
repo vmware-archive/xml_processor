@@ -83,7 +83,7 @@ describe XsltProcessor do
 
     context "transforming Notices" do
       it "transforms RichText into ps" do
-        expect(html.css('html>body footer p')[1].text).to eq('Pubdate: March 11, 2015')
+        expect(html.css('html>body .horton-footer p')[1].text).to eq('Pubdate: March 11, 2015')
       end
     end
 
