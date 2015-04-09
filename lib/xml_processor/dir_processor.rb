@@ -12,7 +12,7 @@ module XmlProcessor
 
     def call(processor)
       FileUtils.remove_dir("#{output_dir}/#{dir}", true)
-      processor.call(transformable_files)
+      processor.call(transformable(xml_files))
       copy_to_formatted_paths(other_files)
     end
 
@@ -37,10 +37,8 @@ module XmlProcessor
       end
     end
 
-    def transformable_files
-      xml_files.reduce({}) do |hash, filepath|
-        hash.merge(filepath => File.read(filepath))
-      end
+    def transformable(paths)
+      paths.reduce({}) { |hash, filepath| hash.merge(filepath => filepath.read) }
     end
 
     def xml_files
