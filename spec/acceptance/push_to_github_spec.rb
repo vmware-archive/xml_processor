@@ -1,4 +1,4 @@
-require_relative '../helpers/Application'
+require_relative '../helpers/application'
 require_relative '../helpers/fake_github'
 
 describe 'when the files have been converted' do

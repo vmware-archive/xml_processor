@@ -50,7 +50,7 @@ class LocateImages
   end
 
   def matching_image_for(img_paths, dir)
-    img_paths.inject({}) do |mapping, img_path|
+    img_paths.reduce({}) do |mapping, img_path|
       missing_img = File.basename(img_path)
       matched_image_uris = all_images(dir).select { |image| File.basename(image) == missing_img }
       mapping.merge({img_path => matched_image_uris.first})
