@@ -11,9 +11,9 @@ module XmlProcessor
       @output_dir = output_dir
     end
 
-    def call(processes)
+    def call(processor)
       FileUtils.remove_dir("#{output_dir}/#{dir}", true)
-      processes.reduce(transformable_files) { |arg, process| process.call(arg) }
+      processor.call(transformable_files)
       copy_to_formatted_paths(other_files)
     end
 

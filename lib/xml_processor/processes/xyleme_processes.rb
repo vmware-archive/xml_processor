@@ -6,19 +6,17 @@ require_relative 'xslt_processor'
 module XmlProcessor
   module Processes
     class XylemeProcesses
-      include Enumerable
-
       def initialize(output_dir)
         @output_dir = output_dir
       end
 
-      def each(&block)
+      def call(transformable_files)
         [
           XsltProcessor.new(File.read('xyleme_to_html.xsl'), dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
           WriteInDirectory.new(output_dir)
-        ].each(&block)
+        ].reduce(transformable_files) { |acc, subprocess| subprocess.call(acc) }
       end
 
       private
