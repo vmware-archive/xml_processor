@@ -1,5 +1,4 @@
 require 'rake'
-require_relative '../helpers/output'
 require_relative '../../lib/pusher'
 require_relative '../../lib/xml_processor/converter'
 
