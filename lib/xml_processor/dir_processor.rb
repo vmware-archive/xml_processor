@@ -1,6 +1,5 @@
 require 'fileutils'
 require_relative '../helpers/filename_helpers'
-require_relative 'processes/xyleme_processes'
 
 module XmlProcessor
   class DirProcessor
