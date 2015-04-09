@@ -1,6 +1,6 @@
 require 'rspec/core/rake_task'
 
-task default: %w[convert]
+task default: %w[spec]
 
 task :convert, [:dir] do |t, args|
   system "ruby convert.rb #{args.to_a.join(' ')}"
