@@ -69,10 +69,8 @@ describe 'converting any number of directories containing xml files to html' do
   end
 
   def convert(*arg)
-    swallow_stderr do
-      Rake::Task[:convert].reenable
-      Rake::Task[:convert].invoke(*arg)
-    end
+    Rake::Task[:convert].reenable
+    Rake::Task[:convert].invoke(*arg)
   end
 
   def strip_extension_starting_after(split_on, file_path)
