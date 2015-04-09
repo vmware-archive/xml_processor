@@ -6,7 +6,7 @@ class XsltProcessor
   end
 
   def call(files)
-    files.inject({}) do |hash, (filename, file_content)|
+    files.reduce({}) do |hash, (filename, file_content)|
       document = Nokogiri::XML(file_content)
       template = Nokogiri::XSLT(xslt)
 

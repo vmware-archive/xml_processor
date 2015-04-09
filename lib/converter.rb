@@ -19,12 +19,12 @@ class Converter
       FileUtils.remove_dir("#{@output_dir}/#{dir}", true)
 
       files = Dir.glob("#{dir}/**/*")
-      xyleme_filenames = files.select { |f| is_xml_file?(f) }
+      xml_files = files.select { |f| is_xml_file?(f) }
       other_files = files.select { |f| is_non_xml_file?(f) }
 
-      xyleme_files = xyleme_filenames.inject({}) do |hash, filepath|
+      xyleme_files = xml_files.reduce({}) do |hash, filepath|
         file_contents = File.read(filepath)
-        hash.merge({filepath => file_contents})
+        hash.merge(filepath => file_contents)
       end
 
       processes = [
@@ -32,18 +32,17 @@ class Converter
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
           AddFileExtentions.new(%w[erb]),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
+          WriteInDirectory.new(@output_dir)
       ]
 
       processed_output = processes.reduce(xyleme_files) { |arg, process| process.call(arg) }
-
-      WriteInDirectory.new(@output_dir).call(processed_output)
 
       other_files.each do |file|
         file_extension = File.extname(file).gsub('.', '')
         formatted_file_path = SUPPORTED_EXTS.include?(file_extension) ? file.gsub(' ', '_') : file
 
         dest_path = Pathname("#{@output_dir}/#{formatted_file_path}")
-        FileUtils.mkpath(File.dirname(dest_path))
+        dest_path.dirname.mkpath
         FileUtils.copy(file, dest_path)
       end
     end

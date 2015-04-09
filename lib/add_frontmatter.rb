@@ -6,7 +6,7 @@ class AddFrontmatter
   end
 
   def call(files)
-    files.inject({}) do |output, (filename, contents)|
+    files.reduce({}) do |output, (filename, contents)|
       doc = Nokogiri::XML(contents)
       doc_titles = doc.xpath('//head/meta/title')
       title_text = doc_titles.inner_html

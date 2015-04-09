@@ -49,7 +49,7 @@ describe 'converting any number of directories containing xml files to html' do
     file_expand_path = File.expand_path('../../fixtures', __FILE__)
     files_orig = Dir.glob("#{file_expand_path}/**/*.xml")
 
-    original_titles_to_file = files_orig.inject({}) do |result, file_orig|
+    original_titles_to_file = files_orig.reduce({}) do |result, file_orig|
       doc = Nokogiri::XML(File.read(file_orig))
       inner_html = doc.xpath('//IA/CoverPage/Title').first.inner_html
       result.merge({strip_extension_starting_after('spec', file_orig) => inner_html})
