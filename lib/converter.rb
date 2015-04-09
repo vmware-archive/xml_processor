@@ -1,11 +1,11 @@
-require_relative 'xslt_processor'
-require_relative 'replace_words_in_text'
-require_relative 'add_file_extentions'
-require_relative 'write_in_directory'
-require_relative 'add_frontmatter'
-require_relative 'helpers/filename_helpers'
 require 'fileutils'
 require 'pathname'
+require_relative 'add_file_extentions'
+require_relative 'add_frontmatter'
+require_relative 'helpers/filename_helpers'
+require_relative 'replace_words_in_text'
+require_relative 'write_in_directory'
+require_relative 'xslt_processor'
 
 class Converter
   SUPPORTED_EXTS = %w[jpg jpeg png tif tiff emf]
