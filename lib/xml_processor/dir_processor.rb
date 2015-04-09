@@ -3,42 +3,27 @@ require_relative '../helpers/filename_helpers'
 
 module XmlProcessor
   class DirProcessor
-    UNDERSCORE_WHITESPACE_EXTENSIONS = %w[.jpg .jpeg .png .tif .tiff .emf]
-
     def initialize(dir, output_dir)
       @dir = dir
       @output_dir = output_dir
     end
 
-    def call(processor)
+    def call(processor, non_xml_processor)
       FileUtils.remove_dir("#{output_dir}/#{dir}", true)
       processor.call(transformable(xml_files))
-      copy_to_formatted_paths(other_files)
+      non_xml_processor.call(transformable_keys_only(other_files))
     end
 
     private
 
     attr_reader :dir, :files, :xml_files, :output_dir
 
-    def copy_to_formatted_paths(src_paths)
-      src_paths.each do |src_path|
-        output_dir.join(format_file_path(src_path)).tap do |dest_path|
-          dest_path.dirname.mkpath
-          FileUtils.copy(src_path, dest_path)
-        end
-      end
-    end
-
-    def format_file_path(path)
-      if UNDERSCORE_WHITESPACE_EXTENSIONS.include?(path.extname)
-        path.to_s.gsub(' ', '_')
-      else
-        path
-      end
-    end
-
     def transformable(paths)
       paths.reduce({}) { |hash, filepath| hash.merge(filepath => filepath.read) }
+    end
+
+    def transformable_keys_only(paths)
+      Hash[paths.zip([nil] * paths.count)]
     end
 
     def xml_files

@@ -344,7 +344,7 @@
   <xsl:template match="//Figure/MediaObject/Renditions/Web">
     <xsl:element name="img">
       <xsl:attribute name="src">
-        <xsl:value-of select="translate(@uri, ' ', '_')"/>
+        <xsl:value-of select="translate(@uri, ' ', '+')"/>
       </xsl:attribute>
     </xsl:element>
   </xsl:template>
