@@ -1,4 +1,3 @@
-require_relative 'add_file_extensions'
 require_relative 'add_frontmatter'
 require_relative 'replace_words_in_text'
 require_relative 'write_in_directory'
@@ -15,9 +14,8 @@ module XmlProcessor
 
       def each(&block)
         [
-          XsltProcessor.new(File.read('xyleme_to_html.xsl')),
+          XsltProcessor.new(File.read('xyleme_to_html.xsl'), dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
-          AddFileExtensions.new(%w[erb]),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
           WriteInDirectory.new(output_dir)
         ].each(&block)
