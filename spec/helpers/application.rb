@@ -1,7 +1,7 @@
 require 'rake'
 require_relative '../../lib/pusher'
 require_relative '../../lib/xml_processor/converter'
-require_relative '../../lib/xml_processor/processes/xyleme_processor'
+require_relative '../../lib/xml_processor/processes/xyleme_xml_processor'
 
 class ApplicationRunner
   def initialize(github_client, transformed_data_dir, push_context)
@@ -14,7 +14,7 @@ class ApplicationRunner
     output_dir = Pathname.new(@transformed_data_dir).join('output')
     XmlProcessor::Converter.new(
       output_dir,
-      XmlProcessor::Processes::XylemeProcessor.new(output_dir)
+      XmlProcessor::Processes::XylemeXmlProcessor.new(output_dir)
     ).run(directories)
   end
 

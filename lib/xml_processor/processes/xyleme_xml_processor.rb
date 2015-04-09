@@ -5,7 +5,7 @@ require_relative 'xslt_processor'
 
 module XmlProcessor
   module Processes
-    class XylemeProcessor
+    class XylemeXmlProcessor
       def initialize(output_dir)
         @output_dir = output_dir
       end
