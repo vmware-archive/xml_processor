@@ -1,7 +1,7 @@
 require 'rake'
 require_relative '../helpers/output'
 require_relative '../../lib/pusher'
-require_relative '../../lib/converter'
+require_relative '../../lib/xml_processor/converter'
 
 class ApplicationRunner
   def initialize(github_client, transformed_data_dir, push_context)
