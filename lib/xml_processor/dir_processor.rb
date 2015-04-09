@@ -1,10 +1,5 @@
 require 'fileutils'
-require_relative '../add_file_extentions'
-require_relative '../add_frontmatter'
 require_relative '../helpers/filename_helpers'
-require_relative '../replace_words_in_text'
-require_relative '../write_in_directory'
-require_relative '../xslt_processor'
 require_relative 'processes/xyleme_processes'
 
 module XmlProcessor
@@ -16,19 +11,15 @@ module XmlProcessor
       @output_dir = output_dir
     end
 
-    def call
+    def call(processes)
       FileUtils.remove_dir("#{output_dir}/#{dir}", true)
-      processes(output_dir).reduce(transformable_files) { |arg, process| process.call(arg) }
+      processes.reduce(transformable_files) { |arg, process| process.call(arg) }
       copy_to_formatted_paths(other_files)
     end
 
     private
 
     attr_reader :dir, :files, :xml_files, :output_dir
-
-    def processes(output_dir)
-      Processes::XylemeProcesses.new(output_dir)
-    end
 
     def copy_to_formatted_paths(src_paths)
       src_paths.each do |src_path|
