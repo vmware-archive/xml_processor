@@ -13,7 +13,7 @@ module XmlProcessor
           document = Nokogiri::XML(file_content)
           template = Nokogiri::XSLT(xslt)
 
-          html_filename = filename.split('.').first + dest_extension
+          html_filename = filename.to_s.split('.').first + dest_extension
           transformed_data = template.transform(document).to_xml
 
           hash.merge({html_filename => transformed_data})

@@ -44,15 +44,27 @@ module XmlProcessor
     end
 
     def xml_files
-      @xml_files ||= files.select { |f| is_xml_file?(f) }
+      @xml_files ||= filtered_files { |f| is_xml_file?(f) }
     end
 
     def other_files
-      @other_files ||= files.select { |f| is_non_xml_file?(f) }.map { |f| Pathname(f) }
+      @other_files ||= filtered_files { |f| is_non_xml_file?(f) }
+    end
+
+    def filtered_files(&filter)
+      files.map { |f| Pathname(f) }.select(&filter)
     end
 
     def files
       @files ||= Dir.glob("#{dir}/**/*")
+    end
+
+    def is_xml_file?(filepath)
+      filepath.file? && filepath.extname == '.xml'
+    end
+
+    def is_non_xml_file?(filepath)
+      filepath.file? && filepath.extname != '.xml'
     end
   end
 end
