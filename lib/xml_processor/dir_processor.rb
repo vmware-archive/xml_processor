@@ -10,19 +10,13 @@ module XmlProcessor
 
     def call(xml_processors, non_xml_processor)
       FileUtils.remove_dir("#{output_dir}/#{dir}", true)
-      xml_processors.each do |xml_root_node, processor|
-        processor.call(matching(xml_root_node, transformable(xml_files)))
-      end
+      xml_processors.each {|processor| processor.call transformable(xml_files) }
       non_xml_processor.call(transformable_keys_only(other_files))
     end
 
     private
 
     attr_reader :dir, :files, :xml_files, :output_dir
-
-    def matching(xml_root_node, file_hash)
-      file_hash.select {|filename, file_contents| Nokogiri::XML(file_contents).xpath("/#{xml_root_node}")}
-    end
 
     def transformable(paths)
       paths.reduce({}) { |hash, filepath| hash.merge(filepath => filepath.read) }

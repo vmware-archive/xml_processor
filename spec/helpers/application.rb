@@ -1,4 +1,3 @@
-require 'rake'
 require_relative '../../lib/pusher'
 require_relative '../../lib/xml_processor/converter'
 require_relative '../../lib/xml_processor/processes/xyleme_xml_processor'

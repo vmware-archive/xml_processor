@@ -1,4 +1,4 @@
-require 'nokogiri'
+require_relative 'match_xml_type'
 require_relative 'add_frontmatter'
 require_relative 'replace_words_in_text'
 require_relative 'write_in_directory'
@@ -13,6 +13,7 @@ module XmlProcessor
 
       def call(transformable_files)
         [
+          MatchXmlType.new(root_element),
           XsltProcessor.new(File.read('xyleme_to_html.xsl'), dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
@@ -20,13 +21,13 @@ module XmlProcessor
         ].reduce(transformable_files) { |acc, subprocess| subprocess.call(acc) }
       end
 
-      def xml_root_element
-        :IA
-      end
-
       private
 
       attr_reader :output_dir
+
+      def root_element
+        :IA
+      end
 
     end
   end
