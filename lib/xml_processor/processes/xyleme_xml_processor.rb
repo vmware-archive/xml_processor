@@ -1,3 +1,4 @@
+require 'nokogiri'
 require_relative 'add_frontmatter'
 require_relative 'replace_words_in_text'
 require_relative 'write_in_directory'
@@ -19,9 +20,14 @@ module XmlProcessor
         ].reduce(transformable_files) { |acc, subprocess| subprocess.call(acc) }
       end
 
+      def xml_root_element
+        :IA
+      end
+
       private
 
       attr_reader :output_dir
+
     end
   end
 end

@@ -15,7 +15,9 @@ class ApplicationRunner
     output_dir = Pathname.new(@transformed_data_dir).join('output')
     XmlProcessor::Converter.new(
       output_dir,
-      XmlProcessor::Processes::XylemeXmlProcessor.new(output_dir),
+      [
+          XmlProcessor::Processes::XylemeXmlProcessor.new(output_dir)
+      ],
       XmlProcessor::Processes::NonXmlProcessor.new(output_dir)
     ).run(directories)
   end
