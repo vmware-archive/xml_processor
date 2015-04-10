@@ -2,62 +2,66 @@
   <CoverPage>
     <Title>File 2 Document Title</Title>
   </CoverPage>
-  <Topic xy:guid="2f2795fb-36cd-45e0-8950-be9fac3a2a2f">
-    <Title>Launching the Ambari Install Wizard</Title>
-    <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0"
-               xy:guid="c0fe7f8d-8691-42df-b541-c138784f7d87">
-      <RichText>From the Ambari Welcome page, choose Launch Install Wizard.</RichText>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Print thumbWidth="50" uri="images/img_1.png"/>
-            <Web thumbWidth="50" uri="image_directory/image_2.png"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Print thumbWidth="50" uri="images/img_1.png"/>
-            <Web thumbWidth="50" uri="image_directory/image_2.png"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Web thumbWidth="50" uri="a_misnamed_img_dir/image_3.png"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Web thumbWidth="50" uri="icons/img_1.tif"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Web thumbWidth="50" uri="image_directory/img_3.tiff"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
-        <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
-                     xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
-          <Renditions>
-            <Web thumbWidth="50" uri="images/img_4.emf"/>
-          </Renditions>
-        </MediaObject>
-      </Figure>
-      <Icon thumbWidth="50" uri="icons/note.png" width="18"/>
-    </ParaBlock>
-  </Topic>
+  <Lessons>
+    <Lesson>
+      <Topic xy:guid="2f2795fb-36cd-45e0-8950-be9fac3a2a2f">
+        <Title>Launching the Ambari Install Wizard</Title>
+        <ParaBlock xy:schema-version="Core/Definitions/Paragraph.xsd#core-3.9-0"
+                   xy:guid="c0fe7f8d-8691-42df-b541-c138784f7d87">
+          <RichText>From the Ambari Welcome page, choose Launch Install Wizard.</RichText>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Print thumbWidth="50" uri="images/img_1.png"/>
+                <Web thumbWidth="50" uri="image_directory/image_2.png"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Print thumbWidth="50" uri="images/img_1.png"/>
+                <Web thumbWidth="50" uri="image_directory/image_2.png"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Web thumbWidth="50" uri="a_misnamed_img_dir/image_3.png"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Web thumbWidth="50" uri="icons/img_1.tif"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Web thumbWidth="50" uri="image_directory/img_3.tiff"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Figure xy:guid="0f8c8ce9-103e-44f0-aef9-15c00d8dcfb5">
+            <MediaObject xy:schema-version="Core/Definitions/Figure.xsd#core-3.9-0"
+                         xy:guid="e7241901-f8d0-409f-a6c8-9c675ed66ce2">
+              <Renditions>
+                <Web thumbWidth="50" uri="images/img_4.emf"/>
+              </Renditions>
+            </MediaObject>
+          </Figure>
+          <Icon thumbWidth="50" uri="icons/note.png" width="18"/>
+        </ParaBlock>
+      </Topic>
+    </Lesson>
+  </Lessons>
 </IA>
