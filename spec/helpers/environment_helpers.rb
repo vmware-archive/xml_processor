@@ -6,7 +6,7 @@ def around_in_xyleme_tmpdir(environment)
       old_env = environment.clone
       Dir.mktmpdir do |tmpdir|
         environment.update(
-          'XYLEME_OUTPUT_DIR' => File.join(tmpdir, 'output')
+          'XML_OUTPUT_DIR' => File.join(tmpdir, 'output')
         )
 
         spec.run

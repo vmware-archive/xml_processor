@@ -64,7 +64,7 @@ describe 'converting any number of directories containing xml files to html' do
   end
 
   def output_dir
-    ENV['XYLEME_OUTPUT_DIR']
+    ENV['XML_OUTPUT_DIR']
   end
 
   def convert(*arg)
