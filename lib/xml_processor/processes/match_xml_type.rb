@@ -1,4 +1,5 @@
 require 'nokogiri'
+require_relative '../exceptions'
 
 module XmlProcessor
   module Processes
@@ -8,7 +9,16 @@ module XmlProcessor
       end
 
       def call(files)
-        files.select {|filename, file_contents| Nokogiri::XML(file_contents).xpath("/#{identifier}").any? }
+        files.select { |filename, file_contents|
+          begin
+            Nokogiri::XML(file_contents) { |c| c.strict }.
+              xpath("/#{identifier}").any?
+          rescue Nokogiri::XML::SyntaxError => e
+            raise InvalidXML.new(e.message)
+          rescue RuntimeError => e
+            raise InvalidXML.new("Unparseable XML: #{filename}")
+          end
+        }
       end
 
       private

@@ -7,6 +7,12 @@ describe 'converting any number of directories containing xml files to html' do
 
   around_in_xyleme_tmpdir(ENV)
 
+  it 'returns a non-zero exit code when encountering badly formed XML' do
+    require_relative '../../lib/xml_processor/exceptions'
+    expect { convert('spec/fixtures/invalid_xml_files') }.
+      to raise_exception(XmlProcessor::InvalidXML)
+  end
+
   it 'creates an .html.erb file for each xml file in the input directories, preserving directory structure' do
     convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
 
@@ -45,8 +51,10 @@ describe 'converting any number of directories containing xml files to html' do
     convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
 
     files = Dir.glob("#{output_dir}/**/*.html.erb")
-    file_expand_path = File.expand_path('../../fixtures', __FILE__)
-    files_orig = Dir.glob("#{file_expand_path}/**/*.xml")
+    fixtures_path = File.expand_path('../../fixtures', __FILE__)
+    files_orig =
+      Dir.glob("#{fixtures_path}/test_files/*.xml") +
+      Dir.glob("#{fixtures_path}/more_test_files/*.xml")
 
     original_titles_to_file = files_orig.reduce({}) do |result, file_orig|
       doc = Nokogiri::XML(File.read(file_orig))
