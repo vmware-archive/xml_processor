@@ -75,9 +75,8 @@ describe 'converting any number of directories containing xml files to html' do
     ENV['XML_OUTPUT_DIR']
   end
 
-  def convert(*arg)
-    Rake::Task[:convert].reenable
-    Rake::Task[:convert].invoke(*arg)
+  def convert(*args)
+    Rake::Task[:convert].execute(args)
   end
 
   def strip_extension_starting_after(split_on, file_path)
