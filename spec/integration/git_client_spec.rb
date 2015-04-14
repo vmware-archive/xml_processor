@@ -49,6 +49,8 @@ describe GitClient do
       Dir.chdir(tmpdir) do
         in_dir('remote-repo') do
           system "git init --quiet"
+          system "git config user.email 'tester@testing.land'"
+          system "git config user.name 'Auto Tester'"
           system "git config receive.denyCurrentBranch ignore"
           File.write(initial_filename, initial_file_content)
           system "git add ."
