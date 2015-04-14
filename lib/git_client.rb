@@ -1,7 +1,7 @@
 require 'git'
 
-class GithubClient
-  GithubClientPushError = Class.new(RuntimeError)
+class GitClient
+  PushError = Class.new(RuntimeError)
 
   def initialize
     @listeners = []
@@ -22,7 +22,7 @@ class GithubClient
         g.commit('automated push')
         g.push
       rescue Git::GitExecuteError => e
-        error = GithubClientPushError.new(e.message)
+        error = PushError.new(e.message)
 
         @listeners.map {|listener| listener.report_error(error)}
       end

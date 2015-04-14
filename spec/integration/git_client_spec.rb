@@ -1,6 +1,6 @@
-require_relative '../../lib/github_client'
+require_relative '../../lib/git_client'
 
-describe GithubClient do
+describe GitClient do
   it 'adds, commits and pushes local changes to remote repository' do
     with_tmpdir_repo("remote-repo", "README.md", "# Some repo") do |git, parent_path|
       in_dir('intermediate-clone-dir') do |dir|
@@ -41,7 +41,7 @@ describe GithubClient do
   end
 
   def with_tmpdir_repo(repo_name, initial_filename, initial_file_content, &block)
-    git = GithubClient.new
+    git = GitClient.new
 
     Dir.mktmpdir do |tmpdir|
       path = Pathname(tmpdir)
