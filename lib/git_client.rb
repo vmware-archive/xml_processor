@@ -1,7 +1,7 @@
 require 'git'
 
-class GithubClient
-  GithubClientPushError = Class.new(RuntimeError)
+class GitClient
+  PushError = Class.new(RuntimeError)
 
   def initialize
     @listeners = []
@@ -14,15 +14,15 @@ class GithubClient
 
   def push(directory)
     FileUtils.chdir(directory) do
-        g = Git.open(directory)
-        g.config('user.name', 'pipeline')
-        g.config('user.email', 'email@example.com')
-        begin
+      g = Git.open(directory)
+      g.config('user.name', 'pipeline')
+      g.config('user.email', 'email@example.com')
+      begin
         g.add
         g.commit('automated push')
         g.push
       rescue Git::GitExecuteError => e
-        error = GithubClientPushError.new(e.message)
+        error = PushError.new(e.message)
 
         @listeners.map {|listener| listener.report_error(error)}
       end
