@@ -14,10 +14,10 @@ class GithubClient
 
   def push(directory)
     FileUtils.chdir(directory) do
-        g = Git.open(directory)
-        g.config('user.name', 'pipeline')
-        g.config('user.email', 'email@example.com')
-        begin
+      g = Git.open(directory)
+      g.config('user.name', 'pipeline')
+      g.config('user.email', 'email@example.com')
+      begin
         g.add
         g.commit('automated push')
         g.push
