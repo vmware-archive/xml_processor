@@ -1,6 +1,6 @@
 require 'tmpdir'
 
-def around_in_xyleme_tmpdir(environment)
+def around_in_xml_tmpdir(environment)
   around do |spec|
     begin
       old_env = environment.clone

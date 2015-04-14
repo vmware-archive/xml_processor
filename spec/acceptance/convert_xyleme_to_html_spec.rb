@@ -5,7 +5,7 @@ Rake.load_rakefile(File.expand_path('../../../Rakefile', __FILE__))
 
 describe 'converting any number of directories containing xml files to html' do
 
-  around_in_xyleme_tmpdir(ENV)
+  around_in_xml_tmpdir(ENV)
 
   it 'returns a non-zero exit code when encountering badly formed XML' do
     require_relative '../../lib/xml_processor/exceptions'
