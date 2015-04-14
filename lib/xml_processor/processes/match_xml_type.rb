@@ -12,7 +12,7 @@ module XmlProcessor
         files.select { |filename, file_contents|
           begin
             Nokogiri::XML(file_contents) { |c| c.strict }.
-              xpath("/#{identifier}").any?
+              xpath("/*[local-name() = '#{identifier}']").any?
           rescue Nokogiri::XML::SyntaxError => e
             raise InvalidXML.new(e.message)
           rescue RuntimeError => e

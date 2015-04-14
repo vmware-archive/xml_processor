@@ -1,4 +1,6 @@
 require_relative 'dir_processor'
+require_relative 'processes/non_xml_processor'
+require_relative 'processes/xyleme_xml_processor'
 
 module XmlProcessor
   class Converter
