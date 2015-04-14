@@ -7,12 +7,6 @@ describe 'converting any number of directories containing xml files to html' do
 
   around_in_xml_tmpdir(ENV)
 
-  it 'returns a non-zero exit code when encountering badly formed XML' do
-    require_relative '../../lib/xml_processor/exceptions'
-    expect { convert('spec/fixtures/invalid_xml_files') }.
-      to raise_exception(XmlProcessor::InvalidXML)
-  end
-
   it 'creates an .html.erb file for each xml file in the input directories, preserving directory structure' do
     convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
 
