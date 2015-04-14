@@ -4,6 +4,7 @@ require_relative 'replace_words_in_text'
 require_relative 'write_in_directory'
 require_relative 'xslt_processor'
 require_relative 'filter_extensions'
+require_relative 'read_files'
 
 module XmlProcessor
   module Processes
@@ -15,6 +16,7 @@ module XmlProcessor
       def call(transformable_files)
         [
           FilterExtensions.new('.xml', :select),
+          ReadFiles.new,
           MatchXmlType.new(root_element),
           XsltProcessor.new(File.read('xyleme_to_html.xsl'), dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),

@@ -23,7 +23,7 @@ module XmlProcessor
     attr_reader :dir, :files, :xml_files, :output_dir
 
     def transformable(paths)
-      paths.reduce({}) { |hash, filepath| hash.merge(filepath => filepath.read) }
+      paths.reduce({}) { |hash, filepath| hash.merge(filepath => nil) }
     end
 
     def files
