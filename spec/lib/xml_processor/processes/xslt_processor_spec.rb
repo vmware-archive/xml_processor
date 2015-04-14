@@ -316,7 +316,7 @@ module XmlProcessor
     </IA>
           XYLEME
         }
-        let(:xslt) { File.read(File.expand_path('../../../../../xyleme_to_html.xsl', __FILE__)) }
+        let(:xslt) { File.read(File.expand_path('../../../../../lib/xml_processor/stylesheets/xyleme_to_html.xsl', __FILE__)) }
       end
     end
   end

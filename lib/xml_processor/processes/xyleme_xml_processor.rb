@@ -18,7 +18,7 @@ module XmlProcessor
           FilterExtensions.new('.xml', :select),
           ReadFiles.new,
           MatchXmlType.new(root_element),
-          XsltProcessor.new(File.read('xyleme_to_html.xsl'), dest_extension: '.html.erb'),
+          XsltProcessor.new(File.read('lib/xml_processor/stylesheets/xyleme_to_html.xsl'), dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
           WriteInDirectory.new(output_dir)
