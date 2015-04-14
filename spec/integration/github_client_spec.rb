@@ -1,52 +1,61 @@
 require_relative '../../lib/github_client'
 
 describe GithubClient do
-  describe 'cloning and pushing a repo' do
-    it 'pushes local changes to remote repository' do
-      skip('skipping because hits Github. Remove skip to debug.')
-      rambo_value = rand(1..100)
-
-      Dir.mktmpdir do |tmpdir|
-        Dir.chdir(tmpdir) do
-          GithubClient.new.clone('git@github.com:cf-pub-tools/dummy.git')
-          lines = File.readlines("#{tmpdir}/dummy/README.md")
-          lines_with_new_value = lines.map do |line|
-            if line.to_i != 0
-              rambo_value
-            end
-          end
-
-          lines_with_new_value.each do |line|
-            File.open("#{tmpdir}/dummy/README.md", 'w') { |file| file.write(line) }
-          end
-
-          GithubClient.new.push("#{tmpdir}/dummy")
-        end
+  it 'adds, commits and pushes local changes to remote repository' do
+    with_tmpdir_repo("remote-repo", "README.md", "# Some repo") do |git, parent_path|
+      in_dir('intermediate-clone-dir') do |dir|
+        git.clone(parent_path.join('remote-repo').to_s)
+        File.write("remote-repo/another-doc.md", "# Another doc")
+        git.push parent_path.join(dir, "remote-repo")
       end
 
-      Dir.mktmpdir do |tmpdir|
-        Dir.chdir(tmpdir) do
-          GithubClient.new.clone('git@github.com:cf-pub-tools/dummy.git')
-          expect(File.read('dummy/README.md')).to include("#{rambo_value}")
-        end
+      in_dir('final-clone-dir') do
+        git.clone(parent_path.join('remote-repo').to_s)
+        expect(File.read("remote-repo/README.md")).to eq("# Some repo")
+        expect(File.read("remote-repo/another-doc.md")).to eq("# Another doc")
       end
     end
+  end
 
-    context 'when there is nothing to commit' do
-      it 'report error to listeners' do
-        skip('skipping because hits Github. Remove skip to debug.')
-        Dir.mktmpdir do |tmpdir|
-          Dir.chdir(tmpdir) do
-            github_client = GithubClient.new
-            listener = double('listener', report_error: nil)
-            github_client.add_listener(listener)
+  context 'when there is nothing to commit' do
+    it 'report error to listeners' do
+      with_tmpdir_repo("remote-repo", "README.md", "# Some repo") do |git, parent_path|
+        listener = double('listener', report_error: nil)
+        git.add_listener(listener)
 
-            github_client.clone('git@github.com:cf-pub-tools/dummy.git')
-            github_client.push("#{tmpdir}/dummy")
-
-            expect(listener).to have_received(:report_error)
-          end
+        in_dir('clone-dir') do |dir|
+          git.clone(parent_path.join('remote-repo').to_s)
+          git.push parent_path.join(dir, "remote-repo")
         end
+
+        expect(listener).to have_received(:report_error)
+      end
+    end
+  end
+
+  def in_dir(dirname, &block)
+    Dir.mkdir(dirname)
+    Dir.chdir(dirname) do |arg|
+      block.call(arg)
+    end
+  end
+
+  def with_tmpdir_repo(repo_name, initial_filename, initial_file_content, &block)
+    git = GithubClient.new
+
+    Dir.mktmpdir do |tmpdir|
+      path = Pathname(tmpdir)
+
+      Dir.chdir(tmpdir) do
+        in_dir('remote-repo') do
+          system "git init --quiet"
+          system "git config receive.denyCurrentBranch ignore"
+          File.write(initial_filename, initial_file_content)
+          system "git add ."
+          system "git commit --quiet -m first-commit"
+        end
+
+        block.call(git, path)
       end
     end
   end
