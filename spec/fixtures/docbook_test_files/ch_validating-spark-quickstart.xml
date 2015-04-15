@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_validating-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Validating Spark</title>
+  <para>To validate the Spark installation, run the following Spark jobs:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/run_spark_pi.html"
+            >Spark Pi example</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/run_wordcount.html"
+            >WordCount example</link></para>
+      </listitem>
+    </itemizedlist>
+  </para>
+
+  <section xml:id="run_spark_pi">
+    <title>Run the Spark Pi example</title>
+    <para>The Pi program tests compute-intensive tasks by calculating pi using an approximation
+      method. The program “throws darts” at a circle -- it generates points in the unit square
+      ((0,0) to (1,1)) and sees how many fall within the unit circle. The result approximates
+      pi.</para>
+      <mediaobject>
+        <imageobject>
+          <imagedata fileref="figures/unit-circle.png" width="40" align="center"/>
+        </imageobject>
+      </mediaobject>
+   <para>To run Spark Pi:</para>
+    <para>
+      <orderedlist>
+        <listitem>
+          <para>Log on as a user with HDFS access--for example, your <code>spark</code> user (if you
+            defined one) or <code>hdfs</code>. Navigate to a node with a Spark client and access the
+              <code>spark-client</code> directory:</para>
+          <para><code>su hdfs</code></para>
+          <para><code>cd /usr/hdp/current/spark-client</code></para>
+        </listitem>
+        <listitem>
+          <para>Submit the Spark Pi job:</para>
+          <para><code>./bin/spark-submit --class org.apache.spark.examples.SparkPi --master
+              yarn-cluster --num-executors 3 --driver-memory 512m --executor-memory 512m
+              --executor-cores 1 lib/spark-examples*.jar 10</code></para>
+          <para>The job should complete without errors. It should produce output similar to the
+            following:</para>
+          <para>
+            <programlisting>14/12/19 19:46:38 INFO impl.YarnClientImpl: Submitted application
+application_1419016680263_0002
+14/12/19 19:46:39 INFO yarn.Client: Application report for 
+application_1419016680263_0002 (state: ACCEPTED)
+14/12/19 19:46:39 INFO yarn.Client: 
+     client token: N/A
+     diagnostics: N/A
+     ApplicationMaster host: N/A
+     ApplicationMaster RPC port: -1
+     queue: default 
+     start time: 1419018398442 
+     final status: UNDEFINED 
+     tracking URL: http://blue1:8088/cluster/app/application_1424284032717_0066 
+     user: root</programlisting>
+          </para>
+        </listitem>
+        <listitem>
+          <para>To view the results in a browser, copy the URL tracking from the job output. Go to
+            the associated URL. (In the following example, replace <code>blue2</code> with your node
+            name.)</para>
+        </listitem>
+        <listitem>
+          <para>Check for errors. The value of pi should be listed near the end of the output
+            messages, with the format "Pi is roughly &lt;value>."</para>
+          <para>You can also view results in a browser, using the Web UI and the application's
+            tracking URL; for example: </para>
+          <para>
+            <programlisting>http://hdm:8088/proxy/application_1418792282603_1186852/</programlisting>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Click the "logs" link in the bottom right.</para>
+          <para>The browser shows the YARN container output after a redirect. You should see output
+            similar to the following. (Additional output omitted for brevity.)</para>
+          <programlisting>14/12/22 17:13:30 INFO yarn.ApplicationMaster: Unregistering 
+ApplicationMaster with SUCCEEDED
+14/12/22 17:13:30 INFO impl.AMRMClientImpl: Waiting for 
+application to be successfully unregistered.
+14/12/22 17:13:30 INFO remote.RemoteActorRefProvider$RemotingTerminator: 
+Remoting shut down.
+14/12/22 17:13:30 INFO yarn.ApplicationMaster: Deleting staging 
+directory .sparkStaging/application_1419016680263_0005
+
+Log Type: stdout
+Log Upload Time: 22-Dec-2014 17:13:33
+Log Length: 23
+Pi is roughly 3.143824</programlisting>
+        </listitem>
+      </orderedlist>
+    </para>
+  </section>
+  <section xml:id="run_wordcount">
+    <title>Run the WordCount Example</title>
+      <para>WordCount is a simple program that counts how often a word occurs in a text file. </para>
+    <para>
+      <orderedlist>
+        <listitem>
+          <para>Select an input file for the Spark WordCount example. You can use any text file as
+            input. </para>
+        </listitem>
+        <listitem>
+          <para>Upload the input file to HDFS. The following example uses
+              <code>log4j.properties</code> as the input file:</para>
+          <para><code>cd /usr/hdp/current/spark-client/</code></para>
+          <para><code>hadoop fs -copyFromLocal /etc/hadoop/conf/log4j.properties
+            /tmp/data</code></para>
+        </listitem>
+        <listitem>
+          <para>Run the Spark shell:</para>
+          <para><code>./bin/spark-shell --master yarn-client --driver-memory 512m --executor-memory
+              512m</code></para>
+          <para>You should see output similar to the following:</para>
+          <para>
+            <programlisting>
+14/12/22 17:27:38 INFO util.Utils: Successfully started service 'HTTP class server' on port 41936.
+Welcome to
+  ____               __ 
+ / __/ __  ___  ____/ /_ 
+ _\ \/ _ \/ _ `/ __/ '_/
+/___/ .__/\_,_/_/ /_/\_\ version 1.2.0
+   /_/
+
+Using Scala version 2.10.4 (OpenJDK 64-Bit Server VM, Java 1.7.0_71)
+Type in expressions to have them evaluated.
+…
+4/12/22 17:28:27 INFO yarn.Client: Application report for application_1419016680263_0006 (state: ACCEPTED)
+14/12/22 17:28:28 INFO yarn.Client: 
+  client token: N/A 
+  diagnostics: N/A 
+  ApplicationMaster host: N/A 
+  ApplicationMaster RPC port: -1 
+  queue: default 
+  start time: 1419269306798 
+  final status: UNDEFINED 
+  tracking URL: http://sandbox.hortonworks.com:8088/proxy/application_1419016680263_0006/ 
+  user: root
+…
+14/12/22 17:29:23 INFO cluster.YarnClientSchedulerBackend: SchedulerBackend is ready for 
+scheduling beginning after waiting maxRegisteredResourcesWaitingTime: 30000(ms)
+14/12/22 17:29:23 INFO repl.SparkILoop: Created spark context..Spark context available as sc.
+scala></programlisting>
+          </para>
+        </listitem>
+        <listitem>
+          <para>Submit the job: at the scala prompt, type the following commands, replacing node
+            names, file name and file location with your own values.</para>
+          <para><code>val file = sc.textFile("hdfs://blue1:8020/tmp/data")</code></para>
+          <para><code>val counts = file.flatMap(line => line.split(" ")).map(word => (word,
+              1)).reduceByKey(_ +_)</code></para>
+          <para><code>counts.saveAsTextFile("hdfs://blue1:8020/tmp/wordcount")</code></para>
+          <para> </para>
+          <para><code>val file = sc.textFile("hdfs://red1:8020/tmp/data")</code></para>
+          <para><code>val counts = file.flatMap(line => line.split(" ")).map(word => (word,
+              1)).reduceByKey(_ + _)</code></para>
+          <para><code>counts.saveAsTextFile("hdfs://red1:8020/tmp/wordcount")</code></para>
+          <para> </para>
+        </listitem>
+        <listitem>
+          <para>To view the output from within the scala shell:</para>
+          <para><code>counts.count()</code></para>
+          <para>To print the output:</para>
+          <para><code>counts.toArray().foreach(println)</code></para>
+          <para>To view the output using HDFS:</para>
+          <para>
+            <orderedlist>
+              <listitem>
+                <para>Exit the scala shell:</para>
+                <para><code>scala > exit</code></para>
+              </listitem>
+              <listitem>
+                <para>View WordCount job results:</para>
+                <para><code>hadoop fs -l /tmp/wordcount</code></para>
+                <para>You should see output similar to the following:</para>
+                <programlisting>/tmp/wordcount/_SUCCESS
+/tmp/wordcount/part-00000
+/tmp/wordcount/part-00001</programlisting>
+              </listitem>
+              <listitem>
+                <para>Use the HDFS cat command to list WordCount output. For example:</para>
+                <para><code>hadoop fs -cat /tmp/wordcount/part-00000</code></para>
+              </listitem>
+            </orderedlist>
+          </para>
+        </listitem>
+      </orderedlist>
+    </para>
+  </section>
+</chapter>

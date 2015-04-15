@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_tuning-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Tuning Spark</title>
+  <para>When tuning Spark applications it is important to understand how Spark works and what types
+    of resources your application requires. For example, machine learning tasks are usually CPU
+    intensive, whereas extract-transform-load (ETL) operations are I/O intensive. </para>
+  <para> </para>
+  <para>General performance guidelines:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>Minimize shuffle operations where possible.</para>
+      </listitem>
+      <listitem>
+        <para>Match join strategy (ShuffledHashJoin vs. BroadcastHashJoin) to the table. This
+          requires manual configuration.</para>
+      </listitem>
+      <listitem>
+        <para>Consider switching from the default serializer to the Kyro serializer to improve
+          performance. This requires manual configuration and class registration.</para>
+        <para> </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>If jobs take longer than expected or are not completing successfully, check the following
+    resources to understand more about what a job is doing and where time is being spent.</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>Using Ambari: In the Ambari Services tab, select Spark (in the left column). Click on
+          Quick Links and choose the Spark History Server UI. Ambari will display a list of jobs.
+          Click App ID for job details.</para>
+      </listitem>
+      <listitem>
+        <para>Using the CLI: view job history and time spent in various stages of the job. Optimize
+          based on where time is spent:</para>
+        <para><code>        http://&lt;host>:8088/proxy/&lt;app_id>/stages/</code></para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <itemizedlist>
+    <listitem>
+      <para>Use <code>toDebugString()</code> on RDD to see a list of RDD's that will be executed.
+        This is useful for understanding how jobs will be executed.</para>
+    </listitem>
+  </itemizedlist>
+</chapter>

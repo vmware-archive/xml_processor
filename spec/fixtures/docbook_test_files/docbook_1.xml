@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      version="5.0"
+      xml:id="docbook_1">
+  <?rax subtitle.font.size="20px"?>
+  <title>Hortonworks Data Platform</title>
+  <subtitle>Spark QuickStart Guide</subtitle>
+
+
+  <info>
+    <!-- Copyright and pubdate tags are required for PDF -->
+    <copyright>
+      <year>2012-2015</year>
+      <holder>Hortonworks, Inc.</holder>
+    </copyright>
+    <productname>Hortonworks Data Platform (HDP)</productname>
+    <pubdate>2015-03-26</pubdate>
+    <!-- Valid values for legalnotice roles are as listed below:
+        For Release Notes, use role="apache2"
+        For HDP documentation, use role="cc-by-sa"
+        -->
+    <legalnotice role="cc-by-sa">
+      <annotation>
+        <remark>This work by
+          <link xlink:href="http://hortonworks.com">Hortonworks,
+            Inc.
+          </link>
+          is licensed under a<link
+                  xlink:href="http://creativecommons.org/licenses/by-sa/3.0/">Creative
+            Commons Attribution-ShareAlike 3.0 Unported License</link>.
+        </remark>
+      </annotation>
+    </legalnotice>
+    <abstract>
+      <para>The Hortonworks Data Platform, powered by Apache Hadoop, is a massively scalable
+        and 100% open source platform for storing, processing and analyzing large volumes of
+        data. It is designed to deal with data from many sources and formats in a very
+        quick, easy and cost-effective manner. The Hortonworks Data Platform consists of the
+        essential set of Apache Hadoop projects including MapReduce, Hadoop Distributed File
+        System (HDFS), HCatalog, Pig, Hive, HBase, Zookeeper and Ambari. Hortonworks is the
+        major contributor of code and patches to many of these projects. These projects have
+        been integrated and tested as part of the Hortonworks Data Platform release process
+        and installation and configuration tools have also been included.
+      </para>
+      <para>Unlike other providers of platforms built using Apache Hadoop, Hortonworks
+        contributes 100% of our code back to the Apache Software Foundation. The Hortonworks
+        Data Platform is Apache-licensed and completely open source. We sell only expert
+        technical support,
+        <link xlink:href="http://hortonworks.com/hadoop-training/"
+                >training
+        </link>
+        and partner-enablement services. All of our technology is, and
+        will remain free and open source.
+      </para>
+      <para>Please visit the
+        <link
+                xlink:href="http://hortonworks.com/technology/hortonworksdataplatform"
+                >Hortonworks Data Platform
+        </link>
+        page for more information on Hortonworks
+        technology. For more information on Hortonworks services, please visit either the
+        <link xlink:href="http://hortonworks.com/support">Support</link>
+        or
+        <link
+                xlink:href="http://hortonworks.com/hadoop-training">Training
+        </link>
+        page. Feel
+        free to
+        <link xlink:href="http://hortonworks.com/about-us/contact-us/">Contact
+          Us
+        </link>
+        directly to discuss your specific needs.
+      </para>
+    </abstract>
+  </info>
+  <!-- Chapters are referred from the book file through these include statements. You can add additional chapters using these types of statements. -->
+  <!--    <xi:include href="ch_acls-on-hdfs.xml"/> -->
+  <xi:include href="ch_introduction-spark-quickstart.xml"/>
+  <xi:include href="ch_prerequisites-spark-quickstart.xml"/>
+  <xi:include href="ch_installing-spark-quickstart.xml"/>
+  <xi:include href="ch_installing-kerb-spark-quickstart.xml"/>
+  <xi:include href="ch_validating-spark-quickstart.xml"/>
+  <xi:include href="ch_orc-spark-quickstart.xml"/>
+  <xi:include href="ch_tuning-spark-quickstart.xml"/>
+  <xi:include href="ch_troubleshooting-spark-quickstart.xml"/>
+
+</book>
