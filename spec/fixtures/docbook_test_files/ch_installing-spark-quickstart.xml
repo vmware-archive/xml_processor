@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_installing-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Installing Spark</title>
+  <para>To install Spark manually, see <link
+      xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/HDP_Man_Install_v224/index.html#Item1.19"
+      >Installing and Configuring Apache Spark</link> in the Manual Installation Guide.</para>
+  <para>To install Spark on a Kerberized cluster, first read <link
+      xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_installing-kerb-spark-quickstart.html"
+      >Installing Spark with Kerberos</link> (the next topic in this Quick Start Guide).</para>
+  <para>The remainder of this section describes how to install Spark using Ambari. (For general
+    information about installing HDP components using Ambari, see <link
+      xlink:href="http://docs.hortonworks.com/HDPDocuments/Ambari-1.7.0.0/AMBARI_DOC_SUITE/index.html#Item1.7.3.2"
+      >Adding a Service</link> in the Ambari Documentation Suite.)</para>
+  <para>The following diagram shows the Spark installation process using Ambari.</para>
+  <para><mediaobject>
+      <imageobject>
+        <imagedata fileref="figures/install-with-ambari.jpg" align="center"/>
+      </imageobject>
+    </mediaobject></para>
+    <note><para>Ambari installs Spark on YARN. To install Spark locally in standalone mode, use the RPMs
+      installed by Ambari after you finish the installation process.</para>
+    </note>
+  <para> </para>
+  <para>To install Spark using Ambari, complete the following steps:</para>
+
+    <orderedlist>
+      <listitem>
+        <para>Choose the Ambari "Services" tab. </para>
+        <para>In the Ambari "Actions" pulldown menu, choose "Add Service." This will start the Add
+          Service Wizard. You'll see the Choose Services screen. </para>
+        <para>Select "Spark", and click "Next" to continue.</para>
+        <para><mediaobject>
+            <imageobject>
+              <imagedata fileref="figures/choose-services.png" align="center" width="550px"/>
+            </imageobject>
+          </mediaobject></para>
+      </listitem>
+      <listitem>
+        <para>Ambari will display the following warning message: </para>
+      <programlisting>Spark requires HDP 2.2.2 or later. 
+Attempting to install Spark to a HDP 2.2.0 cluster will fail.
+Confirm that you are using HDP 2.2.2 or later packages. Are you sure you want to proceed?</programlisting>
+        <para>Confirm that your cluster is running HDP 2.2.2 or later, and then click "Proceed". </para>
+        <note><para>You
+            can reconfirm component versions in step 6 before finalizing the
+          upgrade.</para></note>
+      </listitem>
+      <listitem><para>On the Assign Masters screen, choose a node for the Spark History Server. </para>
+        <para>Click "Next" to continue. </para>
+        <para><mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/assign-masters.png" align="center"/>
+          </imageobject>
+        </mediaobject></para>
+      </listitem>
+      <listitem><para>On the Assign Slaves and Clients screen, specify the machine(s) that will run Spark clients. </para>
+        <para>Click "Next" to continue.  </para>
+        <para><mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/assign-s-c.png" align="center"/>
+          </imageobject>
+        </mediaobject></para>
+      </listitem>
+      <listitem>
+        <para>On the Customize Services screen there are no properties that must be specified. We
+        recommend that you use default values for your initial configuration. Click "Next" to
+        continue. (When you are ready to customize your Spark configuration, see <link
+          xlink:href="http://www.google.com/url?q=http%3A%2F%2Fspark.apache.org%2Fdocs%2F1.2.0%2Fconfiguration.html%23available-properties&amp;sa=D&amp;sntz=1&amp;usg=AFQjCNFfet-KnMvWfGtGyWiyEP8AMSDBdQ"
+          >Apache Spark 1.2.0 properties</link>.)</para>
+      </listitem>
+      <listitem><para>Ambari will display the Review screen.</para>
+        <important><para>On the Review screen, make sure all HDP components are version 2.2.2.0 or
+            later.</para></important>
+        <para>Click "Deploy" to continue.</para>
+      </listitem>
+      <listitem><para>Ambari will display the Install, Start and Test screen. The status bar and messages will
+          indicate progress.</para>
+        <para><mediaobject>
+          <imageobject>
+            <imagedata fileref="figures/install-step.png" align="center"/>
+          </imageobject>
+        </mediaobject></para>
+      </listitem>
+      <listitem><para>When finished, Ambari will present a summary of results. Click "Complete" to finish installing
+          Spark.</para>
+      </listitem>
+    </orderedlist>
+      <caution>
+        <para>Ambari will create and edit several configuration files. Do not edit these files
+          directly if you configure and manage your cluster using Ambari. </para>
+      </caution>
+</chapter>

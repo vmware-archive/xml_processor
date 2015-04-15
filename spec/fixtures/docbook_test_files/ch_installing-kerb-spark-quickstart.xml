@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_installing-kerb-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Installing Spark with Kerberos</title>
+  <para>Ambari handles enablement for the Spark Job History Server. For more information, see
+    http://dev.hortonworks.com.s3.amazonaws.com/HDPDocuments/Ambari-2.0.0.0/Ambari-Doc-Suite/index.html#Item8.2.</para>
+  <para>Note the following considerations when installing Spark with Kerberos enabled:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>You will need a Kerberos keytab when submitting a job.</para>
+      </listitem>
+      <listitem>
+        <para>Before running a Spark job, run <code>kinit</code> as a valid Kerberos user. The
+          following example uses "smokeuser.headless.keytab" as a sample keytab file;
+            <code>user-id</code> references a valid Kerberos account with HDFS access privileges. </para>
+        <para><code>kinit -kt /etc/security/keytabs/smokeuser.headless.keytab
+          &lt;user-id></code></para>
+        <para><code>./bin/spark-submit --class org.apache.spark.examples.SparkPi --master
+            yarn-cluster --num-executors 3 --driver-memory 512m --executor-memory 512m
+            --executor-cores 1 lib/spark-examples*.jar 10</code></para>
+      </listitem>
+      <listitem>
+        <para>To start the Thrift server (<emphasis role="italic">tech preview</emphasis>) in a
+          Kerberos cluster:</para>
+        <para>
+          <orderedlist>
+            <listitem>
+              <para>Locate the Spark Thrift server on the same host as HiveServer2, to access the
+                  <code>hiveserver2</code> keytab.</para>
+            </listitem>
+            <listitem>
+              <para>Modify <code>/var/run/spark</code> and <code>/var/log/spark</code> to allow
+                read/write access to the <code>hive</code> account.</para>
+            </listitem>
+            <listitem>
+              <para>Use the <code>hive</code> account to start the Thrift server. </para>
+            </listitem>
+          </orderedlist>
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+</chapter>

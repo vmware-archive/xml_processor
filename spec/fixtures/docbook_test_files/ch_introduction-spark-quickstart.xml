@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter xml:id="ch_introduction-spark-quickstart" xmlns:db="http://docbook.org/ns/docbook" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xlink="http://www.w3.org/1999/xlink" version="5.0">
+  <title>Introduction</title>
+  <para>Hortonworks Data Platform supports Apache Spark, a popular choice for fast, large-scale data
+    processing.</para>
+    <para>Deep integration of Spark with YARN allows Spark to operate as a highly efficient tenant
+    alongside other engines such as Hive, Storm, and HBase, running simultaneously on a single data
+    platform. </para>
+  <para>YARN allows flexibility: you can choose the right processing tool for the job. Instead of
+    creating and managing a set of dedicated clusters for Spark applications, you can store data in
+    a single location, access and analyze it with multiple processing engines, and leverage your
+    resources.</para>
+  <para> </para>
+  <para><emphasis role="bold">Spark Features</emphasis></para>
+  <para>Spark on HDP supports the following features:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>Spark on YARN</para>
+      </listitem>
+      <listitem>
+        <para>Full ORC file support</para>
+      </listitem>
+      <listitem>
+        <para>Spark-on-YARN on Kerberos-enabled clusters</para>
+      </listitem>
+      <listitem>
+        <para>Spark History Server</para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>Spark Thrift Server and SparkSQL are currently available as technical previews. </para>
+    <para>Spark on HDP supports two deployment modes*: </para>
+    <para>
+    <itemizedlist>
+      <listitem>
+        <para>Standalone mode, for developing Spark applications against a local Spark instance.
+          Standalone mode is similar to developing and deploying jobs from an IDE. Spark handles
+          resource management (job scheduling and execution) for a standalone node or
+          pseudo-cluster. </para>
+      </listitem>
+      <listitem>
+        <para>Spark on YARN, which uses YARN services for resource allocation, running Spark
+          Executors in YARN containers. Spark on YARN supports sophisticated workload management and
+          Kerberos security features. It has two sub-modes:</para>
+        <para>
+          <itemizedlist>
+            <listitem>
+              <para>YARN-Cluster mode, optimized for long-running production jobs. </para>
+            </listitem>
+            <listitem>
+              <para>YARN-Client mode, best for interactive use such as prototyping, testing, and
+                debugging. Spark Shell runs in YARN-Client mode only.</para>
+            </listitem>
+          </itemizedlist>
+        </para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para>In a modern data architecture with multiple processing engines using YARN and accessing data
+    in HDFS, Spark on YARN is the leading Spark deployment mode. </para>
+  <para> </para>
+  <para><emphasis role="bold">
+    Quick Start Overview
+  </emphasis></para>
+  <para>This quick start guide contains the following topics:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_prerequisites-spark-quickstart.html"
+            >Prerequisites</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+          xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_installing-spark-quickstart.html"
+          >Installing Spark</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_installing-kerb-spark-quickstart.html"
+            >Installing Spark with Kerberos</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_validating-spark-quickstart.html"
+            >Validating the installation</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_orc-spark-quickstart.html"
+            >Accessing ORC files</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_tuning-spark-quickstart.html"
+            >Tuning Spark</link></para>
+      </listitem>
+      <listitem>
+        <para><link
+            xlink:href="http://docs.hortonworks.com/HDPDocuments/HDP2/HDP-2.2.4/Apache_Spark_Quickstart_v224/content/ch_troubleshooting-spark-quickstart.html"
+            >Troubleshooting Spark</link></para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para> </para>
+  <para> </para>
+  <para> </para>
+  <para>* A third deployment mode, Spark on Mesos, is not supported in HDP distributions. </para>
+</chapter>

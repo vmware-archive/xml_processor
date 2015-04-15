@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_orc-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Accessing ORC Files</title>
+  <para>Apache Spark on HDP provides full support for ORC files. </para>
+  <para>The following example creates a Hive table with ORC format, writes data into the file,
+    copies the table to HDFS, and uses ORC schema to infer the table schema from RDD.</para>
+    <orderedlist>
+      <listitem>
+        <para>Create a new Hive table with ORC format:</para>
+        <para>
+          <code>hiveContext.sql("create table orc_table(key INT, value STRING) stored as
+            orc")</code></para>
+      </listitem>
+      <listitem>
+        <para>Load data into the ORC table:</para>
+        <para><code>hiveContext.hql("INSERT INTO table orc_table select * from
+          testtable")</code></para>
+      </listitem>
+      <listitem>
+        <para>Verify that data was loaded into the ORC table:</para>
+        <para><code>hiveContext.hql("FROM orc_table SELECT *").collect().foreach(println)
+          </code></para>
+      </listitem>
+      <listitem>
+        <para>Read ORC Table from HDFS as HadoopRDD:</para>
+        <para><code>val inputRead =
+            sc.hadoopFile("hdfs://sandbox.hortonworks.com:8020/apps/hive/warehouse/orc_table",
+            classOf[org.apache.hadoop.hive.ql.io.orc.OrcInputFormat],classOf[org.apache.hadoop.io.NullWritable],classOf[org.apache.hadoop.hive.ql.io.orc.OrcStruct])
+          </code></para>
+      </listitem>
+      <listitem>
+        <para>Verify that you can manipulate the ORC record through RDD</para>
+        <para><code>val k = inputRead.map(pair =>pair._2.toString)</code>
+        </para>
+        <para><code>val c = k.collect</code>
+        </para>
+        <para>You should see output similar to the following:</para>
+        <para><programlisting><code>...  
+14/12/22 18:41:37 INFO scheduler.DAGScheduler: Stage 7 (collect at &lt;console&gt;:16) finished in 0.418 s  
+14/12/22 18:41:37 INFO scheduler.DAGScheduler: Job 4 finished: collect at &lt;console&gt;:16, took 0.437672 s  
+c: Array[String] = Array({238, val_238}, {86, val_86}, {311, val_311}, {27, val_27}, 
+{165, val_165}, {409, val_409}, {255, val_255}, {278, val_278}, {98, val_98}, {484, val_484}, 
+{265, val_265}, {193, val_193}, {401, val_401}, {150, val_150}, {273, val_273}, {224, val_224}, 
+{369, val_369}, {66, val_66}, {128, val_128}, {213, val_213}, {146, val_146}, {406, val_406}, 
+{429, val_429}, {374, val_374}, {152, val_152}, {469, val_469}, {145, val_145}, {495, val_495}, 
+{37, val_37}, {327, val_327}, {281, val_281}, {277, val_277}, {209, val_209}, {15, val_15}, 
+{82, val_82}, {403, val_403}, {166, val_166}, {417, val_417}, {430, val_430}, {252, val_252}, 
+{292, val_292}, {219, val_219}, {287, val_287}, {153, val_153}, {193, val_193}, {338, val_338}, 
+{446, val_446}, {459, val_459}, {394, val_394}, {2…</code></programlisting></para>
+  </listitem>
+  <listitem>
+  <para>Copy example table into HDFS</para>
+    <para><code>cd SPARK_HOME
+
+hadoop dfs -put examples/src/main/resources/people.txt people.txt
+</code></para>
+  </listitem>
+  <listitem>
+    <para>Run Spark-Shell</para>
+  <para><code>./bin/spark-shell --num-executors 2 --executor-memory 512m --master yarn-client
+</code></para>
+    <para>At the Scala prompt type the following (except for the comments):</para>
+    <para><programlisting><code>import org.apache.spark.sql.hive.orc._  
+import org.apache.spark.sql._ 
+
+**# Load and register the spark table**  
+val hiveContext = new org.apache.spark.sql.hive.HiveContext(sc)  
+val people = sc.textFile("people.txt")  
+val schemaString = "name age"  
+val schema = StructType(schemaString.split(" ").map(fieldName => {if(fieldName == "name") StructField(fieldName, StringType, true) else StructField(fieldName, IntegerType, true)}))  
+val rowRDD = people.map(_.split(",")).map(p => Row(p(0), new Integer(p(1).trim)))
+
+**# Infer table schema from RDD**  
+val peopleSchemaRDD = hiveContext.applySchema(rowRDD, schema) 
+
+**# Create a table from schema**  
+peopleSchemaRDD.registerTempTable("people")  
+val results = hiveContext.sql("SELECT * FROM people")  
+results.map(t =&gt; "Name: " + t.toString).collect().foreach(println) 
+
+**# Save Table to ORCFile**  
+peopleSchemaRDD.saveAsOrcFile("people.orc")  
+
+**# Create Table from ORCFile**  
+val morePeople = hiveContext.orcFile("people.orc")  
+morePeople.registerTempTable("morePeople")  
+hiveContext.sql("SELECT * from morePeople").collect.foreach(println)
+</code></programlisting></para>
+  </listitem>
+    </orderedlist>
+</chapter>

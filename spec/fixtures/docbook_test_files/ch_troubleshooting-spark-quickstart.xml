@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_troubleshooting-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Troubleshooting Spark</title>
+  <para>When you run a Spark job, you will see a standard set of console messages. In addition, the
+    following information is available:</para>
+  <para>
+    <itemizedlist>
+      <listitem>
+        <para>A list of running applications, where you can retrieve the application ID and check
+          the application log: </para>
+        <para><code>yarn application –list </code></para>
+        <para><code>yarn logs -applicationId &lt;app_id></code></para>
+      </listitem>
+      <listitem>
+        <para>Check the Spark environment for a specific job:</para>
+        <para><code>http://&lt;host>:8088/proxy/&lt;job_id>/environment/</code></para>
+      </listitem>
+    </itemizedlist>
+  </para>
+  <para><emphasis role="bold">Specific Issues</emphasis></para>
+  <para>The following paragraphs describe specific issues and possible solutions:</para>
+  <para><emphasis role="bold">Issue:</emphasis> Job stays in "accepted" state; it doesn't run. This
+    can happen when a job requests more memory or cores than available.</para>
+  <para><emphasis role="bold">Solution</emphasis>: Assess workload to see if any resources can be
+    released. You might need to stop unresponsive jobs to make room for the job.</para>
+  <para><emphasis role="bold">Issue:</emphasis> Insufficient HDFS access. This can lead to errors
+    such as the following: </para>
+  <programlisting>“Loading data to table default.testtable
+Failed with exception 
+Unable to move sourcehdfs://red1:8020/tmp/hive-spark/hive_2015-03-04_
+12-45-42_404_3643812080461575333-1/-ext-10000/kv1.txt to destination 
+hdfs://red1:8020/apps/hive/warehouse/testtable/kv1.txt”</programlisting>
+  <para><emphasis role="bold">Solution</emphasis>: Make sure the user or group running the job has
+    sufficient HDFS privileges to the location.</para>
+  <para><emphasis role="bold">Issue:</emphasis> Wrong host in Beeline, shows error as invalid
+    URL:</para>
+  <para>
+    <programlisting>Error: Invalid URL: jdbc:hive2://localhost:10001 (state=08S01,code=0)</programlisting>
+  </para>
+  <para><emphasis role="bold">Solution</emphasis>: Specify the correct Beeline host
+    assignment.</para>
+  <para><emphasis role="bold">Issue:</emphasis> Error: closed SQLContext.</para>
+  <para><emphasis role="bold">Solution</emphasis>: Restart the Thrift server. </para>
+
+ 
+</chapter>

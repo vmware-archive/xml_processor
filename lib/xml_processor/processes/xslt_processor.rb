@@ -10,7 +10,10 @@ module XmlProcessor
 
       def call(files)
         files.reduce({}) do |hash, (filename, file_content)|
-          document = Nokogiri::XML(file_content)
+          document = Dir.chdir(File.dirname(filename)) do |dir|
+            Nokogiri::XML(file_content) {|c| c.xinclude }
+          end
+
           template = Nokogiri::XSLT(xslt)
 
           html_filename = filename.to_s.split('.').first + dest_extension

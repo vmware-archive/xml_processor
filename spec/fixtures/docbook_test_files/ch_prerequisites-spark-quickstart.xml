@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<chapter 
+  xml:id="ch_prerequisites-spark-quickstart" 
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xi="http://www.w3.org/2001/XInclude" 
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="5.0">
+  <title>Prerequisites</title>
+  <para>Before installing Spark, make sure your cluster meets the following prerequisites.</para>
+  <table frame="all">
+    <title>Spark Prerequisites</title>
+    <tgroup cols="2">
+      <colspec colname="c1" colnum="1"/>
+      <colspec colname="c2" colnum="2"/>
+      <thead>
+        <row>
+          <entry>Prerequisite</entry>
+          <entry>Description</entry>
+        </row>
+      </thead>
+      <tbody>
+        <row>
+          <entry>Cluster Stack Version</entry>
+          <entry>HDP 2.2.2 or later stack</entry>
+        </row>
+        <row>
+          <entry>(Optional) Ambari</entry>
+          <entry>Version 2.0.0 or later</entry>
+        </row>
+        <row>
+          <entry>Components</entry>
+          <entry>Spark requires HDFS and YARN.</entry>
+        </row>
+      </tbody>
+    </tgroup>
+  </table>
+    <note><para>If you used the tech preview, save any configuration changes you made to the tech preview
+      environment. Install Spark, and then update the configuration with your changes.</para></note>
+</chapter>
