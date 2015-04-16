@@ -3,8 +3,8 @@ require 'nokogiri'
 module XmlProcessor
   module Processes
     class XsltProcessor
-      def initialize(xslt, dest_extension: '.html')
-        @xslt = xslt
+      def initialize(xslt_path, dest_extension: '.html')
+        @xslt_path = xslt_path
         @dest_extension = dest_extension
       end
 
@@ -14,7 +14,7 @@ module XmlProcessor
             Nokogiri::XML(file_content) {|c| c.xinclude }
           end
 
-          template = Nokogiri::XSLT(xslt)
+          template = Nokogiri::XSLT(File.open xslt_path)
 
           html_filename = filename.to_s.split('.').first + dest_extension
           transformed_data = template.transform(document).to_xml
@@ -25,7 +25,7 @@ module XmlProcessor
 
       private
 
-      attr_reader :xslt, :dest_extension
+      attr_reader :xslt_path, :dest_extension
     end
   end
 end

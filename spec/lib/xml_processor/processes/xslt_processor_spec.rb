@@ -6,7 +6,7 @@ module XmlProcessor
     describe XsltProcessor do
       context "when given the Xyleme template" do
         it "returns a single hash of filenames to file contents" do
-          processor = XsltProcessor.new(xslt, dest_extension: '.html')
+          processor = XsltProcessor.new(xslt_path, dest_extension: '.html')
           results = processor.call('file1.xml' => '<IA/>',
                                    'file2.xml' => '<IA/>')
           expect(results['file1.html']).to be_html
@@ -131,7 +131,7 @@ module XmlProcessor
         end
 
         let(:output_hash) {
-          processor = XsltProcessor.new(xslt)
+          processor = XsltProcessor.new(xslt_path)
           processor.call({'some_file.xml' => xyleme})
         }
 
@@ -316,7 +316,7 @@ module XmlProcessor
     </IA>
           XYLEME
         }
-        let(:xslt) { File.read(File.expand_path('../../../../../lib/xml_processor/stylesheets/xyleme_to_html.xsl', __FILE__)) }
+        let(:xslt_path) { File.open(File.expand_path('../../../../../lib/xml_processor/stylesheets/xyleme_to_html.xsl', __FILE__)) }
       end
     end
   end
