@@ -1,12 +1,12 @@
 require 'tmpdir'
-require_relative '../../../../lib/xml_processor/processes/xslt_processor'
+require_relative '../../../../lib/xml_processor/processes/xslt_transformer'
 
 module XmlProcessor
   module Processes
-    describe XsltProcessor do
+    describe XsltTransformer do
       context "when given the Xyleme template" do
         it "returns a single hash of filenames to file contents" do
-          processor = XsltProcessor.new(xslt_path, dest_extension: '.html')
+          processor = XsltTransformer.new(xslt_path, dest_extension: '.html')
           results = processor.call('file1.xml' => '<IA/>',
                                    'file2.xml' => '<IA/>')
           expect(results['file1.html']).to be_html
@@ -131,7 +131,7 @@ module XmlProcessor
         end
 
         let(:output_hash) {
-          processor = XsltProcessor.new(xslt_path)
+          processor = XsltTransformer.new(xslt_path)
           processor.call({'some_file.xml' => xyleme})
         }
 

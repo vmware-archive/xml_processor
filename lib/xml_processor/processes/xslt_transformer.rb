@@ -2,7 +2,7 @@ require 'nokogiri'
 
 module XmlProcessor
   module Processes
-    class XsltProcessor
+    class XsltTransformer
       def initialize(xslt_path, dest_extension: '.html')
         @xslt_path = xslt_path
         @dest_extension = dest_extension

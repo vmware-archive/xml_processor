@@ -10,7 +10,7 @@ module XmlProcessor
             FilterExtensions.new('.xml', :select),
             ReadFiles.new,
             MatchXmlType.new(root_element),
-            XsltProcessor.new(xslt_path, dest_extension: '.html.erb'),
+            XsltTransformer.new(xslt_path, dest_extension: '.html.erb'),
             WriteInDirectory.new(output_dir)
         ].reduce(transformable_files) { |acc, subprocess| subprocess.call(acc) }
       end
