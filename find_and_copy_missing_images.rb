@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require_relative 'lib/locate_images'
 require 'pathname'
 

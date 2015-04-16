@@ -1,3 +1,5 @@
+#!/usr/bin/ruby
+
 require 'pathname'
 require_relative 'lib/pusher'
 require_relative 'lib/view_updater'
