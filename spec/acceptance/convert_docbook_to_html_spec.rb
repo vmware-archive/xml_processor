@@ -19,7 +19,6 @@ describe 'converting any number of directories containing xml files to html' do
     file_contents = File.read("#{output_dir}/spec/fixtures/docbook_test_files/docbook_1.html.erb")
 
     expect(file_contents).to match(/^<!DOCTYPE html>/)
-    expect(file_contents).to match(//)
   end
 
   it 'adds xi:include references to the final document' do
