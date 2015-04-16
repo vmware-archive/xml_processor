@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class LocateImages
 
-  SUPPORTED_EXTS = %w[jpg jpeg png tif tiff emf]
+  SUPPORTED_EXTS = %w[jpg jpeg png tif tiff emf css]
 
   def copy_missing_images(dir)
     missing_images = incorrectly_referenced_images(dir)

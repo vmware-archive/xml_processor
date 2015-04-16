@@ -1,7 +1,7 @@
 module XmlProcessor
   module Processes
     class CopyToOutputDir
-      UNDERSCORE_WHITESPACE_EXTENSIONS = %w[.jpg .jpeg .png .tif .tiff .emf]
+      UNDERSCORE_WHITESPACE_EXTENSIONS = %w[.jpg .jpeg .png .tif .tiff .emf .css]
 
       def initialize(output_dir)
         @output_dir = output_dir
