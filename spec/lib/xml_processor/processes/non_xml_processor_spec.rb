@@ -1,5 +1,5 @@
 require 'tmpdir'
-require_relative '../../../../lib/xml_processor/processes/non_xml_processor'
+require_relative '../../../../lib/xml_processor/processors/non_xml_processor'
 
 module XmlProcessor
   module Processes

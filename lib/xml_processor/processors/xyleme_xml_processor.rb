@@ -1,10 +1,10 @@
-require_relative 'match_xml_type'
-require_relative 'add_frontmatter'
-require_relative 'replace_words_in_text'
-require_relative 'write_in_directory'
-require_relative 'xslt_processor'
-require_relative 'filter_extensions'
-require_relative 'read_files'
+require_relative '../processes/match_xml_type'
+require_relative '../processes/add_frontmatter'
+require_relative '../processes/replace_words_in_text'
+require_relative '../processes/write_in_directory'
+require_relative '../processes/xslt_processor'
+require_relative '../processes/filter_extensions'
+require_relative '../processes/read_files'
 
 module XmlProcessor
   module Processes
@@ -18,7 +18,8 @@ module XmlProcessor
           FilterExtensions.new('.xml', :select),
           ReadFiles.new,
           MatchXmlType.new(root_element),
-          XsltProcessor.new(File.read('lib/xml_processor/stylesheets/xyleme_to_html.xsl'), dest_extension: '.html.erb'),
+          XsltProcessor.new(File.open('lib/xml_processor/stylesheets/xyleme_to_html.xsl'),
+                            dest_extension: '.html.erb'),
           ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
           AddFrontmatter.new('Pivotal Hadoop Documentation'),
           WriteInDirectory.new(output_dir)

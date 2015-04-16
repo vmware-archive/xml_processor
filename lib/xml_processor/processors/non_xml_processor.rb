@@ -1,5 +1,5 @@
-require_relative 'filter_extensions'
-require_relative 'copy_to_output_dir'
+require_relative '../processes/filter_extensions'
+require_relative '../processes/copy_to_output_dir'
 
 module XmlProcessor
   module Processes
