@@ -11,6 +11,7 @@ module XmlProcessor
             ReadFiles.new,
             MatchXmlType.new(root_element),
             XsltTransformer.new(xslt_path, dest_extension: '.html.erb'),
+            ReplaceWordsInText.new('Hortonworks' => 'Pivotal'),
             WriteInDirectory.new(output_dir)
         ].reduce(transformable_files) { |acc, subprocess| subprocess.call(acc) }
       end

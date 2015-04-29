@@ -28,6 +28,13 @@ describe 'converting any number of directories containing xml files to html' do
     expect(file_contents).to match(/<h1>Troubleshooting Spark<\/h1>/)
   end
 
+  it 'converts all instances of "Hortonworks" to "Pivotal"' do
+    convert('spec/fixtures/docbook_test_files')
+    file_contents = File.read("#{output_dir}/spec/fixtures/docbook_test_files/docbook_1.html.erb")
+
+    expect(file_contents).to match(/<h1>Pivotal Data Platform<\/h1>/)
+  end
+
   def output_dir
     ENV['XML_OUTPUT_DIR']
   end
