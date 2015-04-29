@@ -2,12 +2,13 @@
 <xsl:stylesheet version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xy="http://xyleme.com/xylink">
-  <xsl:output method="html" encoding="utf-8" indent="yes"/>
+  <xsl:output omit-xml-declaration="yes" encoding="utf-8" indent="no"/>
 
   <xsl:template match="/IA">
     <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html&gt;</xsl:text>
     <html>
       <head>
+        <xsl:call-template name="html.meta"/>
         <xsl:apply-templates select="/IA/CoverPage/Title"/>
         <link href="http://docs.pivotal.io/stylesheets/master.css" rel="stylesheet" type="text/css" media="screen,print"/>
         <link href="../../xyleme.css" rel="stylesheet" type="text/css" media="screen, print"/>
@@ -41,6 +42,15 @@
         </div>
       </div>
     </html>
+  </xsl:template>
+
+  <!-- HTML Boilerplate -->
+  <xsl:template name="html.meta">
+    <xsl:text disable-output-escaping="yes">
+      &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      &lt;meta charset="utf-8" />
+      &lt;!--[if lt IE 9]>&lt;script>document.createElement('header');document.createElement('nav');document.createElement('section');document.createElement('article');document.createElement('aside');document.createElement('footer');&lt;/script>&lt;![endif]-->
+    </xsl:text>
   </xsl:template>
 
   <!-- Universal Matchers -->

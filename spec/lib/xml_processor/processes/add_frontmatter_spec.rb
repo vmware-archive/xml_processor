@@ -17,8 +17,8 @@ module XmlProcessor
       context 'if title exists in the HTML head' do
         it 'adds the title to the frontmatter' do
           file_hash = {
-            'dir1/file1' => '<html><head><meta><title>What</title></meta></head></html>',
-            'dir2/file2' => '<html><head><meta><title>Hadoop!</title></meta></head></html>'
+            'dir1/file1' => '<html><head><title>What</title></head></html>',
+            'dir2/file2' => '<html><head><title>Hadoop!</title></head></html>'
           }
           file_hash_with_frontmatter = add_frontmatter.call(file_hash)
 
@@ -30,8 +30,8 @@ module XmlProcessor
       context 'if no title exists in the HTML head' do
         it 'adds a default title to the frontmatter' do
           file_hash = {
-            'dir1/file1' => '<html><head><meta>Sorry no title</meta></head></html>',
-            'dir2/file2' => '<html><head><meta>No title here</meta></head></html>'
+            'dir1/file1' => '<html><head><meta Sorry no title /></head></html>',
+            'dir2/file2' => '<html><head><meta No title here /></head></html>'
           }
           file_hash_with_frontmatter = add_frontmatter.call(file_hash)
 
@@ -43,8 +43,8 @@ module XmlProcessor
       context 'if the title in the HTML head is blank' do
         it 'adds a default title to the frontmatter' do
           file_hash = {
-            'dir1/file1' => '<html><head><meta><title></title></meta></head></html>',
-            'dir2/file2' => '<html><head><meta><title></title></meta></head></html>'
+            'dir1/file1' => '<html><head><title></title></head></html>',
+            'dir2/file2' => '<html><head><title></title></head></html>'
           }
           file_hash_with_frontmatter = add_frontmatter.call(file_hash)
 

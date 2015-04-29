@@ -103,7 +103,7 @@ module XmlProcessor
 
         matcher :be_html do
           match do |actual|
-            actual.match(/\A<!DOCTYPE html/)
+            actual.match(/<!DOCTYPE html/)
           end
         end
 

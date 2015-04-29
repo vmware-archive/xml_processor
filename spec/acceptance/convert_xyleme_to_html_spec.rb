@@ -42,25 +42,26 @@ describe 'converting any number of directories containing xml files to html' do
   end
 
   it 'adds a title frontmatter' do
-    convert('spec/fixtures/test_files', 'spec/fixtures/more_test_files')
+    convert('spec/fixtures/test_files',
+            'spec/fixtures/more_test_files')
 
-    files = Dir.glob("#{output_dir}/**/*.html.erb")
+    html_files = Dir.glob("#{output_dir}/**/*.html.erb")
     fixtures_path = File.expand_path('../../fixtures', __FILE__)
-    files_orig =
+    xml_files =
       Dir.glob("#{fixtures_path}/test_files/*.xml") +
       Dir.glob("#{fixtures_path}/more_test_files/*.xml")
 
-    original_titles_to_file = files_orig.reduce({}) do |result, file_orig|
-      doc = Nokogiri::XML(File.read(file_orig))
+    xml_filename_to_title_content_hash = xml_files.reduce({}) do |result, xml_filename|
+      doc = Nokogiri::XML(File.read(xml_filename))
       inner_html = doc.xpath('//IA/CoverPage/Title').first.inner_html
-      result.merge({strip_extension_starting_after('spec', file_orig) => inner_html})
+      result.merge({strip_extension_starting_after('spec', xml_filename) => inner_html})
     end
 
-    files.each do |file|
+    html_files.each do |file|
       lines = File.readlines(file)
-      expect(lines[0]).to eq "---\n"
       original_title = strip_extension_starting_after('spec', file)
-      expect(lines[1]).to eq "title: #{original_titles_to_file[original_title]}\n"
+      expect(lines[0]).to eq "---\n"
+      expect(lines[1]).to eq "title: #{xml_filename_to_title_content_hash[original_title]}\n"
       expect(lines[2]).to eq "---\n"
     end
   end
