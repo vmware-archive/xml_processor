@@ -32,7 +32,7 @@ describe 'converting any number of directories containing xml files to html' do
     convert('spec/fixtures/docbook_test_files')
     file_contents = File.read("#{output_dir}/spec/fixtures/docbook_test_files/docbook_1.html.erb")
 
-    expect(file_contents).to match(/<h1>Pivotal Data Platform<\/h1>/)
+    expect(file_contents).to match(/---\ntitle: Pivotal Data Platform\n---/)
   end
 
   it 'adds a frontmatter containing the document title to the final HTML output' do
@@ -42,12 +42,27 @@ describe 'converting any number of directories containing xml files to html' do
     expect(file_contents).to match(/---\ntitle: Pivotal Data Platform\n---/)
   end
 
+  it 'outputs no book-level title, relying on the frontmatter and a middleman layout to render it -- sorry.' do
+    convert('spec/fixtures/docbook_test_files')
+    file_contents = File.read("#{output_dir}/spec/fixtures/docbook_test_files/docbook_1.html.erb")
+
+    expect(file_contents).to_not have_h1_title
+  end
+
   def output_dir
     ENV['XML_OUTPUT_DIR']
   end
 
   def convert(*args)
     Rake::Task[:convert].execute(args)
+  end
+
+  private
+
+  RSpec::Matchers.define :have_h1_title do |expected|
+    match do |actual|
+      Nokogiri::HTML(actual).css('header > h1').any?
+    end
   end
 end
 
