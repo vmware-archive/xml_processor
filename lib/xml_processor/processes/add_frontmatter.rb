@@ -9,7 +9,7 @@ module XmlProcessor
 
       def call(files)
         files.reduce({}) do |output, (filename, contents)|
-          doc = Nokogiri::XML(contents)
+          doc = Nokogiri::HTML(contents)
           doc_titles = doc.xpath('//head/title')
           title = if doc_titles.any? && !doc_titles.first.inner_html.empty?
                     doc_titles.first.inner_html
