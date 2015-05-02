@@ -4,6 +4,47 @@ require_relative '../../../../lib/xml_processor/processes/xslt_transformer'
 module XmlProcessor
   module Processes
     describe XsltTransformer do
+      matcher :have_ids do
+        match do |elements|
+          elements.map {|h| h.attr('id') }.none?(&:nil?)
+        end
+
+        failure_message do |elements|
+          "The following elements have nil ids:\n" +
+              elements.select {|h| h.attr('id').nil?}.
+                  map(&:to_xhtml).join("\n")
+        end
+      end
+
+      matcher :be_html do
+        match do |actual|
+          actual.match(/\A<!DOCTYPE html/)
+        end
+      end
+
+      matcher :have_no_spaces do
+        whitespace_matcher = /\s|%20/
+
+        match do |imgs|
+          imgs.map {|i| i.attr('src')}.none? {|src| src.match(whitespace_matcher)}
+        end
+
+        failure_message do |imgs|
+          "The following images have spaces in their src paths:\n" +
+              imgs.select {|i| i.attr('src').match(whitespace_matcher)}.
+                  map(&:to_xhtml).join("\n")
+        end
+      end
+
+      def debug(html)
+        tmp = Pathname(File.expand_path('../../../../../tmp', __FILE__))
+        tmp.mkpath
+        path = tmp.join('output.html')
+        File.write(path, html)
+        `open #{path}`
+        puts html
+      end
+
       context "when given the Xyleme template" do
         it "returns a single hash of filenames to file contents" do
           processor = XsltTransformer.new(xslt_path, dest_extension: '.html')
@@ -87,47 +128,6 @@ module XmlProcessor
           it "transforms RichText into ps" do
             expect(html.css('html>body .horton-footer p')[1].text).to eq('Pubdate: March 11, 2015')
           end
-        end
-
-        matcher :have_ids do
-          match do |elements|
-            elements.map {|h| h.attr('id') }.none?(&:nil?)
-          end
-
-          failure_message do |elements|
-            "The following elements have nil ids:\n" +
-              elements.select {|h| h.attr('id').nil?}.
-              map(&:to_xhtml).join("\n")
-          end
-        end
-
-        matcher :be_html do
-          match do |actual|
-            actual.match(/\A<!DOCTYPE html/)
-          end
-        end
-
-        matcher :have_no_spaces do
-          whitespace_matcher = /\s|%20/
-
-          match do |imgs|
-            imgs.map {|i| i.attr('src')}.none? {|src| src.match(whitespace_matcher)}
-          end
-
-          failure_message do |imgs|
-            "The following images have spaces in their src paths:\n" +
-                imgs.select {|i| i.attr('src').match(whitespace_matcher)}.
-                map(&:to_xhtml).join("\n")
-          end
-        end
-
-        def debug(html)
-          tmp = Pathname(File.expand_path('../../../../../tmp', __FILE__))
-          tmp.mkpath
-          path = tmp.join('output.html')
-          File.write(path, html)
-          `open #{path}`
-          puts html
         end
 
         let(:output_hash) {
@@ -317,6 +317,85 @@ module XmlProcessor
           XYLEME
         }
         let(:xslt_path) { File.open(File.expand_path('../../../../../lib/xml_processor/stylesheets/xyleme_to_html.xsl', __FILE__)) }
+      end
+
+      context "when given the DocBook template" do
+        it "turns note elements into p elements with class 'note'" do
+          expect(html.css('p.note').text).to match('Most Java applications expand RAM usage to the maximum allowed')
+        end
+
+        let(:output_hash) {
+          processor = XsltTransformer.new(xslt_path)
+          processor.call({'some_file.xml' => docbook})
+        }
+
+        let(:html) {
+          Nokogiri::HTML(output_hash.fetch('some_file.html'))
+        }
+        let(:docbook) {
+          <<-DOCBOOK
+            <?xml version="1.0" encoding="UTF-8"?>
+            <book xmlns="http://docbook.org/ns/docbook"
+                <?rax subtitle.font.size="20px"?>
+                <title>Hortonworks Data Platform </title>
+                <subtitle>Cluster Planning Guide
+                </subtitle>
+                <info>
+                    <!-- Copyright and pubdate tags are required for PDF -->
+                    <copyright>
+                        <year>2012-2014</year>
+                        <holder>Hortonworks, Inc.</holder>
+                    </copyright>
+                    <productname>Hortonworks Data Platform (HDP)</productname>
+                    <pubdate>2014-12-02</pubdate>
+                    <!-- Valid values for legalnotice roles are as listed below:
+                    For Release Notes, use role="apache2"
+                    For HDP documentation, use role="cc-by-sa"
+                    -->
+                    <legalnotice role="cc-by-sa">
+                        <annotation>
+                            <remark>This work by <link xlink:href="http://hortonworks.com">Hortonworks,
+                                    Inc.</link> is licensed under a <link
+                                    xlink:href="http://creativecommons.org/licenses/by-sa/3.0/"> Creative
+                                    Commons Attribution-ShareAlike 3.0 Unported License</link>.</remark>
+                        </annotation>
+                    </legalnotice>
+                    <abstract>
+                        <para>The Hortonworks Data Platform, powered by Apache Hadoop, is a massively scalable
+                            and 100% open source platform for storing, processing and analyzing large volumes of
+                            data. It is designed to deal with data from many sources and formats in a very
+                            quick, easy and cost-effective manner. The Hortonworks Data Platform consists of the
+                            essential set of Apache Hadoop projects including MapReduce, Hadoop Distributed File
+                            System (HDFS), HCatalog, Pig, Hive, HBase, Zookeeper and Ambari. Hortonworks is the
+                            major contributor of code and patches to many of these projects. These projects have
+                            been integrated and tested as part of the Hortonworks Data Platform release process
+                            and installation and configuration tools have also been included. </para>
+                        <para> Unlike other providers of platforms built using Apache Hadoop, Hortonworks
+                            contributes 100% of our code back to the Apache Software Foundation. The Hortonworks
+                            Data Platform is Apache-licensed and completely open source. We sell only expert
+                            technical support, <link xlink:href="http://hortonworks.com/hadoop-training/"
+                                >training</link> and partner-enablement services. All of our technology is, and
+                            will remain free and open source. </para>
+                        <para> Please visit the <link
+                                xlink:href="http://hortonworks.com/technology/hortonworksdataplatform"
+                                >Hortonworks Data Platform</link> page for more information on Hortonworks
+                            technology. For more information on Hortonworks services, please visit either the
+                                <link xlink:href="http://hortonworks.com/support">Support</link> or <link
+                                xlink:href="http://hortonworks.com/hadoop-training">Training</link> page. Feel
+                            free to <link xlink:href="http://hortonworks.com/about-us/contact-us/">Contact
+                                Us</link> directly to discuss your specific needs.</para>
+                    </abstract>
+                </info>
+                <!-- Chapters are referred from the book file through these include statements. You can add additional chapters using these types of statements. -->
+                <xi:include href="ch_hardware-recommendations.xml"/>
+                <xi:include href="partitioning.xml"/>
+
+
+
+            </book>
+          DOCBOOK
+        }
+        let(:xslt_path) { File.open(File.expand_path('../../../../../lib/xml_processor/stylesheets/docbook-html5/docbook-html5.xsl', __FILE__)) }
       end
     end
   end
